@@ -1,0 +1,28 @@
+{
+  "name": "Tense",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "order": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "language": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,83 @@
+{
+  "name": "Conjugation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isRegular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form1": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form1Regular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form2": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form2Regular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form3": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form3Regular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form4": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form4Regular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form5": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form5Regular": {
+      "type": "boolean",
+      "required": true
+    },
+    "form6": {
+      "type": "string",
+      "required": true,
+      "length": 32
+    },
+    "form6Regular": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "verb": {
+      "type": "belongsTo",
+      "model": "Word",
+      "foreignKey": "verbId"
+    },
+    "tense": {
+      "type": "belongsTo",
+      "model": "Tense",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

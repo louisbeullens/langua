@@ -1,0 +1,5 @@
+<h1>Dictionary</h1>
+<ul *ngIf="results.length > 0">
+  <app-dictionary-item [item]="result" *ngFor="let result of results"></app-dictionary-item>
+</ul>
+<p *ngIf="results.length == 0">Geen resultaten gevonden</p>

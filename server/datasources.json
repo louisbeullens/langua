@@ -1,0 +1,26 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "langua": {
+    "host": "localhost",
+    "port": 3306,
+    "url": "mysql://root:root@localhost/langua",
+    "database": "langua",
+    "password": "pwlangua",
+    "name": "langua",
+    "user": "langua",
+    "connector": "mysql"
+  },
+  "langua_be": {
+    "host": "localhost",
+    "port": 3306,
+    "url": "mysql://root:root@localhost/langua_be",
+    "database": "langua_be",
+    "password": "pwlangua",
+    "name": "langua_be",
+    "user": "langua",
+    "connector": "mysql"
+  }
+}

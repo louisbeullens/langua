@@ -1,0 +1,62 @@
+{
+  "name": "Word",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "gender": {
+      "type": "string",
+      "length": 1
+    },
+    "articleSingular": {
+      "type": "string",
+      "length": 3,
+      "default": ""
+    },
+    "singular": {
+      "type": "string",
+      "length": 48,
+      "default": ""
+    },
+    "articlePlural": {
+      "type": "string",
+      "length": 3,
+      "default": ""
+    },
+    "plural": {
+      "type": "string",
+      "length": 48,
+      "default": ""
+    },
+    "hint": {
+      "type": "string",
+      "length": 64,
+      "default": ""
+    },
+    "_old_id": {
+      "type": "number",
+      "required": true
+    },
+    "index": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "validations": [],
+  "relations": {
+    "language": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": ""
+    },
+    "wordType": {
+      "type": "belongsTo",
+      "model": "WordType",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
