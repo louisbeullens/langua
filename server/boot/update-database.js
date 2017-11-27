@@ -14,10 +14,15 @@ module.exports = function (app) {
             async.apply(importWordTypes),
             async.apply(importTenses),
             async.apply(importWords),
-            async.apply(importWordsWords),
+            async.apply(follow),
             async.apply(importConjugations)
         ]);
     }
+
+    function follow(cb) {
+        langua.automigrate(['Translation']);
+        cb(null,null);
+    };
 
     function importConjugations(cb) {
         console.log('--> import conjugations')

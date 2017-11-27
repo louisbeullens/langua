@@ -55,6 +55,20 @@
       "type": "belongsTo",
       "model": "WordType",
       "foreignKey": ""
+    },
+    "translations1": {
+      "type": "hasMany",
+      "model": "Word",
+      "foreignKey": "wordId",
+      "through": "Translation",
+      "keyThrough": "translationId"
+    },
+    "translations2": {
+      "type": "hasMany",
+      "model": "Word",
+      "foreignKey": "translationId",
+      "through": "Translation",
+      "keyThrough": "wordId"
     }
   },
   "acls": [],
