@@ -7,3 +7,5 @@ project in git
 transverbs en transwords converteren
 
 login form maken
+
+http://freegeoip.net/json/:ip ip info opvragen

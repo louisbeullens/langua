@@ -7,6 +7,7 @@ import {of} from 'rxjs/observable/of';
 
 import {Settings} from './settings';
 import {tap} from 'rxjs/operators';
+import {ApiService} from "./api.service";
 
 interface AccessToken {
     id: string;
@@ -25,21 +26,26 @@ export class MemberService {
     private lastName: string;
     private choosenLanguage = 1;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: ApiService) {
     }
 
-    Login(username: string, password: string): Observable<AccessToken> {
+    login(username: string, password: string): Observable<AccessToken> {
         const user = {
             email: username,
             password: password
         };
 
-        return this.http.post<AccessToken>(this.settings.host + '/api/Members/login', user).pipe(
+        return this.http.post<AccessToken>('/Members/login', user).pipe(
             tap(tokenObject => {
                 this.accessToken = tokenObject.id;
+                this.http.setAccessToken(tokenObject.id);
                 this.userId = tokenObject.userId;
             })
         );
+    }
+
+    emailExists(email: string) {
+        return this.http.get('/Members/' + email + '/exists');
     }
 
     getMemberInfo(): Observable<any> {

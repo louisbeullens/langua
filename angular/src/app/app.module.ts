@@ -13,6 +13,7 @@ import { SearchService } from './search.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DictionaryItemComponent } from './dictionary-item/dictionary-item.component';
 import { SelectLanguageComponent } from './select-language/select-language.component';
+import { ApiService } from './api.service';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { SelectLanguageComponent } from './select-language/select-language.compo
     FormsModule,
     AppRoutingModule
   ],
-  providers: [MemberService, SearchService],
+  providers: [MemberService, SearchService, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

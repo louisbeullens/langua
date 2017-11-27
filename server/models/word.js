@@ -4,8 +4,8 @@
 //var app = require('../../server/server');
 
 module.exports = function(Word) {
-    Word.allTranslations = function(id,cb) {
-        Word.findOne({include:['translations1','translations2'],where:{id:id}}, function(err,word) {
+    Word.translations = function(id,cb) {
+        Word.findById(id,{include:['translations1','translations2']}, function(err,word) {
             if (err) {
                 console.log(err);
                 cb(null,[]);
@@ -17,12 +17,12 @@ module.exports = function(Word) {
     };
 
     Word.remoteMethod(
-        'allTranslations', {
+        'translations', {
             accepts: [
                 {arg: 'id', type: 'number', required: true}
             ],
             // mixing ':id' into the rest url allows $owner to be determined and used for access control
-            http: {path: '/AllTranslations/:id', verb: 'get'},
+            http: {path: '/:id/translations', verb: 'get'},
             returns: {type:[Word], root:true}
         }/*{
                 accepts: [
