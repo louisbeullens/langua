@@ -16,10 +16,19 @@
     "langId": {
       "type": "number",
       "default": 4
+    },
+    "ipAddress": {
+      "type": "string"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ipLocations": {
+      "type": "hasMany",
+      "model": "IpLocation",
+      "foreignKey": ""
+    }
+  },
   "acls": [
     {
       "accessType": "EXECUTE",

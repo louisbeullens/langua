@@ -1,6 +1,7 @@
 'use strict';
 
 var app = require('../../server/server');
+const http = require('http');
 
 module.exports = function(Member) {
 
@@ -13,7 +14,7 @@ module.exports = function(Member) {
 
     Member.anonymousLogin = function (req,cb) {
 
-        console.log(req.connection.remoteAddress);
+        console.log(req.ip);
 
         var rand = Math.floor(Math.random()*10000).toString();
         var date = new Date(Date.now());
@@ -25,7 +26,7 @@ module.exports = function(Member) {
 
             console.log(newMember);
 
-            Member.login({email: newMember.email, password:rand}, function(err,accessToken) {
+            Member.login({email: newMember.email, password:newMember.email}, function(err,accessToken) {
                 if (err)
                     console.log(err);
 
@@ -35,6 +36,78 @@ module.exports = function(Member) {
             });
         });
         return;
+    }
+
+    Member.afterRemote('login', logIpAddress);
+    Member.afterRemote('anonymousLogin', logIpAddress);
+
+    function logIpAddress(ctx, accessToken, next) {
+        console.log('User with id: ' + accessToken.userId + ' logged in form ip: ' + ctx.req.ip);
+
+        http.get('http://freegeoip.net/json/84.196.187.163', function(res) {
+            const statusCode = res.statusCode;
+            const contentType = res.headers['content-type'];
+
+            /*let error;
+            if (statusCode !== 200) {
+                error = new Error('Request Failed.\n' +
+                    `Status Code: ${statusCode}`);
+            } else if (!/^application\/json/.test(contentType)) {
+                error = new Error('Invalid content-type.\n' +
+                    `Expected application/json but received ${contentType}`);
+            }
+            if (error) {
+                console.log(error.message);
+                // consume response data to free up memory
+                res.resume();
+                return;
+            }
+
+            res.setEncoding('utf8');
+            var rawData = '';
+            res.on('data', (chunk) => rawData += chunk);
+            res.on('end', () => {
+                try {
+                    const parsedData = JSON.parse(rawData);
+            console.log(parsedData);
+        } catch (e) {
+                console.log(e.message);
+            }
+        });
+        }).on('error', (e) => {
+            console.log(`Got error: ${e.message}`);*/
+
+            res.setEncoding('utf8');
+            var rawData = '';
+            res.on('data', function(chunk) {
+                rawData += chunk;
+            });
+            res.on('end', function() {
+                var ipLocation = JSON.parse(rawData);
+                ipLocation.memberId = accessToken.userId;
+                app.models.IpLocation.findOne({where:{
+                    and:[
+                        {ip: ipLocation.ip},
+                        {memberId:accessToken.userId},
+                        {latitude: ipLocation.latitude},
+                        {longitude: ipLocation.longitude}
+                    ]}}, function(err, result) {
+
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+
+                    if (! result) {
+                        app.models.IpLocation.create(ipLocation, function(err) {
+                            if (err)
+                                console.log(err);
+                        });
+                    }
+                })
+            });
+        });
+        next();
     }
 
     Member.remoteMethod(

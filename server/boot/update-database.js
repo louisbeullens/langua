@@ -9,20 +9,25 @@ module.exports = function (app) {
     if (process.argv.length > 2 && process.argv[2] == '--reset') {
         console.log('reseting');
         async.series([
-            //async.apply(createLanguages),
-            //async.apply(importMembers),
+            async.apply(createEmptyTables),
+            async.apply(createLanguages),
+            async.apply(importMembers),
             async.apply(importWordTypes),
             async.apply(importTenses),
             async.apply(importWords),
-            async.apply(follow),
+            async.apply(importTranslations),
             async.apply(importConjugations)
         ]);
     }
 
-    function follow(cb) {
-        langua.automigrate(['Translation']);
-        cb(null,null);
-    };
+    function createEmptyTables(cb) {
+        langua.automigrate(['IpLocation'], function(err) {
+            if (err)
+                throw(err);
+
+            cb(err, null);
+        });
+    }
 
     function importConjugations(cb) {
         console.log('--> import conjugations')
@@ -259,15 +264,15 @@ module.exports = function (app) {
     }
 
     //
-    // I M P O R T   W O R D S W O R D S
+    // I M P O R T   T R A N S L A T I O N S
     //
 
-    function importWordsWords(cb) {
-        langua.automigrate(['WordsWords'], function (err) {
+    function importTranslations(cb) {
+        langua.automigrate(['Translation'], function (err) {
             if (err)
                 throw(err);
 
-            console.log('--> importWordsWords')
+            console.log('--> importTranslations')
 
             langua_be.discoverAndBuildModels('transwords', {}, function (err, model) {
                 if (err)
@@ -280,8 +285,22 @@ module.exports = function (app) {
                     for (var i = 0; i < transwords.length; i++) {
                         importTransword(transwords[i]);
                     }
+                })
+            });
 
-                    console.log('<-- importWordsWords');
+            langua_be.discoverAndBuildModels('transverbs', {}, function (err, model) {
+                if (err)
+                    throw(err);
+
+                model.Transverbs.find({}, function (err, transverbs) {
+                    if (err)
+                        throw(err);
+
+                    for (var i = 0; i < transverbs.length; i++) {
+                        importTransverb(transverbs[i]);
+                    }
+
+                    console.log('<-- importTranslations');
 
                     cb(err,null);
                 })
@@ -322,7 +341,44 @@ module.exports = function (app) {
                 return;
             }
 
-            app.models.WordsWords.create({word1Id:word1.id, word2Id:word2.id});
+            app.models.Translation.create({word1Id:word1.id, word2Id:word2.id});
+        });
+    }
+
+    function importTransverb(transverb) {
+        //console.log('importTransWord');
+        app.models.Word.find({
+            where: {
+                and: [
+                    { or: [
+                        {_old_id: transverb.tvverbid1},
+                        {_old_id: transverb.tvverbid2},
+                    ]
+                    },
+                    {wordTypeId: 19}
+                ]
+            }
+        }, function (err, verbs) {
+
+            var verb1 = verbs.find(function(verb) {
+                return verb._old_id === transverb.tvverbid1;
+            });
+
+            if (!verb1) {
+                console.log('_old_id: ' + transverb.tvverbid1 + ' voor tvverbid1 niet gevonden');
+                return;
+            }
+
+            var verb2 = verbs.find(function(verb) {
+                return verb._old_id === transverb.tvverbid2;
+            });
+
+            if (!verb2) {
+                console.log('_old_id: ' + transverb.tvverbid2 + ' voor tvverbid2 niet gevonden');
+                return;
+            }
+
+            app.models.Translation.create({word1Id:verb1.id, word2Id:verb2.id});
         });
     }
 

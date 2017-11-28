@@ -63,5 +63,9 @@
   "Translation": {
     "dataSource": "langua",
     "public": true
+  },
+  "IpLocation": {
+    "dataSource": "langua",
+    "public": true
   }
 }

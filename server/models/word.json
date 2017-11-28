@@ -59,16 +59,16 @@
     "translations1": {
       "type": "hasMany",
       "model": "Word",
-      "foreignKey": "wordId",
+      "foreignKey": "word1Id",
       "through": "Translation",
-      "keyThrough": "translationId"
+      "keyThrough": "word2Id"
     },
     "translations2": {
       "type": "hasMany",
       "model": "Word",
-      "foreignKey": "translationId",
+      "foreignKey": "word2Id",
       "through": "Translation",
-      "keyThrough": "wordId"
+      "keyThrough": "word1Id"
     }
   },
   "acls": [],
