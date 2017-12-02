@@ -1,0 +1,24 @@
+{
+  "name": "Translation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "word1": {
+      "type": "belongsTo",
+      "model": "Word",
+      "foreignKey": ""
+    },
+    "word2": {
+      "type": "belongsTo",
+      "model": "Word",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,41 @@
+{
+  "name": "Test",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "required": true,
+      "description": "(T)ranslations or (C)onjugations",
+      "length": 1
+    }
+  },
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": ""
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": ""
+    },
+    "languageQuestion": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": ""
+    },
+    "languageAnswer": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

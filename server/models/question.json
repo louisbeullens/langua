@@ -1,0 +1,29 @@
+{
+  "name": "Question",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "gender": {
+      "type": "string",
+      "required": true,
+      "length": 1
+    },
+    "singular": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "word": {
+      "type": "belongsTo",
+      "model": "Word",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,60 @@
+{
+  "name": "IpLocation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ip": {
+      "type": "string",
+      "required": true
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "country_name": {
+      "type": "string"
+    },
+    "region_code": {
+      "type": "string"
+    },
+    "region_name": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "zip_code": {
+      "type": "string"
+    },
+    "time_zone": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 8,
+      "scale": 5
+    },
+    "longitude": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 8,
+      "scale": 5
+    },
+    "metro_code": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
