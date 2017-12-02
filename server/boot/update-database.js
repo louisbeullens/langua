@@ -21,7 +21,7 @@ module.exports = function (app) {
     }
 
     function createEmptyTables(cb) {
-        langua.automigrate(['IpLocation'], function(err) {
+        langua.automigrate(['IpLocation','Question','Test'], function(err) {
             if (err)
                 throw(err);
 

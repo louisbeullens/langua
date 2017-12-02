@@ -67,5 +67,13 @@
   "IpLocation": {
     "dataSource": "langua",
     "public": true
+  },
+  "Question": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Test": {
+    "dataSource": "langua",
+    "public": true
   }
 }
