@@ -14,6 +14,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { DictionaryItemComponent } from './dictionary-item/dictionary-item.component';
 import { SelectLanguageComponent } from './select-language/select-language.component';
 import { ApiService } from './api.service';
+import { CreateTestTranslationsComponent } from './create-test-translations/create-test-translations.component';
+import { TestService } from './test.service';
+import { TranslationQuestionComponent } from './translation-question/translation-question.component';
+import { TestTranslationsComponent } from './test-translations/test-translations.component';
 
 
 @NgModule({
@@ -23,7 +27,10 @@ import { ApiService } from './api.service';
     SearchComponent,
     DictionaryComponent,
     DictionaryItemComponent,
-    SelectLanguageComponent
+    SelectLanguageComponent,
+    CreateTestTranslationsComponent,
+    TranslationQuestionComponent,
+    TestTranslationsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,7 @@ import { ApiService } from './api.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [MemberService, SearchService, ApiService],
+  providers: [MemberService, SearchService, ApiService, TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

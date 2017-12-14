@@ -1,0 +1,5 @@
+<p>
+  Test Translations Component!
+</p>
+<app-create-test-translations *ngIf="testService.containsTestTranslations() === false"></app-create-test-translations>
+<app-translation-question *ngIf="testService.containsTestTranslations() === true"></app-translation-question>

@@ -110,6 +110,23 @@ module.exports = function(Member) {
         next();
     }
 
+    Member.unfinishedTests = function(id,cb) {
+
+        const sql = 'SELECT * FROM Test WHERE memberId=? AND lastQuestion!=numQuestions;';
+        const params = [id];
+
+        Member.app.datasources.langua.connector.execute(sql, params, function(err, results) {
+            if (err) {
+                console.log(err);
+                cb(err,[]);
+                return;
+            }
+
+            cb(null,results);
+        });
+
+    }
+
     Member.remoteMethod(
         'emailExists', {
             accepts: [
@@ -126,4 +143,11 @@ module.exports = function(Member) {
             returns: {type: 'AccessToken', root: true}
         });
 
+    Member.remoteMethod('unfinishedTests', {
+        accepts: [
+            { arg: 'id', type: 'number', required: true }
+        ],
+        http: {path: '/:id/unfinishedTests', verb: 'get'},
+        returns: {type: '[Test]', root: true}
+    });
 };

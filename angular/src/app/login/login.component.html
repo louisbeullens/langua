@@ -2,7 +2,7 @@
 <input type="password" placeholder="wachtwoord" [(ngModel)]="password" /><br>-->
 <form (ngSubmit)="onClick(loginForm)" #loginForm="ngForm">
     <input type="email" name="email" id="email" #emailCtrl="ngModel" ngModel required email><br>
-    <input *ngIf="mode !== PRELOGIN" type="password" name="password" id="password" ngModel required minlength=3><br>
+    <input *ngIf="mode !== PRELOGIN" type="{{inputType}}" name="password" id="password" ngModel required minlength=3><button type="button" (click)="onChangeInputType()">oog</button><br>
     <button *ngIf="mode === PRELOGIN" type="submit" class="btn btn-primary" [disabled]="emailCtrl.invalid">Volgende</button>
     <button *ngIf="mode === LOGIN" type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
     <button *ngIf="mode === REGISTER" type="submit" class="btn btn-primary" [disabled]="emailCtrl.invalid">Registreren</button>

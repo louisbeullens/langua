@@ -11,6 +11,17 @@
       "required": true,
       "description": "(T)ranslations or (C)onjugations",
       "length": 1
+    },
+    "lastQuestion": {
+      "type": "number",
+      "required": true
+    },
+    "numQuestions": {
+      "type": "number",
+      "required": true
+    },
+    "validAnswers": {
+      "type": "number"
     }
   },
   "validations": [],

@@ -69,6 +69,11 @@
       "foreignKey": "word2Id",
       "through": "Translation",
       "keyThrough": "word1Id"
+    },
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": ""
     }
   },
   "acls": [],

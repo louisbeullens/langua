@@ -4,7 +4,7 @@
 //var app = require('../../server/server');
 
 module.exports = function(Word) {
-    Word.translations = function(id,cb) {
+    Word.prototype.translations = function(id,cb) {
         Word.findById(id,{include:['translations1','translations2']}, function(err,word) {
             if (err) {
                 console.log(err);

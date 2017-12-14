@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MemberService} from '../member.service';
+import {Member} from "../interfaces";
 
 @Component({
     selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginComponent implements OnInit {
     readonly REGISTER = 1;
     readonly LOGIN = 2;
 
+    inputType = 'password';
     mode = this.PRELOGIN;
     username = '';
     password = '';
@@ -22,6 +24,11 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
+    onChangeInputType() {
+        this.inputType = (this.inputType === 'password') ? 'text' : 'password';
+        console.log('inputtype '+this.inputType);
+    }
+
     onClick(loginForm): void {
         switch (this.mode) {
             case this.PRELOGIN:
@@ -30,8 +37,10 @@ export class LoginComponent implements OnInit {
                 });
                 break;
             case this.LOGIN:
-                this.memberService.login(loginForm.value.email, loginForm.value.password).subscribe( tokenObj => console.log(tokenObj), err => {
-
+                this.memberService.login(loginForm.value.email, loginForm.value.password).subscribe( async tokenObj => {
+                    console.log(tokenObj);
+                    const member = await this.memberService.getMemberInfo();
+                    console.log(member);
                 });
                 break;
         }

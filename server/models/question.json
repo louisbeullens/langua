@@ -6,13 +6,12 @@
     "validateUpsert": true
   },
   "properties": {
-    "gender": {
-      "type": "string",
-      "required": true,
-      "length": 1
-    },
     "singular": {
       "type": "boolean",
+      "required": true
+    },
+    "order": {
+      "type": "number",
       "required": true
     }
   },
@@ -21,6 +20,21 @@
     "word": {
       "type": "belongsTo",
       "model": "Word",
+      "foreignKey": ""
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": ""
+    },
+    "test": {
+      "type": "belongsTo",
+      "model": "Test",
+      "foreignKey": ""
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
       "foreignKey": ""
     }
   },

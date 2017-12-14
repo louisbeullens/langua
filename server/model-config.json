@@ -75,5 +75,9 @@
   "Test": {
     "dataSource": "langua",
     "public": true
+  },
+  "Answer": {
+    "dataSource": "langua",
+    "public": true
   }
 }

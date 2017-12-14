@@ -1,40 +1,74 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {tap} from 'rxjs/operators';
-import {ApiService} from "./api.service";
-import {Subject} from "rxjs/Subject";
-
-interface AccessToken {
-    id: string;
-    ttl: number;
-    created: string;
-    userId: number;
-}
+import {ApiService} from './api.service';
+import {Subject} from 'rxjs/Subject';
+import {Member, AccessToken, Language} from './interfaces';
 
 @Injectable()
 export class MemberService {
     public currentLanguageIdChanged = new Subject<number>();
-    private userId: number;
+    private memberId: number = null;
     private choosenLanguage = 1;
+    private nativeLanguage = 4;
+    private trainingLanguage = 2;
 
-    constructor(private http: ApiService) {
+    constructor(private api: ApiService) {
     }
 
     login(email: string, password: string): Observable<AccessToken> {
-        return this.http.post<AccessToken>('/Members/login', {email: email, password: password}).pipe(
-            tap(tokenObject => {
-                this.http.setAccessToken(tokenObject.id);
-                this.userId = tokenObject.userId;
+        return this.api.post<AccessToken>('/Members/login', {email: email, password: password}).pipe(
+            tap(async tokenObject => {
+                this.api.setAccessToken(tokenObject.id);
+                this.memberId = tokenObject.userId;
             })
         );
     }
 
     emailExists(email: string) {
-        return this.http.get('/Members/' + email + '/exists');
+        return this.api.get('/Members/' + email + '/exists');
+    }
+
+    getMemberId(create= true): Promise<number> {
+        if (this.memberId || !create) {
+            return Promise.resolve(this.memberId);
+        } else {
+            return new Promise((resolve, reject) => {
+                this.api.get<AccessToken>('/Members/anonymousLogin').subscribe(accessToken => {
+                    this.memberId = accessToken.userId;
+                    this.api.setAccessToken(accessToken.id);
+                    resolve(this.memberId);
+                }, err => reject(err));
+            });
+        }
+    }
+
+    getMemberInfo(): Promise<Member> {
+        if (this.memberId) {
+            return new Promise((resolve, reject) => {
+                this.api.get<Member>('/Members/' + this.memberId.toString()).subscribe(member => {
+                    resolve(member);
+                }, err => reject(err));
+            });
+        } else {
+            return Promise.resolve({id: null, email: null, firstname: null, lastname: null});
+        }
     }
 
     getCurrentLanguageId(): number {
         return this.choosenLanguage;
+    }
+
+    getNativeLanguageId(): number {
+        return this.nativeLanguage;
+    }
+
+    getTrainingLanguageId(): number {
+        return this.trainingLanguage;
+    }
+
+    getTrainingLanguages(): Observable<Language[]> {
+        return this.api.get<Language[]>('/Languages');
     }
 
     changeCurrentLanguageId(languageId): void {
