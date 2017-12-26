@@ -12,7 +12,7 @@ export class TestService {
     constructor(private api: ApiService, private memberService: MemberService) {
     }
 
-    reset() {
+    resetTest() {
         this.test = null;
     }
 
@@ -39,11 +39,34 @@ export class TestService {
         }
     }
 
-    async getUnfinishedTranslationTests() {
-    return this.api.get('/Members/' + (await this.memberService.getMemberId(false)).toString() + '/unfinishedTests');
+    async createTestConjugations(languageId, tenseIds, regularity, selection): Promise<any> {
+        try {
+            const data = {
+                type: 'C',
+                memberId: await this.memberService.getMemberId(),
+                languageQuestionId: languageId,
+                tenseIds: tenseIds,
+                regularity: regularity,
+                selection: selection
+            };
+
+            return this.api.post('/Tests', data).pipe(
+                tap(test => {
+                    this.test = test;
+                })
+            );
+        } catch (err) {
+            return new Observable(observable => {
+                observable.error(err);
+            });
+        }
     }
 
-    getTranslationQuestion(): Observable<any> {
+    async getUnfinishedTranslationTests() {
+        return this.api.get('/Members/' + (await this.memberService.getMemberId(false)).toString() + '/unfinishedTests');
+    }
+
+    getQuestion(): Observable<any> {
         return this.api.get('/Tests/' + this.test.id.toString() + '/question/' + (this.test.lastQuestion + 1).toString());
     }
 
@@ -55,7 +78,11 @@ export class TestService {
         this.test = test;
     }
 
-    containsTestTranslations(): boolean {
-        return (this.test !== null);
+    containsTestTranslation(): boolean {
+        return (this.test !== null && this.test.type === 'T');
+    }
+
+    containsTestConjugation(): boolean {
+        return (this.test !== null && this.test.type === 'C');
     }
 }

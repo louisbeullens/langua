@@ -6,13 +6,17 @@
     "validateUpsert": true
   },
   "properties": {
-    "singular": {
-      "type": "boolean",
-      "required": true
-    },
     "order": {
       "type": "number",
       "required": true
+    },
+    "form": {
+      "type": "string",
+      "required": true,
+      "length": 1
+    },
+    "archivedAt": {
+      "type": "date"
     }
   },
   "validations": [],
@@ -20,7 +24,12 @@
     "word": {
       "type": "belongsTo",
       "model": "Word",
-      "foreignKey": ""
+      "foreignKey": "linkId"
+    },
+    "conjugation": {
+      "type": "belongsTo",
+      "model": "Conjugation",
+      "foreignKey": "linkId"
     },
     "answers": {
       "type": "hasMany",

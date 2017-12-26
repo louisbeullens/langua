@@ -8,7 +8,7 @@ module.exports = function(Question) {
 
         ctx.args.data.valid = false;
 
-        Question.findById(ctx.req.params.id, {include:['test','word']} ,function(err, question) {
+        Question.findById(ctx.req.params.id, {include:['test','word','conjugation']} ,function(err, question) {
             if (err) {
                 console.log(err);
                 next();
@@ -18,19 +18,26 @@ module.exports = function(Question) {
             if (question) {
 
                 var validAnswer = '';
-                const word = question.word();
-
-                if (question.singular) {
-                    if (word.articleSingular !== '')
-                        validAnswer += word.articleSingular + ' ';
-                    validAnswer += word.singular;
-                } else {
-                    if (word.articlePlural !== '')
-                        validAnswer += word.articlePlural + ' ';
-                    validAnswer += word.plural;
-                }
 
                 const test = question.test();
+
+                if (test.type === 'T') {
+                    const word = question.word();
+
+                    if (question.form === 'S') {
+                        if (word.articleSingular !== '')
+                            validAnswer += word.articleSingular + ' ';
+                        validAnswer += word.singular;
+                    } else {
+                        if (word.articlePlural !== '')
+                            validAnswer += word.articlePlural + ' ';
+                        validAnswer += word.plural;
+                    }
+                } else if (test.type === 'C') {
+                    validAnswer = question.conjugation()['form'+question.form];
+                    console.log('valid answer',validAnswer);
+                }
+
                 if (question.order > test.lastQuestion) {
                     test.lastQuestion = question.order;
                 }

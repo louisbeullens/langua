@@ -12,7 +12,6 @@ export class LoginComponent implements OnInit {
     readonly REGISTER = 1;
     readonly LOGIN = 2;
 
-    inputType = 'password';
     mode = this.PRELOGIN;
     username = '';
     password = '';
@@ -24,9 +23,8 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
-    onChangeInputType() {
-        this.inputType = (this.inputType === 'password') ? 'text' : 'password';
-        console.log('inputtype '+this.inputType);
+    onChangeInputType(element) {
+        element.type = (element.type === 'password') ? 'text' : 'password';
     }
 
     onClick(loginForm): void {
@@ -37,9 +35,14 @@ export class LoginComponent implements OnInit {
                 });
                 break;
             case this.LOGIN:
-                this.memberService.login(loginForm.value.email, loginForm.value.password).subscribe( async tokenObj => {
+                this.memberService.login(loginForm.value.email, loginForm.value.password).subscribe(async tokenObj => {
                     console.log(tokenObj);
                     const member = await this.memberService.getMemberInfo();
+                    console.log(member);
+                });
+                break;
+            case this.REGISTER:
+                this.memberService.register(loginForm.value.email, loginForm.value.firstname, loginForm.value.lastname, loginForm.value.password).subscribe(member => {
                     console.log(member);
                 });
                 break;

@@ -18,6 +18,10 @@ import { CreateTestTranslationsComponent } from './create-test-translations/crea
 import { TestService } from './test.service';
 import { TranslationQuestionComponent } from './translation-question/translation-question.component';
 import { TestTranslationsComponent } from './test-translations/test-translations.component';
+import { TestConjugationsComponent } from './test-conjugations/test-conjugations.component';
+import { CreateTestConjugationsComponent } from './create-test-conjugations/create-test-conjugations.component';
+import { ConjugationQuestionComponent } from './conjugation-question/conjugation-question.component';
+import { TestResultsComponent } from './test-results/test-results.component';
 
 
 @NgModule({
@@ -30,7 +34,11 @@ import { TestTranslationsComponent } from './test-translations/test-translations
     SelectLanguageComponent,
     CreateTestTranslationsComponent,
     TranslationQuestionComponent,
-    TestTranslationsComponent
+    TestTranslationsComponent,
+    TestConjugationsComponent,
+    CreateTestConjugationsComponent,
+    ConjugationQuestionComponent,
+    TestResultsComponent
   ],
   imports: [
     BrowserModule,

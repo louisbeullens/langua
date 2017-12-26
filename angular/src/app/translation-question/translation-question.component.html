@@ -1,10 +1,10 @@
 <p *ngIf="question">
     <ng-container *ngFor="let translation of question.word.translations, let last=last">
-        <ng-container *ngIf="question.singular && translation.singular !==''">
+        <ng-container *ngIf="question.form === 'S' && translation.singular !==''">
             (ev) {{translation.articleSingular}} {{translation.singular}}
             <ng-container *ngIf="!last">;</ng-container>
         </ng-container>
-        <ng-container *ngIf="!question.singular && translation.plural !==''">
+        <ng-container *ngIf="question.form === 'P' && translation.plural !==''">
             (mv) {{translation.articlePlural}} {{translation.plural}}
             <ng-container *ngIf="!last">;</ng-container>
         </ng-container>
@@ -12,18 +12,15 @@
     <ng-container *ngIf="question.word.hint !== ''">
         ; tip: {{question.word.hint}}
     </ng-container>
-</p>
-<ng-container *ngIf="valid === '';else submitted">
-    <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)">
-</ng-container>
-<ng-template #submitted>
-    <p>{{valid}}</p>
-    <p *ngIf="valid === 'fout'">Jou andwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
+    <ng-container *ngIf="valid === '';else submitted">
+        <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)">
+    </ng-container>
+    <ng-template #submitted>
+<p>{{valid}}</p>
+<p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
 </ng-template>
-<p>{{testService.test.lastQuestion + 1}} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
+</p>
+<p>{{testService.test.lastQuestion + ((valid === '') ? 1 : 0) }} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
 <button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()"
-        [disabled]="(testService.test.lastQuestion + 1) === testService.test.numQuestions || answer === ''">Ok
-</button>
-<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()"
-        [disabled]="(testService.test.lastQuestion + 1) === testService.test.numQuestions">Volgende vraag
-</button>
+        [disabled]="answer === ''">Ok</button>
+<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}</button>

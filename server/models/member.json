@@ -4,7 +4,8 @@
   "base": "User",
   "idInjection": true,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": true,
+    "emailVerificationRequired": true
   },
   "properties": {
     "firstname": {
@@ -19,6 +20,9 @@
     },
     "ipAddress": {
       "type": "string"
+    },
+    "_old_id": {
+      "type": "number"
     }
   },
   "validations": [],
@@ -50,6 +54,20 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "unfinishedTests"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getResults"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "resetResults"
     }
   ],
   "methods": {}

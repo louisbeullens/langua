@@ -40,6 +40,10 @@
     "dataSource": "langua",
     "public": true
   },
+  "Email": {
+    "dataSource": "sendgrid",
+    "public": true
+  },
   "Language": {
     "dataSource": "langua",
     "public": true
@@ -77,6 +81,14 @@
     "public": true
   },
   "Answer": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "ConjugationForm": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Book": {
     "dataSource": "langua",
     "public": true
   }

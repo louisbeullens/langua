@@ -1,38 +1,36 @@
 <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-    <!--<select name="trainingLanguage" [ngModel]="memberService.getTrainingLanguageId()">
-        <ng-container *ngFor="let language of languages | async">
-            <option *ngIf="language.id !== memberService.getNativeLanguageId()" [ngValue]="language.id">{{language.name}}</option>
-        </ng-container>
-    </select><br />
-
-    <input type="radio" name="direction" [value]="0" [ngModel]="direction" /><span>{{nativeLanguage}} {{trainingLanguage}}</span><br />
-    <input type="radio" name="direction" [value]="1" [ngModel]="direction" /><span>engels  nederlands</span><br />-->
-
-    <select name="fromLanguageId" [(ngModel)]="fromLanguageId" #fromLanguageIdSelect>
+    <div>
+        <select name="fromLanguageId" [(ngModel)]="fromLanguageId" #fromLanguageIdSelect>
             <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-    </select>
+        </select>
 
-    <span> --> </span>
+        <span> --> </span>
 
-    <select name="toLanguageId" [(ngModel)]="toLanguageId" #toLanguageIdSelect (change)="onToLanguageChanged()">
+        <select name="toLanguageId" [(ngModel)]="toLanguageId" #toLanguageIdSelect (change)="onToLanguageChanged()">
             <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-    </select><br />
+        </select>
+    </div>
 
-    <ng-container *ngFor="let wordType of wordTypes | async">
+    <div *ngFor="let wordType of wordTypes | async">
         <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)"/><span>{{ wordType.name }}</span><br>
-    </ng-container>
+    </div>
 
     <div>
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="0"> alle vragen <br>
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> nooit eerder gemaakte vragen
+        <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> nooit eerder gemaakte vragen <br>
+        <input type="radio" name="selection" [(ngModel)]="selection" [value]="2"> ooit eerder gemaakte fouten <br>
+        <input type="radio" name="selection" [(ngModel)]="selection" [value]="3"> nooit goed gemaakte vragen
     </div>
 
     <ng-container *ngIf="tests">
         <div *ngFor="let test of tests | async">
             <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
-            <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button><hr>
+            <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button>
+            <hr>
         </div>
     </ng-container>
 
-    <button class="btn btn-primary" [disabled]="fromLanguageIdSelect.value === toLanguageIdSelect.value || wordTypeIds.length === 0">Starten</button>
+    <button class="btn btn-primary"
+            [disabled]="fromLanguageIdSelect.value === toLanguageIdSelect.value || wordTypeIds.length === 0">Starten
+    </button>
 </form>

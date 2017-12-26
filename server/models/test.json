@@ -14,7 +14,8 @@
     },
     "lastQuestion": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default": 0
     },
     "numQuestions": {
       "type": "number",

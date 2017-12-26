@@ -1,481 +1,360 @@
 'use strict';
 
 const async = require('async');
+const privateSettings = require('../private-settings');
+const DataSource = require('loopback-datasource-juggler').DataSource;
 
-module.exports = function (app) {
-    var langua_be = app.dataSources.langua_be;
-    var langua = app.dataSources.langua;
+module.exports = function (app, next) {
 
-    if (process.argv.length > 2 && process.argv[2] == '--reset') {
-        console.log('reseting');
-        async.series([
-            async.apply(createEmptyTables),
-            async.apply(createLanguages),
-            async.apply(importMembers),
-            async.apply(importWordTypes),
-            async.apply(importTenses),
-            async.apply(importWords),
-            async.apply(importTranslations),
-            async.apply(importConjugations)
-        ]);
+    app.datasources.sendgrid = new DataSource({
+        connector: require("loopback-sendgrid-connector"),
+        api_key: privateSettings.sendgridApiKey,
+        from: "noreply@langua.be"
+    });
+
+    const start = Date.now();
+
+    const langua = app.datasources.langua;
+    const langua_be = app.datasources.langua_be;
+
+    const VERBOSE = true;
+
+    function DEBUG() {
+        if (VERBOSE) {
+            console.log(...arguments);
+        }
     }
 
-    function createEmptyTables(cb) {
-        langua.automigrate(['IpLocation','Question','Test','Answer'], function(err) {
-            if (err)
-                throw(err);
-
-            cb(err, null);
-        });
+    const operations = {
+        '--empty': 0,
+        '--reset': 1,
+        '--update': 2,
+        '--populate': 3
     }
 
-    function importConjugations(cb) {
-        console.log('--> import conjugations')
-        langua.automigrate(['Conjugation'], function (err) {
-            if (err)
-                throw(err);
+    const models = {
+        test: [newModel, 'Test'],
+        question: [newModel, 'Question'],
+        answer: [newModel, 'Answer'],
+        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC'}, bulkCreate, memberMapFn],
+        iplocation: [newModel, 'IpLocation'],
+        language: [importModel, 'Language', 'langs', {order: 'langid ASC'}, syncCreate, LanguageMapFn],
+        tense: [importModel, 'Tense', 'tenses', {order: 'tensid ASC'}, syncCreate, TenseMapFn],
+        wordtype: [importModel, 'WordType', 'wordtypes', {where: {wordtypeid: {neq: 0}}, order: 'wordtypeid ASC'}, wordTypeCreate, wordTypeMapFn],
+        word: [importModel, 'Word', 'words', {where: {wwordtypeid: {neq: 0}}, order: 'wid ASC'}, bulkCreate, wordMapFn],
+        verb: [importModel, 'Word', 'verbs', {order: 'verbid ASC'}, bulkCreate, verbMapFn],
+        wordtranslation: [importModel, 'Translation', 'transwords', {order: 'twid ASC'}, relatedToWordCreate, wordTranslationMapFn],
+        verbtranslation: [importModel, 'Translation', 'transverbs', {order: 'tvid ASC'}, relatedToWordCreate, verbTranslationMapFn],
+        conjugation: [importModel, 'Conjugation', 'conjugations', {order: 'conjid ASC'}, relatedToWordCreate, conjugationMapFn],
+        conjugationform: [importModel, 'ConjugationForm', 'pvs', {order: 'pvid ASC'}, bulkCreate, conjugationFormMapFn],
+        book: [importModel, 'Book', 'books', {order: 'bookid ASC'}, bulkCreate, bookMapFn]
+    }
 
-            langua_be.discoverAndBuildModels('conjugations', {}, function (err, model) {
-                if (err)
-                    throw(err);
+    var operation = -1;
+    const tasks = [];
+    const resetModels = [];
 
-                model.Conjugations.find({}, function (err, conjugations) {
+    if (process.argv.length > 2) {
+        const args = process.argv;
 
-                    for (var i = 0; i < conjugations.length; i++) {
-                        importConjugation(conjugations[i]);
+        for (var i = 0; i < args.length; i++) {
+            const arg = args[i];
+            if (operations[arg] !== undefined) {
+                operation = operations[arg];
+                if (i+1 === args.length) {
+                    for (var key in models) {
+                        addEntry(key);
                     }
+                }
+            } else if (operation > -1 && models[arg] !== undefined) {
+                addEntry(arg);
+            }
+        }
 
-                    console.log('<-- import conjugations')
+        if (tasks.length > 0) {
 
-                    cb(err, null);
+            const method = (resetModels.length > 0) ? langua.automigrate : function(models, callback) { process.nextTick(callback) };
 
+            method.call(langua,resetModels, function(err) {
+                if (resetModels.length === 1) {
+                    DEBUG('created table', resetModels[0]);
+                } else if (resetModels.length > 1) {
+                    DEBUG('created tables', resetModels.join(', '));
+                }
+                async.series(tasks, function(err) {
+                    DEBUG('finished, took',Math.round((Date.now() - start) / 1000),'seconds')
+                    next();
                 });
             });
-        });
-    };
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 
-    function importConjugation(conjugation) {
-        app.models.Word.findOne({
-            where: {
-                and: [
-                    {_old_id: conjugation.conjverbid},
-                    {wordTypeId: 19}]
-            }
-        }, function (err, word) {
-            if (err)
-                console.log(err);
+    function addEntry(key) {
+        if ((operation & 2) == 0 && resetModels.indexOf(models[key][1]) === -1) {
+            resetModels.push(models[key][1]);
+        }
+        tasks.push(async.apply(...models[key], operation));
+    }
 
-            if (word) {
-                const newConj = {
-                    verbId: word.id,
-                    tenseId: conjugation.conjtensid,
-                    isRegular: conjugation.conjreg,
-                    form1: conjugation.conj1,
-                    form1Regular: (conjugation.conji1 == 1) ? false : true,
-                    form2: conjugation.conj2,
-                    form2Regular: (conjugation.conji2 == 1) ? false : true,
-                    form3: conjugation.conj3,
-                    form3Regular: (conjugation.conji3 == 1) ? false : true,
-                    form4: conjugation.conj4,
-                    form4Regular: (conjugation.conji4 == 1) ? false : true,
-                    form5: conjugation.conj5,
-                    form5Regular: (conjugation.conji5 == 1) ? false : true,
-                    form6: conjugation.conj6,
-                    form6Regular: (conjugation.conji6 == 1) ? false : true,
-                };
-                app.models.Conjugation.create(newConj, createCallback);
+    function newModel(modelName, operation, cb) {
+        langua.autoupdate(modelName, function (err) {
+            if (operation & 2) {
+                DEBUG('updated table', modelName);
             }
-            else
-                console.log('Werkwoord met _old_id ' + conjugation.conjverbid + ' niet gevonden');
+            cb();
         });
     }
 
-    //
-    // I M P O R T   W O R D T Y P E S
-    //
+    function importModel(modelName, tableName, filter, createFn, mapFn, operation, cb) {
 
-    function importWordTypes(cb) {
-        langua.automigrate(['WordType'], function (err) {
-            if (err)
-                throw(err);
+        const method = (operation & 2) ? langua.autoupdate : function(modelName, callback) { process.nextTick(callback) };
 
-            console.log('--> importWordTypes');
+        method.call(langua, modelName, function (err) {
 
-            langua_be.discoverAndBuildModels('wordtypes', {}, function (err, model) {
-                if (err)
-                    throw(err);
+            if (err) {
+                return cb();
+            }
 
-                model.Wordtypes.find({order: ['wordtypeID ASC']}, function (err, wordtypes) {
-                    console.log(wordtypes.length);
-                    console.log(wordtypes[0]);
+            if (operation & 2) {
+                DEBUG('updated table', modelName);
+            }
 
-                    var tasks = [];
-
-                    for (var i = 1; i < wordtypes.length; i++) {
-                        tasks.push(async.apply(createWordType, wordtypes[i].wordtypename));
+            if ((operation & 1)) {
+                langua_be.discoverAndBuildModels(tableName, {}, function (err, models) {
+                    if (err) {
+                        return cb();
                     }
 
-                    tasks.push(async.apply(createWordType, 'WW'));
+                    models[tableName[0].toUpperCase() + tableName.slice(1).toLowerCase()].find(filter, function (err, results) {
+                        if (err) {
+                            return cb();
+                        }
 
-                    async.series(tasks, function (err) {
-                        if (err)
-                            console.log(err);
-                        console.log('<-- importWordTypes');
-                        cb(err, null);
+                        if (results.length > 0) {
+                            createFn(modelName, results, mapFn, cb);
+                        } else {
+                            return cb();
+                        }
                     });
                 });
-            });
+            } else {
+                cb();
+            }
         });
     }
 
-    function createWordType(name, cb) {
-        app.models.WordType.create({name: name}, function (err) {
-            if (err)
-                console.log(err);
-            else
-                console.log(name);
-            cb(err, null);
-        });
-    }
-
-    //
-    // I M P O R T   T E N S E S
-    //
-
-    function importTenses(cb) {
-        langua.automigrate(['Tense'], function (err) {
-            if (err)
-                throw(err);
-
-            console.log('--> importTenses');
-
-            langua_be.discoverAndBuildModels('tenses', {}, function (err, model) {
-                if (err)
-                    throw(err);
-
-                model.Tenses.find({order: ['tensID ASC']}, function (err, tenses) {
-                    console.log(tenses.length);
-                    console.log(tenses[0]);
-
-                    var tasks = [];
-
-                    for (var i = 0; i < tenses.length; i++) {
-                        tasks.push(async.apply(createTense, tenses[i].tensname, tenses[i].tensorder, tenses[i].tenslangid));
+    function bulkCreate(modelName, results, mapFn, cb) {
+        app.models[modelName].create(results.map(mapFn), function (err) {
+            DEBUG('bulkCreate inserted', modelName);
+            if (err) {
+                for (var i=0; i<err.length; i++) {
+                    if (err[i]) {
+                        DEBUG(err[i].message);
                     }
-
-                    async.series(tasks, function (err) {
-                        if (err)
-                            console.log(err);
-
-                        console.log('<-- importTenses')
-
-                        cb(err, null);
-                    });
-                });
-            });
+                }
+            }
+            return cb();
         });
     }
 
-    function createTense(name, order, languageId, cb) {
-        app.models.Tense.create({name: name, order: order, languageId: languageId}, function (err) {
-            if (err)
-                console.log(err);
-            else
-                console.log(name);
-            cb(err, null);
-        });
-    }
-
-    //
-    // I M P O R T   W O R D S
-    //
-
-    function importWords(cb) {
-        langua.automigrate(['Word'], function (err) {
-            if (err)
-                throw(err);
-
-            console.log("--> importWords");
-
-            langua_be.discoverAndBuildModels('words', {}, function (err, model) {
+    function syncCreate(modelName, results, mapFn, cb) {
+        function create(entry, cb) {
+            function createCallback(err) {
                 if (err)
-                    throw(err);
-
-                model.Words.find({}, function (err, words) {
-                    if (err)
-                        throw(err);
-
-                    for (var i = 0; i < words.length; i++) {
-
-                        createWord(words[i]);
-                    }
-
-                    langua_be.discoverAndBuildModels('verbs', {}, function (err, model) {
-                        if (err)
-                            throw(err);
-
-                        model.Verbs.find({}, function (err, verbs) {
-                            if (err)
-                                console.log(err);
-
-                            for (var i = 0; i < verbs.length; i++) {
-                                createVerb(verbs[i]);
-                            }
-                        });
-                    });
-
-                    console.log('<-- importWords')
-
-                    cb(err, null); //einde import gebeurt ver voordat woorden in database zitten ASYNCROON
-                });
-
-            });
-
-        });
-    }
-
-    function createWord(word) {
-        app.models.Word.create({
-            languageId: word.wlangid,
-            gender: word.wsex,
-            articleSingular: word.wblev,
-            singular: word.wev,
-            articlePlural: word.wblmv,
-            plural: word.wmv,
-            hint: word.wtip,
-            wordTypeId: word.wwordtypeid,
-            _old_id: word.wid
-        }, createCallback);
-    }
-
-    function createVerb(verb) {
-        app.models.Word.create({
-            languageId: verb.verblangid,
-            gender: '',
-            articleSingular: '',
-            singular: verb.verbname,
-            articlePlural: '',
-            plural: '',
-            index: verb.verbindex,
-            hint: verb.verbtip,
-            wordTypeId: 19,
-            _old_id: verb.verbid
-        }, createCallback);
-    }
-
-    //
-    // I M P O R T   T R A N S L A T I O N S
-    //
-
-    function importTranslations(cb) {
-        langua.automigrate(['Translation'], function (err) {
-            if (err)
-                throw(err);
-
-            console.log('--> importTranslations')
-
-            langua_be.discoverAndBuildModels('transwords', {}, function (err, model) {
-                if (err)
-                    throw(err);
-
-                model.Transwords.find({}, function (err, transwords) {
-                    if (err)
-                        throw(err);
-
-                    for (var i = 0; i < transwords.length; i++) {
-                        importTransword(transwords[i]);
-                    }
-                })
-            });
-
-            langua_be.discoverAndBuildModels('transverbs', {}, function (err, model) {
-                if (err)
-                    throw(err);
-
-                model.Transverbs.find({}, function (err, transverbs) {
-                    if (err)
-                        throw(err);
-
-                    for (var i = 0; i < transverbs.length; i++) {
-                        importTransverb(transverbs[i]);
-                    }
-
-                    console.log('<-- importTranslations');
-
-                    cb(err,null);
-                })
-            });
-        });
-    }
-
-    function importTransword(transword) {
-        //console.log('importTransWord');
-        app.models.Word.find({
-            where: {
-                and: [
-                    { or: [
-                            {_old_id: transword.twwordid1},
-                            {_old_id: transword.twwordid2},
-                        ]
-                    },
-                    {wordTypeId: {neq: 19}}
-                ]
-            }
-        }, function (err, words) {
-
-            var word1 = words.find(function(word) {
-                return word._old_id === transword.twwordid1;
-            });
-
-            if (!word1) {
-                console.log('_old_id: ' + transword.twwordid1 + ' voor twwordid1 niet gevonden');
-                return;
+                    DEBUG(err.message);
+                return cb();
             }
 
-            var word2 = words.find(function(word) {
-                return word._old_id === transword.twwordid2;
-            });
+            app.models[modelName].create(entry, createCallback);
+        }
 
-            if (!word2) {
-                console.log('_old_id: ' + transword.twwordid2 + ' voor twwordid2 niet gevonden');
-                return;
+        const transformedResults = results.map(mapFn);
+        const tasks = [];
+
+        for (var i = 0; i < transformedResults.length; i++) {
+            tasks.push(async.apply(create, transformedResults[i]))
+        }
+        async.series(tasks, function (err) {
+            DEBUG('syncCreate inserted', modelName);
+            cb();
+        });
+    }
+
+    function wordTypeCreate(modelName, results, mapFn, cb) {
+        function createCallback(err) {
+            app.models.WordType.create({name: 'WW'}, function (err) {
+                DEBUG('wordTypeCreate inserted');
+                cb();
+            })
+        }
+
+        syncCreate(modelName, results, mapFn, createCallback);
+    }
+
+    function relatedToWordCreate(modelName, results, mapFn, cb) {
+        app.models.Word.find({fields: {_old_id: true, wordTypeId: true}, order: 'id ASC'}, function (err, words) {
+            if (err) {
+                return cb();
             }
 
-            app.models.Translation.create({word1Id:word1.id, word2Id:word2.id});
-        });
-    }
+            const relatedToWords = [];
 
-    function importTransverb(transverb) {
-        //console.log('importTransWord');
-        app.models.Word.find({
-            where: {
-                and: [
-                    { or: [
-                        {_old_id: transverb.tvverbid1},
-                        {_old_id: transverb.tvverbid2},
-                    ]
-                    },
-                    {wordTypeId: 19}
-                ]
-            }
-        }, function (err, verbs) {
-
-            var verb1 = verbs.find(function(verb) {
-                return verb._old_id === transverb.tvverbid1;
-            });
-
-            if (!verb1) {
-                console.log('_old_id: ' + transverb.tvverbid1 + ' voor tvverbid1 niet gevonden');
-                return;
+            for (var i = 0; i < results.length; i++) {
+                const relatedToWord = mapFn(results[i], words);
+                if (relatedToWord) {
+                    relatedToWords.push(relatedToWord);
+                }
             }
 
-            var verb2 = verbs.find(function(verb) {
-                return verb._old_id === transverb.tvverbid2;
+            app.models[modelName].create(relatedToWords, function (err) {
+                DEBUG('relatedToWordCreate inserted', modelName);
+                cb();
             });
+        });
+    }
 
-            if (!verb2) {
-                console.log('_old_id: ' + transverb.tvverbid2 + ' voor tvverbid2 niet gevonden');
-                return;
+    function memberMapFn(a) {
+        return {
+            firstname: a.userfirstname,
+            lastname: a.userlastname,
+            email: a.useremail.trim(),
+            username: a.userloginname,
+            password: a.userpassword,
+            _old_id: a.userid,
+            emailVerified: true
+        };
+    }
+
+    function LanguageMapFn(a) {
+        return {
+            name: a.langname,
+            _old_id: a.langid
+        };
+    }
+
+    function wordTypeMapFn(a) {
+        return {name: a.wordtypename};
+    }
+
+    function wordMapFn(a) {
+        return {
+            gender: a.wsex,
+            articleSingular: a.wblev,
+            singular: a.wev,
+            articlePlural: a.wblmv,
+            plural: a.wmv,
+            hint: a.wtip,
+            _old_id: a.wid,
+            languageId: a.wlangid,
+            wordTypeId: a.wwordtypeid
+        };
+    }
+
+    function verbMapFn(a) {
+        return {
+            singular: a.verbname,
+            hint: a.verbtip,
+            _old_id: a.verbid,
+            languageId: a.verblangid,
+            wordTypeId: 19
+        };
+    }
+
+    function bookMapFn(a) {
+        return {
+            name: a.bookname,
+            languageId: a.booklangid,
+            _old_id: a.bookid
+        };
+    }
+
+    function TenseMapFn(a) {
+        return {
+            name: a.tensname,
+            order: a.tensorder,
+            languageId: a.tenslangid
+        };
+    }
+
+    function conjugationFormMapFn(a) {
+        return {
+            form: a.pvpersid,
+            name: a.pvname,
+            languageId: a.pvlangid
+        };
+    }
+
+    function wordTranslationMapFn(a, ids) {
+        function findId(id) {
+            return function (item) {
+                return (item._old_id == id && item.wordTypeId !== 19);
             }
+        }
 
-            app.models.Translation.create({word1Id:verb1.id, word2Id:verb2.id});
-        });
+        const translation = {
+            word1Id: ids.findIndex(findId(a.twwordid1)) + 1,
+            word2Id: ids.findIndex(findId(a.twwordid2)) + 1
+        };
+
+        if (translation.word1Id > 0 && translation.word2Id > 0) {
+            return translation;
+        } else {
+            return null;
+        }
     }
 
-    //
-    // C R E A T E   L A N G U A G E S
-    //
+    function verbTranslationMapFn(a, ids) {
+        function findId(id) {
+            return function (item) {
+                return (item._old_id == id && item.wordTypeId === 19);
+            }
+        }
 
-    function createLanguages(cb) {
-        langua.automigrate(['Language'], function (err) {
-            if (err)
-                throw(err);
+        const translation = {
+            word1Id: ids.findIndex(findId(a.tvverbid1)) + 1,
+            word2Id: ids.findIndex(findId(a.tvverbid2)) + 1
+        };
 
-            async.series([
-                async.apply(createLanguage, 1, 'Spaans'),
-                async.apply(createLanguage, 2, 'Engels'),
-                async.apply(createLanguage, 3, 'Latijn'),
-                async.apply(createLanguage, 4, 'Nederlands'),
-                async.apply(createLanguage, 5, 'Frans')
-            ], function (err, results) {
-                if (err)
-                    console.log(err);
-                else
-                    console.log(results);
-                cb(err, null);
-            });
-        });
+        if (translation.word1Id > 0 && translation.word2Id > 0) {
+            return translation;
+        } else {
+            return null;
+        }
     }
 
-    function createLanguage(oldId, name, callback) {
-        app.models.Language.create({_old_id: oldId, name: name}, function (err) {
-            if (err)
-                console.log(err);
-            else
-                console.log(name);
-            callback(err, name);
-        });
-    }
+    function conjugationMapFn(a, ids) {
+        function findId(id) {
+            return function (item) {
+                return (item._old_id == id && item.wordTypeId === 19);
+            }
+        }
 
-    //
-    // I M P O R T   M E M B E R S
-    //
+        const conjugation = {
+            isRegular: a.conjreg,
+            form1: a.conj1,
+            form1Regular: (a.conji1) ? false : true,
+            form2: a.conj2,
+            form2Regular: (a.conji2) ? false : true,
+            form3: a.conj3,
+            form3Regular: (a.conji3) ? false : true,
+            form4: a.conj4,
+            form4Regular: (a.conji4) ? false : true,
+            form5: a.conj5,
+            form5Regular: (a.conji5) ? false : true,
+            form6: a.conj6,
+            form6Regular: (a.conji6) ? false : true,
+            verbId: ids.findIndex(findId(a.conjverbid)) + 1,
+            tenseId: a.conjtensid
+        };
 
-    function importMembers(cb) {
-        langua.automigrate(['Member'], function (err) {
-            if (err)
-                throw(err);
-
-            console.log("start automigrate");
-
-            langua_be.discoverAndBuildModels('users', {}, function (err, model) {
-                if (err)
-                    throw(err);
-
-                model.Users.find({where: {userfirstname: {neq: '?'}}, limit: 10}, function (err, users) {
-                    if (err)
-                        throw(err);
-
-                    console.log("start find");
-
-                    console.log("aantal gebruikers: " + users.length);
-                    for (var i = 0; i < users.length; i++) {
-                        console.log("create", i);
-
-                        createMember(users[i]);
-
-                        console.log("after create");
-                    }
-
-                    cb(err, null);
-                    console.log("einde find");
-                });
-                console.log("after find");
-            });
-            console.log("einde automigrate");
-        });
-        console.log("after automigrate");
-    }
-
-    function createMember(user) {
-        console.log("begin createMember");
-
-        app.models.Member.create({
-            firstname: user.userfirstname,
-            lastname: user.userlastname,
-            email: user.useremail,
-            username: user.userloginname,
-            password: user.userpassword
-        }, createCallback);
-
-        console.log("einde createMember");
-    }
-
-    function createCallback(err, result) {
-
-        if (err)
-            console.log(err);
-        else
-            ;//console.log(result);
+        if (conjugation.verbId > 0) {
+            return conjugation;
+        } else {
+            return null;
+        }
     }
 };

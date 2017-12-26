@@ -1,9 +1,17 @@
-<!--<input type="text" placeholder="e-mail" [(ngModel)]="username" /><br>
-<input type="password" placeholder="wachtwoord" [(ngModel)]="password" /><br>-->
 <form (ngSubmit)="onClick(loginForm)" #loginForm="ngForm">
-    <input type="email" name="email" id="email" #emailCtrl="ngModel" ngModel required email><br>
-    <input *ngIf="mode !== PRELOGIN" type="{{inputType}}" name="password" id="password" ngModel required minlength=3><button type="button" (click)="onChangeInputType()">oog</button><br>
-    <button *ngIf="mode === PRELOGIN" type="submit" class="btn btn-primary" [disabled]="emailCtrl.invalid">Volgende</button>
-    <button *ngIf="mode === LOGIN" type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
-    <button *ngIf="mode === REGISTER" type="submit" class="btn btn-primary" [disabled]="emailCtrl.invalid">Registreren</button>
+    <input type="text" name="email" id="email" #emailCtrl="ngModel" ngModel required email placeholder="email"><br>
+    <ng-container  *ngIf="mode === LOGIN">
+        <input type="password" name="password" id="password" ngModel required minlength="3" #passwordCtrl><button type="button" (click)="onChangeInputType(passwordCtrl)">oog</button><br>
+        <button *ngIf="mode === LOGIN" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+    </ng-container>
+
+    <ng-container  *ngIf="mode === REGISTER">
+        <input type="text" name="emailConfirm" id="emailConfirm" #emailConfirmCtrl="ngModel" ngModel required email placeholder="email herhalen"><br>
+        <input type="text" name="firstname" id="firstname" ngModel required placeholder="voornaam"><br>
+        <input type="text" name="lastname" id="lastname" ngModel required placeholder="achternaam"><br>
+        <input type="password" name="password" id="password" ngModel required minlength="3" #passwordCtrl><button type="button" (click)="onChangeInputType(passwordCtrl)">oog</button><br>
+        <input type="password" name="passwordConfirm" id="passwordConfirm" ngModel #passwordConfirmCtrl><button type="button" (click)="onChangeInputType(passwordConfirmCtrl)">oog</button><br>
+        <button class="btn btn-primary" [disabled]="loginForm.invalid || emailCtrl.value !== emailConfirmCtrl.value || passwordCtrl.value !== passwordConfirmCtrl.value">Registreren</button>
+    </ng-container>
+    <button *ngIf="mode === PRELOGIN" class="btn btn-primary" [disabled]="emailCtrl.invalid">Volgende</button>
 </form>

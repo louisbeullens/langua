@@ -8,7 +8,8 @@
   "properties": {
     "gender": {
       "type": "string",
-      "length": 1
+      "length": 1,
+      "default": ""
     },
     "articleSingular": {
       "type": "string",
@@ -36,8 +37,7 @@
       "default": ""
     },
     "_old_id": {
-      "type": "number",
-      "required": true
+      "type": "number"
     },
     "index": {
       "type": "string",
@@ -69,11 +69,6 @@
       "foreignKey": "word2Id",
       "through": "Translation",
       "keyThrough": "word1Id"
-    },
-    "questions": {
-      "type": "hasMany",
-      "model": "Question",
-      "foreignKey": ""
     }
   },
   "acls": [],

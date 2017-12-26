@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TestService} from '../test.service';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-translation-question',
@@ -12,7 +13,7 @@ export class TranslationQuestionComponent implements OnInit {
     public valid = '';
     correction = '';
 
-    constructor(private testService: TestService) {
+    constructor(private testService: TestService, private router: Router) {
     }
 
     ngOnInit() {
@@ -22,22 +23,28 @@ export class TranslationQuestionComponent implements OnInit {
     getQuestion() {
         this.answer = '';
         this.valid = '';
-        this.testService.getTranslationQuestion().subscribe(question => {
-            if (question) {
-                if (question.singular) {
-                    this.correction = question.word.articleSingular + ' ' + question.word.singular;
-                } else {
-                    this.correction = question.word.articlePlural + ' ' + question.word.plural;
-                }
-                const translations = question.word.translations;
-                for (let i = translations.length - 1; i >= 0; i--) {
-                    if (translations[i].languageId !== this.testService.test.languageQuestionId) {
-                        translations.splice(i, 1);
+        if (this.testService.test.lastQuestion < this.testService.test.numQuestions) {
+            this.testService.getQuestion().subscribe(question => {
+                if (question) {
+                    if (question.form === 'S') {
+                        this.correction = question.word.articleSingular + ' ' + question.word.singular;
+                    } else {
+                        this.correction = question.word.articlePlural + ' ' + question.word.plural;
                     }
+                    const translations = question.word.translations;
+                    for (let i = translations.length - 1; i >= 0; i--) {
+                        if (translations[i].languageId !== this.testService.test.languageQuestionId) {
+                            translations.splice(i, 1);
+                        }
+                    }
+                    this.question = question;
                 }
-                this.question = question;
-            }
-        });
+            }, err => {
+                console.log(err);
+            });
+        } else {
+            this.router.navigateByUrl('/test/results');
+        }
     }
 
     onKeyDown(event) {
@@ -70,5 +77,4 @@ export class TranslationQuestionComponent implements OnInit {
             Promise.reject(null);
         }
     }
-
 }

@@ -1,0 +1,20 @@
+<div *ngIf="question">
+    <p>{{question.conjugation.verb.singular}}</p>
+    <ng-container *ngIf="valid === '';else submitted">
+        {{question.prefix}}  <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)">
+    </ng-container>
+    <ng-template #submitted>
+<p>{{valid}}</p>
+<p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
+</ng-template>
+</div>
+<p>{{testService.test.lastQuestion + 1}} / {{testService.test.numQuestions}} {{
+    testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
+<button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()"
+        [disabled]="(testService.test.lastQuestion) === testService.test.numQuestions || answer === ''">
+    Ok
+</button>
+<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()"
+        [disabled]="(testService.test.lastQuestion) === testService.test.numQuestions">Volgende
+    vraag
+</button>

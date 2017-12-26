@@ -25,11 +25,15 @@ export class MemberService {
         );
     }
 
+    register(email: string, firstname: string, lastname: string, password: string) {
+        return this.api.post('/Members', {email: email, firstname: firstname, lastname: lastname, password: password});
+    }
+
     emailExists(email: string) {
         return this.api.get('/Members/' + email + '/exists');
     }
 
-    getMemberId(create= true): Promise<number> {
+    getMemberId(create = true): Promise<number> {
         if (this.memberId || !create) {
             return Promise.resolve(this.memberId);
         } else {
@@ -43,6 +47,10 @@ export class MemberService {
         }
     }
 
+    getMemberIdSync(): number {
+        return this.memberId;
+    }
+
     getMemberInfo(): Promise<Member> {
         if (this.memberId) {
             return new Promise((resolve, reject) => {
@@ -53,6 +61,26 @@ export class MemberService {
         } else {
             return Promise.resolve({id: null, email: null, firstname: null, lastname: null});
         }
+    }
+
+    getResults(): Promise<any> {
+        const memberId = this.getMemberIdSync();
+        if (memberId) {
+            return new Promise((resolve, reject) => {
+                this.api.get('/Members/' + memberId.toString() + '/results').subscribe(results => {
+                    resolve(results);
+                }, err => {
+                    console.log('getResults error',err);
+                    reject(err);
+                });
+            });
+        } else {
+            return Promise.reject(null);
+        }
+    }
+
+    resetResults() {
+        return this.api.get('/Members/' + this.memberId + '/resetResults');
     }
 
     getCurrentLanguageId(): number {
