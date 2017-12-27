@@ -36,7 +36,7 @@ module.exports = function (app, next) {
         test: [newModel, 'Test'],
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
-        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC'}, bulkCreate, memberMapFn],
+        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
         iplocation: [newModel, 'IpLocation'],
         language: [importModel, 'Language', 'langs', {order: 'langid ASC'}, syncCreate, LanguageMapFn],
         tense: [importModel, 'Tense', 'tenses', {order: 'tensid ASC'}, syncCreate, TenseMapFn],
@@ -176,7 +176,7 @@ module.exports = function (app, next) {
         const tasks = [];
 
         for (var i = 0; i < transformedResults.length; i++) {
-            tasks.push(async.apply(create, transformedResults[i]))
+            tasks.push(async.apply(create, transformedResults[i]));
         }
         async.series(tasks, function (err) {
             DEBUG('syncCreate inserted', modelName);

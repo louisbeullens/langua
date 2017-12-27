@@ -22,7 +22,7 @@ import { TestConjugationsComponent } from './test-conjugations/test-conjugations
 import { CreateTestConjugationsComponent } from './create-test-conjugations/create-test-conjugations.component';
 import { ConjugationQuestionComponent } from './conjugation-question/conjugation-question.component';
 import { TestResultsComponent } from './test-results/test-results.component';
-
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { TestResultsComponent } from './test-results/test-results.component';
     TestConjugationsComponent,
     CreateTestConjugationsComponent,
     ConjugationQuestionComponent,
-    TestResultsComponent
+    TestResultsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

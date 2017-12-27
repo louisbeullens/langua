@@ -13,9 +13,8 @@ export class LoginComponent implements OnInit {
     readonly LOGIN = 2;
 
     mode = this.PRELOGIN;
-    username = '';
-    password = '';
-    success = '';
+
+    public email = '';
 
     constructor(private memberService: MemberService) {
     }
@@ -27,22 +26,22 @@ export class LoginComponent implements OnInit {
         element.type = (element.type === 'password') ? 'text' : 'password';
     }
 
-    onClick(loginForm): void {
+    onSubmit(form: any): void {
         switch (this.mode) {
             case this.PRELOGIN:
-                this.memberService.emailExists(loginForm.value.email).subscribe(exists => {
+                this.memberService.emailExists(form.value.email).subscribe(exists => {
                     this.mode = exists ? this.LOGIN : this.REGISTER;
                 });
                 break;
             case this.LOGIN:
-                this.memberService.login(loginForm.value.email, loginForm.value.password).subscribe(async tokenObj => {
+                this.memberService.login(form.controls.email.value, form.value.password).subscribe(async tokenObj => {
                     console.log(tokenObj);
                     const member = await this.memberService.getMemberInfo();
                     console.log(member);
                 });
                 break;
             case this.REGISTER:
-                this.memberService.register(loginForm.value.email, loginForm.value.firstname, loginForm.value.lastname, loginForm.value.password).subscribe(member => {
+                this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
                     console.log(member);
                 });
                 break;

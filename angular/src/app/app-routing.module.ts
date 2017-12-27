@@ -6,9 +6,10 @@ import {CreateTestTranslationsComponent} from "./create-test-translations/create
 import {TestTranslationsComponent} from "./test-translations/test-translations.component";
 import {TestConjugationsComponent} from "./test-conjugations/test-conjugations.component";
 import {TestResultsComponent} from "./test-results/test-results.component";
+import {HomeComponent} from "./home/home.component";
 
 const routes: Routes = [
-    {path: '', redirectTo: '/login', pathMatch: 'full'},
+    {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'dictionary', component: DictionaryComponent},
     {path: 'test', children: [
