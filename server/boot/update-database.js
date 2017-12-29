@@ -1,7 +1,7 @@
 'use strict';
 
 const async = require('async');
-const privateSettings = require('../private-settings');
+const privateSettings = require('../private-settings') || {sendgridApiKey: ''};
 const DataSource = require('loopback-datasource-juggler').DataSource;
 
 module.exports = function (app, next) {
