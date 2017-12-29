@@ -1,14 +1,14 @@
 'use strict';
 
 const async = require('async');
-const privateSettings = require('../private-settings') || {sendgridApiKey: ''};
+const privateSettings = require('../private-settings');
 const DataSource = require('loopback-datasource-juggler').DataSource;
 
 module.exports = function (app, next) {
 
     app.datasources.sendgrid = new DataSource({
         connector: require("loopback-sendgrid-connector"),
-        api_key: privateSettings.sendgridApiKey,
+        api_key: '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',
         from: "noreply@langua.be"
     });
 

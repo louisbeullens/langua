@@ -26,7 +26,7 @@
   "sendgrid": {
     "name": "sendgrid",
     "connector": "loopback-sendgrid-connector",
-    "api_key": "",
+    "api_key": "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",
     "from": "noreply@langua.be"
   }
 }

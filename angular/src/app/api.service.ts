@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class ApiService {
-    private host = 'http://192.168.0.139:3000/api';
+    private host = 'http://192.168.1.3:3000/api';
     private accessToken: string;
 
     constructor(private http: HttpClient) {
