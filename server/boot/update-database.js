@@ -8,7 +8,7 @@ module.exports = function (app, next) {
 
     app.datasources.sendgrid = new DataSource({
         connector: require("loopback-sendgrid-connector"),
-        api_key: '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',
+        api_key: privateSettings.sendgridApiKey,
         from: "noreply@langua.be"
     });
 
