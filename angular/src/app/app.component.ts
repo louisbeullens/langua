@@ -13,8 +13,8 @@ export class AppComponent {
     title = 'Langua';
     languages: any = [
         {name:'Spaans', id:1},
-        {name:'Engels', id:2}
-        {name:'Nederlands', id:4}
+        {name:'Engels', id:2},
+        {name:'Nederlands', id:4},
         {name:'Frans', id:5}
     ];
 
