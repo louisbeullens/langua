@@ -20,8 +20,8 @@ server {
 	#listen 443 ssl default_server;
 	#listen [::]:443 ssl default_server;
 
-	ssl_certificate conf.d/nginx.pem;
-	ssl_certificate_key conf.d/nginx.key;
+	#ssl_certificate conf.d/nginx.pem;
+	#ssl_certificate_key conf.d/nginx.key;
 
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;

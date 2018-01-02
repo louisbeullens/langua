@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   
-  config.vm.synced_folder "server", "/home/vagrant/api/server"
+  config.vm.synced_folder "server", "/home/ubuntu/api/server"
 
   config.vm.provision "shell", inline: <<-END
 	MYSQL_PASSWORD=root #mysql password
@@ -87,11 +87,11 @@ Vagrant.configure("2") do |config|
 	#einde mysql installatie
 	
 	#begin nginx installatie
-	apt-get install nginx
+	apt-get install nginx -y
 	rm /etc/nginx/sites-available/default							#verwijderen nginx default server configuratie
 	cp /vagrant/files/default /etc/nginx/sites-available/default	#aangepaste server configuratie
-	cp /vagrant/files/nginx.pem /etc/nginx/conf.d/nginx.pem			#https ontwikkelings certificaat kopiëren
-	cp /vagrant/files/nginx.key /etc/nginx/conf.d/nginx.key
+	#cp /vagrant/files/nginx.pem /etc/nginx/conf.d/nginx.pem		#https ontwikkelings certificaat kopiëren
+	#cp /vagrant/files/nginx.key /etc/nginx/conf.d/nginx.key
 	service nginx restart											#nginx herstarten
 	#einde nginx installatie
 	
@@ -106,7 +106,7 @@ Vagrant.configure("2") do |config|
 	
 	#begin nodejs installatie
 	curl -sL https://deb.nodesource.com/setup_6.x | bash -			#nodejs 6 downloaden
-	apt-get install nodejs build-essential -y
+	apt-get install build-essential nodejs -y
 	#einde nodejs installatie
 	
 	#begin loopback installatie
@@ -114,11 +114,11 @@ Vagrant.configure("2") do |config|
 	#einde loopback installatie
 	
 	#begin loopback boilerplate
-	cp -r /vagrant/files/api /home/vagrant							#loopback boilerplate kopiëren
-	cd /home/vagrant/api
+	cp -r /vagrant/files/api /home/ubuntu							#loopback boilerplate kopiëren
+	cd /home/ubuntu/api
 	npm install														#ontbrekende node_modules installeren
-	cd /home/vagrant
-	chown -R vagrant:vagrant api									#eigenaar terugzetten naar vagrant
+	cd /home/ubuntu
+	chown -R ubuntu:ubuntu api									    #eigenaar terugzetten naar vagrant
 	#einde loopback boilerplate
   END
 end
