@@ -34,11 +34,8 @@
               <ul class="list-inline functionList">
                 <li><i class="fa fa-globe bg-color-4" aria-hidden="true"></i></li>
                 <li class="LanguageList">
-                  <select name="guiest_id1" id="guiest_id1" class="select-drop">
-                    <option value="0"><i class="fa fa-globe bg-color-4" aria-hidden="true"></i> Language</option>
-                    <option value="1">English</option>
-                    <option value="2">Spanish</option>
-                    <option value="3">Hindi</option>
+                  <select name="guiest_id1" id="guiest_id1" class="select-drop" [ngModel]="memberService.getCurrentLanguageId()">
+                    <option *ngFor="let language of languages" [ngValue]="language.id">{{language.name}}</option>
                   </select>
                 </li>
                 <li><i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i> <a routerLink="/login">Login or Create an account</a></li>

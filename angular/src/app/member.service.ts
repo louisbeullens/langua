@@ -9,7 +9,7 @@ import {Member, AccessToken, Language} from './interfaces';
 export class MemberService {
     public currentLanguageIdChanged = new Subject<number>();
     private memberId: number = null;
-    private choosenLanguage = 1;
+    private choosenLanguage = 2;
     private nativeLanguage = 4;
     private trainingLanguage = 2;
 
