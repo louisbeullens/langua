@@ -80,14 +80,14 @@ Vagrant.configure("2") do |config|
 	debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_PASSWORD"
 	apt-get install mysql-server -y
 	mysql -u root -p$MYSQL_PASSWORD -e "CREATE DATABASE langua;"
-	mysql -u root -p$MYSQL_PASSWORD -e "CREATE DATABASE langua_be;"
 	mysql -u root -p$MYSQL_PASSWORD -e "CREATE USER 'langua'@'localhost' IDENTIFIED BY 'pwlangua';"
 	mysql -u root -p$MYSQL_PASSWORD -e "GRANT USAGE ON *.* TO 'langua'@'localhost';"
-	mysql -u root -p$MYSQL_PASSWORD -e "GRANT ALL_PRIVILEGES ON langua.* TO 'langua'@'localhost';"
-	mysql -u root -p$MYSQL_PASSWORD -e "GRANT ALL_PRIVILEGES ON langua_be.* TO 'langua'@'localhost';"
+	mysql -u root -p$MYSQL_PASSWORD -e "GRANT ALL PRIVILEGES ON langua.* TO 'langua'@'localhost';"
+	mysql -u root -p$MYSQL_PASSWORD -e "GRANT ALL PRIVILEGES ON langua_be.* TO 'langua'@'localhost';"
 	#einde mysql installatie
 	
 	#begin nginx installatie
+	apt-get install nginx
 	rm /etc/nginx/sites-available/default							#verwijderen nginx default server configuratie
 	cp /vagrant/files/default /etc/nginx/sites-available/default	#aangepaste server configuratie
 	cp /vagrant/files/nginx.pem /etc/nginx/conf.d/nginx.pem			#https ontwikkelings certificaat kopiëren
