@@ -18,7 +18,16 @@ export class MemberService {
 
     login(email: string, password: string): Observable<AccessToken> {
         return this.api.post<AccessToken>('/Members/login', {email: email, password: password}).pipe(
-            tap(async tokenObject => {
+            tap( tokenObject => {
+                this.api.setAccessToken(tokenObject.id);
+                this.memberId = tokenObject.userId;
+            })
+        );
+    }
+
+    facebookLogin(fb_access_token) {
+        return this.api.post<AccessToken>('/Members/facebookLogin', {fb_access_token: fb_access_token}).pipe(
+            tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
             })

@@ -70,14 +70,34 @@ export class LoginComponent implements OnInit {
     }
 
     FBGetLoginStatus() {
-        console.log('FBGetLoginStatus');
-        FB.getLoginStatus(function (response) {
-            console.log(response);
-            if (response.status !== 'connected') {
-                FB.login(function (response) {
-                    console.log(response);
-                });
+        const component = this;
+
+        FB.getLoginStatus(function(response) {
+            console.log('getLoginStatus', response);
+            if (response.status === 'connected') {
+                component.FBLoginCallback(response);
+            } else {
+                FB.login(function(response) { component.FBLoginCallback(response); }, {auth_type: 'rerequest', scope:'email,public_profile', return_scopes: true});
             }
-        });
+        }, true);
+
+    }
+
+    FBLoginCallback(response) {
+        console.log('Login',response);
+        const component = this;
+
+        if (response.status === 'connected') {
+            if (response.authResponse.grantedScopes) {
+                const scopes = response.authResponse.grantedScopes.split(',');
+                if (scopes.indexOf('email') !== -1) {
+                    component.memberService.facebookLogin(response.authResponse.accessToken).subscribe(accessToken => console.log(accessToken), err => console.log(err));
+                } else {
+                    FB.logout(function () {
+                        console.log('Grant email permission next time you log in.');
+                    });
+                }
+            }
+        }
     }
 }
