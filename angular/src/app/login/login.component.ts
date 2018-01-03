@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
     public email = '';
 
     constructor(private memberService: MemberService) {
-        this.component = this;
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '699980090205893',
