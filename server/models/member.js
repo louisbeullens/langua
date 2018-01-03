@@ -29,44 +29,27 @@ module.exports = function (Member) {
     function logIpAddress(ctx, accessToken, next) {
         console.log('User with id: ' + accessToken.userId + ' logged in form ip: ' + ctx.req.ip);
 
-        http.get('http://freegeoip.net/json/84.196.187.163', function (res) {
-            const statusCode = res.statusCode;
-            const contentType = res.headers['content-type'];
+        Member.app.datasources.FreeGeoIp.findById('84.196.187.163', function(err, freeGeoIp) {
+            if (err) {
+                return next(err);
+            }
 
-            res.setEncoding('utf8');
-            var rawData = '';
-            res.on('data', function (chunk) {
-                rawData += chunk;
-            });
-            res.on('end', function () {
-                var ipLocation = JSON.parse(rawData);
-                ipLocation.memberId = accessToken.userId;
-                app.models.IpLocation.findOne({
-                    where: {
-                        and: [
-                            {ip: ipLocation.ip},
-                            {memberId: accessToken.userId},
-                            {latitude: ipLocation.latitude},
-                            {longitude: ipLocation.longitude}
-                        ]
-                    }
-                }, function (err, result) {
+            freeGeoIp.memberId = accessToken.userId;
 
-                    if (err) {
-                        console.log(err);
-                        return;
-                    }
+            Member.app.models.IpLocation.findOne({where: freeGeoIp}, function(err, result) {
+                if (err) {
+                    return next(err);
+                }
 
-                    if (!result) {
-                        app.models.IpLocation.create(ipLocation, function (err) {
-                            if (err)
-                                console.log(err);
-                        });
-                    }
-                })
+                if (!result) {
+                    Member.app.models.IpLocation.create(freeGeoIp, function(err) {
+                        return next(err);
+                    });
+                } else {
+                    return next(err);
+                }
             });
         });
-        next();
     }
 
     Member.afterRemote('login', logIpAddress);
@@ -116,6 +99,47 @@ module.exports = function (Member) {
     Member.remoteMethod('anonymousLogin', {
         accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}}],
         http: {path: '/anonymousLogin', verb: 'get'},
+        returns: {type: 'AccessToken', root: true}
+    });
+
+    Member.facebookLogin = function(facebook_access_token, cb) {
+        Member.app.datasources.Facebook.userData(facebook_access_token, function(err, fBUser) {
+            if (err) {
+                return cb(err, null);
+            }
+            if (fBUser.email) {
+                Member.findOne({where: {email: fBUser.email}}, function(err, member) {
+                    if (err) {
+                        return cb(err, null);
+                    }
+                    if (member) {
+                        member.createAccessToken(14*24*3600, function(err,token) {
+                            cb(err,token);
+                        })
+                    } else {
+                        Member.create({email: fBUser.email, firstname: fBUser.first_name, lastname: fBUser.last_name, username: fBUser.name, password: facebook_access_token.slice(0,72), emailVerified: true}, function(err, member) {
+                            if (err) {
+                                return cb(err, null);
+                            }
+                            if (member) {
+                                member.createAccessToken(14*24*3600, function(err,token) {
+                                    cb(err,token);
+                                })
+                            } else {
+                                cb(new Error("Something went wrong."), null);
+                            }
+                        });
+                    }
+                });
+            } else {
+                cb(new Error("Email permission not granted"), null);
+            }
+        });
+    }
+
+    Member.remoteMethod('facebookLogin', {
+        accepts: [{arg: 'fb_access_token', type: 'string'}],
+        http: {path: '/facebookLogin', verb: 'post'},
         returns: {type: 'AccessToken', root: true}
     });
 

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MemberService} from '../member.service';
-import {Member} from "../interfaces";
+
+declare var window;
+declare var FB;
 
 @Component({
     selector: 'app-login',
@@ -17,6 +19,25 @@ export class LoginComponent implements OnInit {
     public email = '';
 
     constructor(private memberService: MemberService) {
+        this.component = this;
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '699980090205893',
+                autoLogAppEvents: true,
+                version: 'v2.11'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     }
 
     ngOnInit() {
@@ -48,4 +69,35 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    FBGetLoginStatus() {
+        const component = this;
+
+        FB.getLoginStatus(function(response) {
+            console.log('getLoginStatus', response);
+            if (response.status === 'connected') {
+                component.FBLoginCallback(response);
+            } else {
+                FB.login(function(response) { component.FBLoginCallback(response); }, {auth_type: 'rerequest', scope:'email,public_profile', return_scopes: true});
+            }
+        }, true);
+
+    }
+
+    FBLoginCallback(response) {
+        console.log('Login',response);
+        const component = this;
+
+        if (response.status === 'connected') {
+            if (response.authResponse.grantedScopes) {
+                const scopes = response.authResponse.grantedScopes.split(',');
+                if (scopes.indexOf('email') !== -1) {
+                    component.memberService.facebookLogin(response.authResponse.accessToken).subscribe(accessToken => console.log(accessToken), err => console.log(err));
+                } else {
+                    FB.logout(function () {
+                        console.log('Grant email permission next time you log in.');
+                    });
+                }
+            }
+        }
+    }
 }

@@ -28,5 +28,39 @@
     "connector": "loopback-sendgrid-connector",
     "api_key": "",
     "from": "noreply@langua.be"
+  },
+  "FreeGeoIp": {
+    "name": "FreeGeoIp",
+    "baseURL": "",
+    "crud": false,
+    "connector": "rest",
+    "operations" :[
+      {
+        "template": {
+          "method": "GET",
+          "url": "http://freegeoip.net/json/{ip}"
+        },
+        "functions": {
+          "findById": ["ip"]
+        }
+      }
+    ]
+  },
+  "Facebook": {
+    "name": "Facebook",
+    "baseURL": "",
+    "crud": false,
+    "connector": "rest",
+    "operations" :[
+      {
+        "template": {
+          "method": "GET",
+          "url": "https://graph.facebook.com/v2.5/me?fields=email,name,first_name,last_name&access_token={access_token}"
+        },
+        "functions": {
+          "userData": ["access_token"]
+        }
+      }
+    ]
   }
 }

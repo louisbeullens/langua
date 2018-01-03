@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {TestService} from "./test.service";
-import {Observable} from "rxjs/Observable";
-import {ApiService} from "./api.service";
 import {MemberService} from "./member.service";
+
+declare var window: any;
+declare var FB: any;
 
 @Component({
     selector: 'app-root',
