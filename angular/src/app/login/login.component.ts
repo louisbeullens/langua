@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
     public email = '';
 
     constructor(private memberService: MemberService) {
-        this.component = this;
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '699980090205893',
@@ -77,7 +76,7 @@ export class LoginComponent implements OnInit {
             if (response.status === 'connected') {
                 component.FBLoginCallback(response);
             } else {
-                FB.login(function(response) { component.FBLoginCallback(response); }, {auth_type: 'rerequest', scope:'email,public_profile', return_scopes: true});
+                FB.login(function(response) { component.FBLoginCallback(response); }, {auth_type: 'rerequest', scope:'email,public_profile,user_friends', return_scopes: true});
             }
         }, true);
 
