@@ -62,16 +62,23 @@ export class TestService {
         }
     }
 
-    async getUnfinishedTranslationTests() {
-        return this.api.get('/Members/' + (await this.memberService.getMemberId(false)).toString() + '/unfinishedTests');
+    getUnfinishedTranslationTests() {
+        return this.api.get('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedTranslationTests');
     }
 
-    getQuestion(): Observable<any> {
-        return this.api.get('/Tests/' + this.test.id.toString() + '/question/' + (this.test.lastQuestion + 1).toString());
+    getUnfinishedConjugationTests() {
+        return this.api.get('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedConjugationTests');
+    }
+
+    getQuestion(order = null): Observable<any> {
+        order = order || this.test.lastQuestion + 1;
+        return this.api.get('/Tests/' + this.test.id.toString() + '/question/' + (order).toString());
     }
 
     postAnswer(questionId, answer): Observable<any> {
-        return this.api.post('/Questions/' + questionId.toString() + '/Answers', {answer: answer});
+        return this.api.post('/Questions/' + questionId.toString() + '/Answers', {answer: answer}).pipe(
+            tap(response => this.test = response.test)
+        );
     }
 
     setCurrentTest(test) {

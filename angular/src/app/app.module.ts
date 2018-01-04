@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 import { MemberService } from './member.service';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { SearchService } from './search.service';
@@ -13,15 +13,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { DictionaryItemComponent } from './dictionary-item/dictionary-item.component';
 import { SelectLanguageComponent } from './select-language/select-language.component';
 import { ApiService } from './api.service';
-import { CreateTestTranslationsComponent } from './create-test-translations/create-test-translations.component';
+import { TestTranslationsCreateComponent } from './test/translation/create/test-translations-create.component';
 import { TestService } from './test.service';
-import { TranslationQuestionComponent } from './translation-question/translation-question.component';
-import { TestTranslationsComponent } from './test-translations/test-translations.component';
-import { TestConjugationsComponent } from './test-conjugations/test-conjugations.component';
-import { CreateTestConjugationsComponent } from './create-test-conjugations/create-test-conjugations.component';
-import { ConjugationQuestionComponent } from './conjugation-question/conjugation-question.component';
-import { TestResultsComponent } from './test-results/test-results.component';
+import { TestTranslationQuestionComponent } from './test/translation/question/test-translation-question.component';
+import { TestTranslationsComponent } from './test/translation/container/test-translations.component';
+import { TestConjugationsComponent } from './test/conjugation/container/test-conjugations.component';
+import { TestConjugationsCreateComponent } from './test/conjugation/create/test-conjugations-create.component';
+import { TestConjugationQuestionComponent } from './test/conjugation/question/test-conjugation-question.component';
+import { TestResultsComponent } from './test/results/test-results.component';
 import { HomeComponent } from './home/home.component';
+import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -31,14 +32,15 @@ import { HomeComponent } from './home/home.component';
     DictionaryComponent,
     DictionaryItemComponent,
     SelectLanguageComponent,
-    CreateTestTranslationsComponent,
-    TranslationQuestionComponent,
+    TestTranslationsCreateComponent,
+    TestTranslationQuestionComponent,
     TestTranslationsComponent,
     TestConjugationsComponent,
-    CreateTestConjugationsComponent,
-    ConjugationQuestionComponent,
+    TestConjugationsCreateComponent,
+    TestConjugationQuestionComponent,
     TestResultsComponent,
-    HomeComponent
+    HomeComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,

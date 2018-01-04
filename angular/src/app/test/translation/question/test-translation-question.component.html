@@ -20,7 +20,7 @@
 <p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
 </ng-template>
 </p>
-<p>{{testService.test.lastQuestion + ((valid === '') ? 1 : 0) }} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
+<p>{{ order }} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
 <button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()"
         [disabled]="answer === ''">Ok</button>
 <button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}</button>

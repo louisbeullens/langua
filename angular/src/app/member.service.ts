@@ -84,7 +84,7 @@ export class MemberService {
                 });
             });
         } else {
-            return Promise.reject(null);
+            return Promise.reject('member is not logged in.');
         }
     }
 

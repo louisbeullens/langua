@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {ApiService} from "../api.service";
-import {MemberService} from "../member.service";
-import {TestService} from "../test.service";
+import {ApiService} from "../../../api.service";
+import {MemberService} from "../../../member.service";
+import {TestService} from "../../../test.service";
 
 @Component({
-    selector: 'app-create-test-conjugations',
-    templateUrl: './create-test-conjugations.component.html',
-    styleUrls: ['./create-test-conjugations.component.css']
+    selector: 'app-test-conjugations-create',
+    templateUrl: './test-conjugations-create.component.html',
+    styleUrls: ['./test-conjugations-create.component.css']
 })
-export class CreateTestConjugationsComponent implements OnInit {
+export class TestConjugationsCreateComponent implements OnInit {
     public languages: Observable<any>;
     public languageId: number;
     public tenses: Observable<any>;
@@ -18,13 +18,19 @@ export class CreateTestConjugationsComponent implements OnInit {
 
     public tenseIds = [];
 
+    public tests: Observable<any>;
+
     constructor(private api: ApiService, private memberService: MemberService, private testService: TestService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.languageId = this.memberService.getTrainingLanguageId();
         this.languages = this.memberService.getTrainingLanguages();
         this.tenses = this.getTenses();
+
+        if (await this.memberService.getMemberId(false)) {
+            this.tests = await this.testService.getUnfinishedConjugationTests();
+        }
     }
 
     onSubmit(form) {

@@ -1,0 +1,35 @@
+<section class="whiteSection full-width clearfix p-t-n">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="sectionTitle text-center">
+                    <h2>
+                        <span class="shape shape-left bg-color-4"></span>
+                        <span>Vervoegen</span>
+                        <span class="shape shape-right bg-color-4"></span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabCommon tabLeft">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" routerLink="/test/conjugations">Vervoegen</a></li>
+                        <li><a data-toggle="tab" routerLink="/test/results">Resultaten</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="leftHome" class="tab-pane fade in active">
+                            <div class="media">
+                                <div class="media-body">
+                                    <app-test-conjugations-create *ngIf="testService.containsTestConjugation() === false"></app-test-conjugations-create>
+                                    <app-test-conjugation-question *ngIf="testService.containsTestConjugation() === true"></app-test-conjugation-question>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -60,7 +60,7 @@ module.exports = function (Member) {
             cb(err, (result) ? true : false);
             return;
         });
-    }
+    };
 
     Member.remoteMethod('emailExists', {
         accepts: [
@@ -94,7 +94,7 @@ module.exports = function (Member) {
             });
         });
         return;
-    }
+    };
 
     Member.remoteMethod('anonymousLogin', {
         accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}}],
@@ -135,7 +135,7 @@ module.exports = function (Member) {
                 cb(new Error("Email permission not granted"), null);
             }
         });
-    }
+    };
 
     Member.remoteMethod('facebookLogin', {
         accepts: [{arg: 'fb_access_token', type: 'string'}],
@@ -143,10 +143,10 @@ module.exports = function (Member) {
         returns: {type: 'AccessToken', root: true}
     });
 
-    Member.unfinishedTests = function (id, cb) {
+    Member.unfinishedTranslationTests = function (id, cb) {
 
-        const sql = 'SELECT DISTINCT Test.id, type, lastQuestion, numQuestions, validAnswers, languageAnswerId, languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND lastQuestion!=numQuestions AND Question.archivedAt IS NULL;';
-        const params = [id];
+        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
+        const params = [id, 'T'];
 
         Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
             if (err) {
@@ -158,13 +158,38 @@ module.exports = function (Member) {
             cb(null, results);
         });
 
-    }
+    };
 
-    Member.remoteMethod('unfinishedTests', {
+    Member.remoteMethod('unfinishedTranslationTests', {
         accepts: [
             {arg: 'id', type: 'number', required: true}
         ],
-        http: {path: '/:id/unfinishedTests', verb: 'get'},
+        http: {path: '/:id/unfinishedTranslationTests', verb: 'get'},
+        returns: {type: '[Test]', root: true}
+    });
+
+    Member.unfinishedConjugationTests = function (id, cb) {
+
+        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
+        const params = [id, 'C'];
+
+        Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
+            if (err) {
+                console.log(err);
+                cb(err, []);
+                return;
+            }
+
+            cb(null, results);
+        });
+
+    };
+
+    Member.remoteMethod('unfinishedConjugationTests', {
+        accepts: [
+            {arg: 'id', type: 'number', required: true}
+        ],
+        http: {path: '/:id/unfinishedConjugationTests', verb: 'get'},
         returns: {type: '[Test]', root: true}
     });
 
@@ -215,7 +240,7 @@ module.exports = function (Member) {
 
             cb(null, result);
         });
-    }
+    };
 
     Member.remoteMethod('getResults', {
         accepts: [
@@ -229,7 +254,7 @@ module.exports = function (Member) {
         Member.app.models.Question.updateAll({and: [{memberId: memberId}, {archivedAt: null}]}, {archivedAt: Date.now()}, function(err) {
            cb(null,true);
         });
-    }
+    };
 
     Member.remoteMethod('resetResults', {
         accepts: [

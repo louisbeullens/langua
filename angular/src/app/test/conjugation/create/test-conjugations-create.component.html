@@ -1,36 +1,46 @@
-<p>
-    create-test-conjugations works!
-</p>
-
 <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-    <select name="languageId" [(ngModel)]="languageId" (change)="onLanguageIdChanged()">
-        <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-    </select><br>
 
-    <b>tijden</b>
+    <b>Taal</b>
+    <div>
+        <select name="languageId" [(ngModel)]="languageId" (change)="onLanguageIdChanged()">
+            <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
+        </select>
+    </div>
+    <br>
 
+    <b>Tijden</b>
     <div>
         <ng-container *ngFor="let tense of tenses | async">
             <input type="checkbox" name="tense" (change)="onTenseChanged(tense.id, $event.target.checked)"/><span>{{ tense.name }}</span><br>
         </ng-container>
     </div>
+    <br>
 
-    <b>soort werkwoorden</b>
-
+    <b>Soort werkwoorden</b>
     <div>
         <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="0"> alle werkwoorden <br>
         <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="1"> enkel regelmatige werkwoorden <br>
         <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="2"> enkel onregelmatige werkwoorden
     </div>
+    <br>
 
-    <b>soort vragen</b>
-
+    <b>Soort vragen</b>
     <div>
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="0"> alle vragen <br>
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> nooit eerder gemaakte vragen <br>
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="2"> ooit eerder gemaakte fouten <br>
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="3"> nooit goed gemaakte vragen
     </div>
+    <br>
+
+    <ng-container *ngIf="tests && tests.length > 0">
+        <b>Test hervatten</b>
+        <div *ngFor="let test of tests | async">
+            <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
+            <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button>
+            <hr>
+        </div><br>
+    </ng-container>
 
     <button class="btn btn-primary" [disabled]="tenseIds.length === 0">Starten</button>
 </form>

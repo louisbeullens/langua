@@ -172,7 +172,7 @@ module.exports = function (Test) {
 
         const ids = [];
 
-        Test.app.datasources.langua.connector.execute(sql, params, function(err, results) {
+        Test.app.datasources.langua.connector.execute(sql, params, function (err, results) {
 
             function findId(id) {
                 return function (item) {
@@ -180,21 +180,21 @@ module.exports = function (Test) {
                 }
             }
 
-            for (var i=0; i<results.length && ids.length < limit; i++) {
+            for (var i = 0; i < results.length && ids.length < limit; i++) {
 
                 const forms = [];
                 const verb = results[i];
 
                 if (ids.findIndex(findId(verb.id)) === -1) {
 
-                    for (var j=1;j<=6;j++) {
-                        if (verb["form"+j.toString()] !== '') {
+                    for (var j = 1; j <= 6; j++) {
+                        if (verb["form" + j.toString()] !== '') {
                             forms.push(j.toString());
                         }
                     }
 
                     if (forms.length > 0) {
-                        ids.push({id:verb.id, form: forms[Math.floor(Math.random()*forms.length)]});
+                        ids.push({id: verb.id, form: forms[Math.floor(Math.random() * forms.length)]});
                     }
 
                 }
@@ -218,9 +218,9 @@ module.exports = function (Test) {
 
         console.log('beforeCreate');
 
-        if (ctx.args.data.type==='T') {
+        if (ctx.args.data.type === 'T') {
             createTestTranslations(ctx, next);
-        } else if (ctx.args.data.type==='C') {
+        } else if (ctx.args.data.type === 'C') {
             createTestConjugations(ctx, next);
         } else {
             next(new Error("Type onbekend"));
@@ -439,134 +439,71 @@ module.exports = function (Test) {
 
     Test.getQuestion = function (testId, questionPosition, cb) {
 
-        /*const Question = Test.app.models.Question;
-        Question.findOne({
-            where: {
-                and: [
-                    {testId: testId},
-                    {order: questionPosition}
-                ]
-            }, include: [
+        Test.app.models.Question.findOne({
+            include: [
+                'test',
                 {
                     relation: 'conjugation',
                     scope: {
                         include: 'verb'
                     }
-                },
-                {
+                }, {
                     relation: 'word',
                     scope: {
                         include: ['translations1', 'translations2']
                     }
                 }
-            ]
+            ], where: {
+                testId: testId,
+                order: questionPosition
+            }
         }, function (err, question) {
-            if (err) {
-                console.log(err);
-                cb(err, null);
-                return;
-            }
-            if (question) {
-                const word = question.word();
-                //for (var key in word)
-                //  console.log(key);
-                if (question.form === 'S' || question.form === 'P') {
-                    word.translations = word.translations1().concat(word.translations2());
-                    question.unsetAttribute('conjugation');
-                    word.unsetAttribute('translations1');
-                    word.unsetAttribute('translations2');
-                    cb(null, question);
-                }
-                else {
-                    word.unsetAttribute('translations1');
-                    word.unsetAttribute('translations2');
-                }
-            }
-            cb(null, null);
-        });*/
-
-        Test.findOne({
-            include: {
-               relation: 'questions',
-               scope: {
-                   include: [
-                       {
-                           relation: 'conjugation',
-                           scope: {
-                               include: 'verb'
-                           }
-                       }, {
-                           relation: 'word',
-                           scope: {
-                               include: ['translations1', 'translations2']
-                           }
-                       }
-                   ], where: {
-                       order: questionPosition
-                   }
-               }
-            }, where: {
-                id: testId
-            }
-        }, function(err, test) {
             if (err) {
                 cb(err);
             }
 
-            if (test) {
+            if (question) {
+                const test = question.test();
                 if (test.type === 'T') {
-                    const questions = test.questions();
-                    if (questions.length > 0)
-                    {
-                        const question = questions[0];
-                        const word = question.word();
-                        question.unsetAttribute('conjugation');
-                        word.translations = word.translations1().concat(word.translations2());
-                        word.unsetAttribute('translations1');
-                        word.unsetAttribute('translations2');
-                        return cb(null,question);
-                    } else {
-                        return cb(new Error("Geen vraag gevonden"),null);
-                    }
+                    const word = question.word();
+                    question.unsetAttribute('conjugation');
+                    word.translations = word.translations1().concat(word.translations2());
+                    word.unsetAttribute('translations1');
+                    word.unsetAttribute('translations2');
+                    return cb(null, question);
                 } else if (test.type === 'C') {
-                    console.log('Conjugation question requested.');
-                    const questions = test.questions();
-                    if (questions.length > 0) {
-                        console.log('Conjugation question found.');
-                        const question = questions[0];
-                        const conjugation = question.conjugation();
-                        question.unsetAttribute('word');
-                        const filter = {
-                            where: {
-                                and: [
-                                    {languageId: test.languageQuestionId},
-                                    {form: parseInt(question.form)}
-                                ]
-                            }
-                        };
-                        Test.app.models.ConjugationForm.find(filter, function(err, conjugationForms) {
-                            console.log('searching for prefixes');
-                            if (err) {
-                                return cb(err, null);
-                            }
+                    const conjugation = question.conjugation();
+                    question.unsetAttribute('word');
+                    const filter = {
+                        where: {
+                            and: [
+                                {languageId: test.languageQuestionId},
+                                {form: parseInt(question.form)}
+                            ]
+                        }
+                    };
+                    Test.app.models.ConjugationForm.find(filter, function (err, conjugationForms) {
+                        console.log('searching for prefixes');
+                        if (err) {
+                            return cb(err, null);
+                        }
 
-                            console.log('prefixes length ', conjugationForms.length);
+                        console.log('prefixes length ', conjugationForms.length);
 
-                            if (conjugationForms.length > 0) {
-                                question.prefix = conjugationForms[Math.floor(Math.random()*conjugationForms.length)].name;
-                            }
-                            else {
-                                question.prefix = '';
-                            }
+                        if (conjugationForms.length > 0) {
+                            question.prefix = conjugationForms[Math.floor(Math.random() * conjugationForms.length)].name;
+                        }
+                        else {
+                            question.prefix = '';
+                        }
 
-                            return cb(null,question);
-                        });
-                    } else {
-                        return cb(new Error("Geen vraag gevonden"),null);
-                    }
+                        return cb(null, question);
+                    });
                 } else {
-                    return cb(new Error("onbekend test type"),null);
+                    return cb(new Error("Geen vraag gevonden"), null);
                 }
+            } else {
+                return cb(new Error("onbekend test type"), null);
             }
         });
     }

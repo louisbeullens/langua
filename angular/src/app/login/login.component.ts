@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {MemberService} from '../member.service';
+import {Router} from '@angular/router';
+import {Subject} from "rxjs/Subject";
 
 declare var window;
 declare var FB;
@@ -18,7 +20,10 @@ export class LoginComponent implements OnInit {
 
     public email = '';
 
-    constructor(private memberService: MemberService) {
+    private loginSucceeded: Subject<void>;
+
+    constructor(private memberService: MemberService, private router: Router, private zone: NgZone) {
+        this.loginSucceeded = new Subject<void>();
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '699980090205893',
@@ -40,6 +45,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loginSucceeded.subscribe(_ => this.onLoginSuccess());
     }
 
     onChangeInputType(element) {
@@ -58,6 +64,8 @@ export class LoginComponent implements OnInit {
                     console.log(tokenObj);
                     const member = await this.memberService.getMemberInfo();
                     console.log(member);
+                    //setTimeout(_ => this.router.navigateByUrl('/test/results'), 1000);
+                    this.router.navigateByUrl('/test/results');
                 });
                 break;
             case this.REGISTER:
@@ -69,34 +77,42 @@ export class LoginComponent implements OnInit {
     }
 
     FBGetLoginStatus() {
-        const component = this;
-
-        FB.getLoginStatus(function(response) {
-            console.log('getLoginStatus', response);
+        FB.getLoginStatus(response => {
             if (response.status === 'connected') {
-                component.FBLoginCallback(response);
+                console.log('facebook already connected');
+                this.FBLoginCallback(response);
             } else {
-                FB.login(function(response) { component.FBLoginCallback(response); }, {auth_type: 'rerequest', scope:'email,public_profile,user_friends', return_scopes: true});
+                console.log('facebook try to login');
+                FB.login(response => this.FBLoginCallback(response), {auth_type: 'rerequest', scope:'email,public_profile,user_friends', return_scopes: true});
             }
         }, true);
-
     }
 
     FBLoginCallback(response) {
-        console.log('Login',response);
-        const component = this;
-
+        console.log(response);
         if (response.status === 'connected') {
             if (response.authResponse.grantedScopes) {
                 const scopes = response.authResponse.grantedScopes.split(',');
                 if (scopes.indexOf('email') !== -1) {
-                    component.memberService.facebookLogin(response.authResponse.accessToken).subscribe(accessToken => console.log(accessToken), err => console.log(err));
+                    this.memberService.facebookLogin(response.authResponse.accessToken).subscribe(async tokenObj => {
+                        console.log('gotToken');
+                        console.log(tokenObj);
+                        const member = await this.memberService.getMemberInfo();
+                        console.log(member);
+                        this.zone.run(_ => this.router.navigateByUrl('/test/results'));
+                        //console.log('afterRoute');
+                    }
+                    , err => console.log(err));
                 } else {
-                    FB.logout(function () {
+                    FB.logout(_ => {
                         console.log('Grant email permission next time you log in.');
                     });
                 }
             }
         }
+    }
+
+    onLoginSuccess() {
+        this.router.navigateByUrl('/test/results');
     }
 }

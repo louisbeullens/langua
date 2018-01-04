@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {MemberService} from "../member.service";
+import {MemberService} from "../../../member.service";
 import {Observable} from "rxjs/Observable";
-import {ApiService} from "../api.service";
-import {TestService} from "../test.service";
+import {ApiService} from "../../../api.service";
+import {TestService} from "../../../test.service";
 
 @Component({
-    selector: 'app-create-test-translations',
-    templateUrl: './create-test-translations.component.html',
-    styleUrls: ['./create-test-translations.component.css']
+    selector: 'app-test-translations-create',
+    templateUrl: './test-translations-create.component.html',
+    styleUrls: ['./test-translations-create.component.css']
 })
-export class CreateTestTranslationsComponent implements OnInit {
+export class TestTranslationsCreateComponent implements OnInit {
     // public languages: [any];
     public languages: Observable<any>; // TODO: language en wordType interface maken
     public wordTypes: Observable<any>;

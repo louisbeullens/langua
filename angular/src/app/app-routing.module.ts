@@ -2,11 +2,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./login/login.component";
 import {DictionaryComponent} from "./dictionary/dictionary.component";
-import {CreateTestTranslationsComponent} from "./create-test-translations/create-test-translations.component";
-import {TestTranslationsComponent} from "./test-translations/test-translations.component";
-import {TestConjugationsComponent} from "./test-conjugations/test-conjugations.component";
-import {TestResultsComponent} from "./test-results/test-results.component";
+import {TestTranslationsComponent} from "./test/translation/container/test-translations.component";
+import {TestConjugationsComponent} from "./test/conjugation/container/test-conjugations.component";
+import {TestResultsComponent} from "./test/results/test-results.component";
 import {HomeComponent} from "./home/home.component";
+import {FaqComponent} from "./faq/faq.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -16,8 +16,8 @@ const routes: Routes = [
         { path: 'translations', component: TestTranslationsComponent },
         { path: 'conjugations', component: TestConjugationsComponent },
         { path: 'results', component: TestResultsComponent },
-
-    ] }
+    ] },
+    {path: 'faq', component: FaqComponent}
 ];
 
 @NgModule({

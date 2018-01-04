@@ -1,17 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {TestService} from '../test.service';
+import {TestService} from '../../../test.service';
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-translation-question',
-    templateUrl: './translation-question.component.html',
-    styleUrls: ['./translation-question.component.css']
+    selector: 'app-test-translation-question',
+    templateUrl: './test-translation-question.component.html',
+    styleUrls: ['./test-translation-question.component.css']
 })
-export class TranslationQuestionComponent implements OnInit {
+export class TestTranslationQuestionComponent implements OnInit {
     public question;
     public answer = '';
     public valid = '';
-    correction = '';
+    public correction = '';
+    public order = 1;
 
     constructor(private testService: TestService, private router: Router) {
     }
@@ -25,20 +26,19 @@ export class TranslationQuestionComponent implements OnInit {
         this.valid = '';
         if (this.testService.test.lastQuestion < this.testService.test.numQuestions) {
             this.testService.getQuestion().subscribe(question => {
-                if (question) {
-                    if (question.form === 'S') {
-                        this.correction = question.word.articleSingular + ' ' + question.word.singular;
-                    } else {
-                        this.correction = question.word.articlePlural + ' ' + question.word.plural;
-                    }
-                    const translations = question.word.translations;
-                    for (let i = translations.length - 1; i >= 0; i--) {
-                        if (translations[i].languageId !== this.testService.test.languageQuestionId) {
-                            translations.splice(i, 1);
-                        }
-                    }
-                    this.question = question;
+                this.order = question.test.lastQuestion + 1;
+                if (question.form === 'S') {
+                    this.correction = question.word.articleSingular + ' ' + question.word.singular;
+                } else {
+                    this.correction = question.word.articlePlural + ' ' + question.word.plural;
                 }
+                const translations = question.word.translations;
+                for (let i = translations.length - 1; i >= 0; i--) {
+                    if (translations[i].languageId !== this.testService.test.languageQuestionId) {
+                        translations.splice(i, 1);
+                    }
+                }
+                this.question = question;
             }, err => {
                 console.log(err);
             });
@@ -65,7 +65,6 @@ export class TranslationQuestionComponent implements OnInit {
     submitAnswer() {
         if (this.answer !== '') {
             this.testService.postAnswer(this.question.id, this.answer).subscribe(answer => {
-                this.testService.setCurrentTest(answer.test);
                 if (answer.valid) {
                     this.valid = 'juist';
                     setTimeout(_ => this.getQuestion(), 500);
@@ -73,8 +72,6 @@ export class TranslationQuestionComponent implements OnInit {
                     this.valid = 'fout';
                 }
             });
-        } else {
-            Promise.reject(null);
         }
     }
 }

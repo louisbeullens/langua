@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MemberService} from "../member.service";
+import {MemberService} from '../../member.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-test-results',
@@ -10,10 +11,12 @@ export class TestResultsComponent implements OnInit {
     public results: any = null;
 
     constructor(private memberService: MemberService) {
+        console.log('resultComponent constructor');
     }
 
     ngOnInit() {
-        this.memberService.getResults().then(results => this.results = results);
+        console.log('resultComponent ngOnInit');
+        this.memberService.getResults().then(results => this.results = results).catch(err => console.log('getResults err', err));
     }
 
     onResetResults() {

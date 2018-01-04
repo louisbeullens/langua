@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
 
     init(){
 
+      $("#example").DataTable();
+
         //============================== MENU SCROLL =========================
         $(window).load(function(){
             $('.body-wrapper').each(function(){

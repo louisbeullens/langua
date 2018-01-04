@@ -11,8 +11,7 @@ module.exports = function(Question) {
         Question.findById(ctx.req.params.id, {include:['test','word','conjugation']} ,function(err, question) {
             if (err) {
                 console.log(err);
-                next();
-                return
+                return next();
             }
 
             if (question) {
@@ -47,11 +46,15 @@ module.exports = function(Question) {
                     test.validAnswers++;
                 }
 
-                test.save();
-
                 ctx.args.data.test = test;
+
+                test.save(function(err, test) {
+                    next();
+                });
             }
-            next();
+            else {
+                next();
+            }
         });
     });
 
