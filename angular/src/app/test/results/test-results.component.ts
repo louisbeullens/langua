@@ -14,7 +14,10 @@ export class TestResultsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.memberService.getResults().then(results => this.results = results).catch(err => console.log('getResults err', err));
+        this.memberService.getResults().then(results => {
+            this.results = results;
+            console.log(results);
+        }).catch(err => console.log('getResults err', err));
     }
 
     onResetResults() {

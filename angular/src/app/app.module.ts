@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {ChartsModule} from "ng2-charts";
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -44,6 +45,7 @@ import { FaqComponent } from './faq/faq.component';
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule

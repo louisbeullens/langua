@@ -29,12 +29,76 @@
                                         <p>Alle testen: {{results.allTests.correct}} juiste antwoorden van
                                             {{results.allTests.total}} vragen uit {{results.allTests.numTests}}
                                             testen</p>
-                                        <button class="btn btn-primary" (click)="onResetResults()">Resultaten
-                                            verwijderen
+                                        <button class="btn btn-primary" (click)="onResetResults()">
+                                            Resultatenverwijdere
                                         </button>
                                     </div>
                                     <ng-template #noResults>
                                         <p>Er zijn geen resultaten gevonden.</p>
+                                        <div class="container-fluid">
+                                            <div class="row" style="height: 250px; position: relative;">
+                                                <div class="col-lg-4" style="height: 100%; position: relative;">
+                                                    <div style="display: block; width: 250px; position: absolute; bottom:0px;">
+                                                        <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
+                                                        <span style="position:absolute; width: 20px; height: 20px; top: 50%; left: 50%; margin:-10px;">66%</span>
+                                                        <canvas baseChart width="250" height="250"
+                                                                [options]="{
+    legend: {
+      display: true,
+      position: 'bottom'
+    }
+  }"
+                                                                [datasets]="[{
+                                                    label:'resultaat',
+                                                    data:[1,2]
+                                                    }]"
+                                                                [labels]="['juist', 'fout']"
+                                                                [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]"
+                                                                [chartType]="'doughnut'"></canvas>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4" style="height: 100%; position: relative;">
+                                                    <div style="display: block; width: 200px; position: absolute; bottom: 0px;">
+                                                        <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
+                                                        <span style="position:absolute; width: 20px; height: 20px; top: 50%; left: 50%; margin:-10px;">66%</span>
+                                                        <canvas baseChart width="200" height="200"
+                                                                [options]="{
+    legend: {
+      display: true,
+      position: 'bottom'
+    }
+  }"
+                                                                [datasets]="[{
+                                                    label:'resultaat',
+                                                    data:[1,2]
+                                                    }]"
+                                                                [labels]="['juist', 'fout']"
+                                                                [colors]="[{backgroundColor:['yellow', 'cyan']}]"
+                                                                [chartType]="'doughnut'"></canvas>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4" style="height: 100%; position: relative;">
+                                                    <div style="display: block; width: 200px; position: absolute; bottom: 0px;">
+                                                        <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
+                                                        <span style="position:absolute; width: 10px; height: 10px; top: 50%; left: 50%; margin:-5px;">66%</span>
+                                                        <canvas baseChart width="200" height="150"
+                                                                [options]="{
+    legend: {
+      display: true,
+      position: 'bottom'
+    }
+  }"
+                                                                [datasets]="[{
+                                                    label:'resultaat',
+                                                    data:[1,2]
+                                                    }]"
+                                                                [labels]="['juist', 'fout']"
+                                                                [colors]="[{backgroundColor:['yellow', 'cyan']}]"
+                                                                [chartType]="'doughnut'"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </ng-template>
                                 </div>
                             </div>
