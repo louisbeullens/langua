@@ -1,11 +1,11 @@
 'use strict';
 
 var app = require('../../server/server');
-const http = require('http');
 
 var config = require('../../server/config.json');
 var path = require('path');
 
+const privateSettings = require('../../server/private-settings');
 
 module.exports = function (Member) {
 
@@ -102,8 +102,8 @@ module.exports = function (Member) {
         returns: {type: 'AccessToken', root: true}
     });
 
-    Member.facebookLogin = function(facebook_access_token, cb) {
-        Member.app.datasources.Facebook.userData(facebook_access_token, function(err, fBUser) {
+    Member.facebookLogin = function(fb_access_token, cb) {
+        Member.app.datasources.Facebook.userData(fb_access_token, function(err, fBUser) {
             if (err) {
                 return cb(err, null);
             }

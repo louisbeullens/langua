@@ -11,11 +11,9 @@ export class TestResultsComponent implements OnInit {
     public results: any = null;
 
     constructor(private memberService: MemberService) {
-        console.log('resultComponent constructor');
     }
 
     ngOnInit() {
-        console.log('resultComponent ngOnInit');
         this.memberService.getResults().then(results => this.results = results).catch(err => console.log('getResults err', err));
     }
 
