@@ -6,10 +6,15 @@ project in git
 
 transverbs en transwords converteren
 
-login form maken
-
 http://freegeoip.net/json/:ip ip info opvragen
 
 ACL IpLocation toevoegen
 
-test...
+Anonieme gebruikers slechts 1 uur laten werken. (om aan te moedigen dat men registreert)
+
+Endpoint maken om anonieme gebruiker om te zetten naar geregistreerde gebruiker zonder dat huidige werk verloren gaat
+
+Aangemald blijven met Cookies?
+Melding geven dat cookies gebruikt worden
+
+Geldigheid token verkorten, maar sliding experation window gebruiken
