@@ -143,6 +143,29 @@ module.exports = function (Member) {
         returns: {type: 'AccessToken', root: true}
     });
 
+    Member.getRoles = function(memberId, cb) {
+        const sql = "SELECT DISTINCT Role.name FROM RoleMapping JOIN Role on RoleMapping.roleId=Role.id WHERE RoleMapping.principalType=? AND RoleMapping.principalId=?;";
+        Member.app.datasources.langua.connector.execute(sql,[Member.app.models.RoleMapping.USER, memberId], function(err, results) {
+            if (err) {
+                return cb(err, null);
+            }
+
+            const roles = [];
+
+            for (var i=0; i<results.length; i++) {
+                roles.push(results[i].name);
+            }
+
+            cb(err, roles);
+        });
+    }
+
+    Member.remoteMethod('getRoles', {
+        accepts: [{arg: 'id', type: 'string'}],
+        http: {path: '/:id/roles', verb: 'get'},
+        returns: {type: '[string]', root: true}
+    });
+
     Member.unfinishedTranslationTests = function (id, cb) {
 
         const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';

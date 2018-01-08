@@ -37,6 +37,8 @@ module.exports = function (app, next) {
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
         member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
+        role: [newModel, 'Role', [{name: 'admin'}]],
+        rolemapping: [newModel, 'RoleMapping', roleMappingCreate],
         iplocation: [newModel, 'IpLocation'],
         language: [importModel, 'Language', 'langs', {order: 'langid ASC'}, syncCreate, LanguageMapFn],
         tense: [importModel, 'Tense', 'tenses', {order: 'tensid ASC'}, syncCreate, TenseMapFn],
@@ -100,12 +102,36 @@ module.exports = function (app, next) {
         tasks.push(async.apply(...models[key], operation));
     }
 
-    function newModel(modelName, operation, cb) {
+    function newModel(modelName, create, operation, cb) {
+        if (typeof operation === 'function') {
+            cb = operation;
+            operation = create;
+            create = [];
+        }
         langua.autoupdate(modelName, function (err) {
             if (operation & 2) {
                 DEBUG('updated table', modelName);
             }
-            cb();
+
+            if (typeof create === 'object') {
+                if (operation & 1 && create.length > 0) {
+                    app.models[modelName].create(create, function(err) {
+                        if (err) {
+                            for (var i=0; i<err.length; i++) {
+                                if (err[i]) {
+                                    DEBUG(err[i].message);
+                                }
+                            }
+                        }
+                        cb(null);
+                    });
+                }
+                else {
+                    cb(null);
+                }
+            } else if (typeof create === 'function') {
+                create(cb);
+            }
         });
     }
 
@@ -187,7 +213,7 @@ module.exports = function (app, next) {
     function wordTypeCreate(modelName, results, mapFn, cb) {
         function createCallback(err) {
             app.models.WordType.create({name: 'WW'}, function (err) {
-                DEBUG('wordTypeCreate inserted');
+                DEBUG('wordTypeCreate inserted', modelName);
                 cb();
             })
         }
@@ -213,6 +239,34 @@ module.exports = function (app, next) {
             app.models[modelName].create(relatedToWords, function (err) {
                 DEBUG('relatedToWordCreate inserted', modelName);
                 cb();
+            });
+        });
+    }
+
+    function roleMappingCreate(cb) {
+        app.models.Role.findOne({where: {name: 'admin'}}, function(err, adminRole) {
+            function create(entry, cb) {
+                function createCallback(err) {
+                    if (err)
+                        DEBUG(err.message);
+                    return cb();
+                }
+
+                adminRole.principals.create(entry, createCallback);
+            }
+            app.models.Member.find({where: {or: [
+                {email:'louis@beullens.com'},
+                {email:'peter@beullens.com'}
+            ]}}, function(err, members) {
+                const tasks = [];
+                for (var i=0;i<members.length; i++) {
+                    tasks.push(async.apply(create, {principalType: app.models.RoleMapping.USER, principalId: members[i].id}));
+                }
+
+                async.series(tasks, function (err) {
+                    DEBUG('roleMappingCreate inserted');
+                    cb();
+                });
             });
         });
     }

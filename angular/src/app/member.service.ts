@@ -12,6 +12,7 @@ export class MemberService {
     private choosenLanguage = 2;
     private nativeLanguage = 4;
     private trainingLanguage = 2;
+    private roles: string[] = null;
 
     constructor(private api: ApiService) {
     }
@@ -21,6 +22,9 @@ export class MemberService {
             tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
+                this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
+                    this.roles = roles;
+                });
             })
         );
     }
@@ -30,6 +34,9 @@ export class MemberService {
             tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
+                this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
+                    this.roles = roles;
+                });
             })
         );
     }
@@ -70,6 +77,10 @@ export class MemberService {
         } else {
             return Promise.resolve({id: null, email: null, firstname: null, lastname: null});
         }
+    }
+
+    hasRole(role: string): boolean {
+        return (this.roles && this.roles.indexOf(role) !== -1) ? true : false;
     }
 
     getResults(): Promise<any> {
