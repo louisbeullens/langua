@@ -2,7 +2,7 @@
 
 module.exports = function (Test) {
 
-    var limit = 3;
+    var limit = 20;
 
     function createTestTranslations(ctx, next) {
         const selection = "word1Id," +

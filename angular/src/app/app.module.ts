@@ -24,6 +24,9 @@ import { TestConjugationQuestionComponent } from './test/conjugation/question/te
 import { TestResultsComponent } from './test/results/test-results.component';
 import { HomeComponent } from './home/home.component';
 import { FaqComponent } from './faq/faq.component';
+import { VerbListComponent } from './verb-list/verb-list.component';
+import { VerbDetailComponent } from './verb-detail/verb-detail.component';
+import { ConjugationDetailComponent } from './conjugation-detail/conjugation-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { FaqComponent } from './faq/faq.component';
     TestConjugationQuestionComponent,
     TestResultsComponent,
     HomeComponent,
-    FaqComponent
+    FaqComponent,
+    VerbListComponent,
+    VerbDetailComponent,
+    ConjugationDetailComponent
   ],
   imports: [
     BrowserModule,

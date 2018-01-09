@@ -7,6 +7,8 @@ import {TestConjugationsComponent} from "./test/conjugation/container/test-conju
 import {TestResultsComponent} from "./test/results/test-results.component";
 import {HomeComponent} from "./home/home.component";
 import {FaqComponent} from "./faq/faq.component";
+import {VerbListComponent} from "./verb-list/verb-list.component";
+import {VerbDetailComponent} from "./verb-detail/verb-detail.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -17,7 +19,9 @@ const routes: Routes = [
         { path: 'conjugations', component: TestConjugationsComponent },
         { path: 'results', component: TestResultsComponent },
     ] },
-    {path: 'faq', component: FaqComponent}
+    {path: 'faq', component: FaqComponent},
+    {path: 'verb/detail/:name', component: VerbDetailComponent},
+    {path: 'verblist', component: VerbListComponent}
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TestService} from '../../../test.service';
 import {Router} from "@angular/router";
 
@@ -14,7 +14,10 @@ export class TestTranslationQuestionComponent implements OnInit {
     public correction = '';
     public order = 1;
 
+    public specialChars: string[];
+
     constructor(private testService: TestService, private router: Router) {
+        this.specialChars = ['é','§','è','ç','à'];
     }
 
     ngOnInit() {
@@ -52,6 +55,10 @@ export class TestTranslationQuestionComponent implements OnInit {
         if ((event.which === 13 || event.keyCode === 13) && this.answer !== '') {
             this.onSubmit();
         }
+    }
+
+    insertChar(answerCtrl, char) {
+        answerCtrl.value += char;
     }
 
     onSubmit() {

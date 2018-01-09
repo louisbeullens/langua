@@ -69,6 +69,11 @@
       "foreignKey": "word2Id",
       "through": "Translation",
       "keyThrough": "word1Id"
+    },
+    "conjugations": {
+      "type": "hasMany",
+      "model": "Conjugation",
+      "foreignKey": "verbId"
     }
   },
   "acls": [

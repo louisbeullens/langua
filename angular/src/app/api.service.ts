@@ -20,19 +20,27 @@ export class ApiService {
 
     private createUrl(endpoint: string, params: Object ): string {
         let url = this.host + endpoint;
-        /*let value: any;
-        for (const key of Object.keys(params)) {
+        let query = '';
+        let value: any;
+        for (const key in params) {
+             if (query === '') {
+                 query = '?';
+             } else {
+                 query += '&';
+             }
              value = params[key];
              if (typeof value === 'number') {
                  value = value.toString();
              } else if (typeof value === 'object') {
                  value = JSON.stringify(value);
              }
-        }*/
-        if (this.accessToken) {
-            url += '?access_token=' + this.accessToken;
+             query += key + '=' + value;
         }
-        return encodeURI(url);
+        if (this.accessToken) {
+            query += (query === '') ? '?' : '&';
+            query += 'access_token=' + this.accessToken;
+        }
+        return encodeURI(url + query);
     }
 
     setAccessToken(accessToken: string) {

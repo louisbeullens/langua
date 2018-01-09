@@ -1,0 +1,8 @@
+<p *ngIf="verb">
+    {{verb.singular}}
+</p>
+
+<div *ngIf="conjugations && conjugations.length > 0">
+    <app-conjugation-detail [languageId]="1" [baseLength]="verb.singular.length - 2" [conjugation]="conjugations[0]"></app-conjugation-detail>
+</div>
+

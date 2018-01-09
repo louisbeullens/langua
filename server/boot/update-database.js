@@ -314,6 +314,7 @@ module.exports = function (app, next) {
             hint: a.verbtip,
             _old_id: a.verbid,
             languageId: a.verblangid,
+            index: a.verbindex,
             wordTypeId: 19
         };
     }
