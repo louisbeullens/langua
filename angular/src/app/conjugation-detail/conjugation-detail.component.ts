@@ -20,7 +20,7 @@ export class ConjugationDetailComponent implements OnInit {
   ngOnInit() {
     switch (this.languageId) {
         case 1:
-          this.forms = ['', 'Yo', 'Tú', 'Él', 'Nosotros', 'Vosotros', 'Ellos'];
+          this.forms = ['', 'Yo', 'Tú', 'Él / Élla', 'Nosotros / Nosotras', 'Vosotros / Vosotras', 'Ellos / Ellas'];
           break;
         default:
           this.forms = ['','','','','','',''];
