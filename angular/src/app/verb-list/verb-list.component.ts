@@ -11,7 +11,8 @@ declare var document;
 })
 export class VerbListComponent implements OnInit, AfterViewInit {
 
-    public indexedVerbs = [];
+    public fragments: string[] = null;
+    public indexedVerbs: object[] = null;
 
     constructor(private api: ApiService, private route: ActivatedRoute) {
     }
@@ -22,8 +23,11 @@ export class VerbListComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this.route.fragment.subscribe(fragment => {
-            if (fragment === 'D') {
-                document.querySelector('#D').scrollIntoView({behavior: 'smooth'});
+            if (fragment && fragment.length === 1 && fragment >= 'A' && fragment <= 'Z') {
+                const element = document.querySelector('#'+fragment);
+                if (element) {
+                    element.scrollIntoView({behavior: 'smooth'});
+                }
             }
         });
     }
@@ -39,12 +43,14 @@ export class VerbListComponent implements OnInit, AfterViewInit {
             order: 'index ASC'
         };
         this.api.get<any>('/Words', {filter: filter}).subscribe(verbs => {
+            this.indexedVerbs = [];
+            this.fragments = [];
             verbs = verbs.map(entry => entry.index);
-            let index = 'A';
-            this.indexedVerbs.push({index: 'A', verbs: []})
+            let index = '@';
             for (let i = 0; i < verbs.length; i++) {
                 if (verbs[i][0].toUpperCase() > index) {
                     index = verbs[i][0].toUpperCase();
+                    this.fragments.push(index);
                     this.indexedVerbs.push({index: index, verbs: []});
                 }
                 this.indexedVerbs[this.indexedVerbs.length - 1].verbs.push(verbs[i]);
