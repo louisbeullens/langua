@@ -12,7 +12,7 @@ declare var document;
 export class VerbListComponent implements OnInit, AfterViewInit {
 
     public fragments: string[] = null;
-    public indexedVerbs: object[] = null;
+    public indexedVerbs: any = null;
 
     constructor(private api: ApiService, private route: ActivatedRoute) {
     }
@@ -45,11 +45,13 @@ export class VerbListComponent implements OnInit, AfterViewInit {
         this.api.get<any>('/Words', {filter: filter}).subscribe(verbs => {
             this.indexedVerbs = [];
             this.fragments = [];
-            verbs = verbs.map(entry => entry.index);
+            verbs = verbs.map(entry => {
+                return {singular: entry.singular, index: entry.index};
+            });
             let index = '@';
             for (let i = 0; i < verbs.length; i++) {
-                if (verbs[i][0].toUpperCase() > index) {
-                    index = verbs[i][0].toUpperCase();
+                if (verbs[i].index[0].toUpperCase() > index) {
+                    index = verbs[i].index[0].toUpperCase();
                     this.fragments.push(index);
                     this.indexedVerbs.push({index: index, verbs: []});
                 }

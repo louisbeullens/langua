@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from "../api.service";
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'app-verb-detail',
@@ -55,7 +56,15 @@ export class VerbDetailComponent implements OnInit {
                 ]},
                 order: 'tenseId ASC'
             };
-            this.conjugations = await this.api.get<any>('/Conjugations', {filter: conjugationFilter}).toPromise();
+            const conjugationList = await this.api.get<any>('/Conjugations', {filter: conjugationFilter}).toPromise();
+            console.log('conjugationList',conjugationList);
+            const conjugations = {};
+
+            for (let i=0; i<conjugationList.length; i++) {
+                conjugations[conjugationList[i].tense.id] = conjugationList[i];
+            }
+
+            this.conjugations = conjugations;
             console.log(this.conjugations);
         });
     }
