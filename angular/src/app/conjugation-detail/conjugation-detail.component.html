@@ -1,12 +1,12 @@
-<div *ngIf="conjugation">
-    <table>
-        <tr>
-            <td colspan="2">{{conjugation.tense.name}}</td>
+<div class="conjugations" *ngIf="conjugation">
+    <table width="100%">
+        <tr align="center">
+            <th colspan="2"><b>{{conjugation.tense.name}}</b></th>
         </tr>
-        <tr *ngFor="let i of [1,2,3,4,5,6]">
-            <td align="right">{{forms[i]}}&nbsp;</td>
-                <td *ngIf="conjugation['form' + i.toString() + 'Regular'] === true"><b>{{conjugation['form' + i.toString()].slice(0,baseLength)}}</b>{{conjugation['form' + i.toString()].slice(baseLength)}}</td>
-                <td *ngIf="conjugation['form' + i.toString() + 'Regular'] === false"><b style="color: red;">{{conjugation['form' + i.toString()]}}</b></td>
+        <tr align="center" *ngFor="let i of [1,2,3,4,5,6]">
+            <td align="right" width="60%" style="color:#969696;">{{forms[i]}}&nbsp;&nbsp;</td>
+            <td align="left" width="40%" *ngIf="conjugation['form' + i.toString() + 'Regular'] === true"><b>{{conjugation['form' + i.toString()].slice(0,baseLength)}}</b>{{conjugation['form' + i.toString()].slice(baseLength)}}</td>
+            <td align="left" width="40%" *ngIf="conjugation['form' + i.toString() + 'Regular'] === false"><b style="color: red;">{{conjugation['form' + i.toString()]}}</b></td>
         </tr>
     </table>
 </div>

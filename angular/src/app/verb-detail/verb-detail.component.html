@@ -1,5 +1,10 @@
-<section class="mainContent full-width clearfix">
+<section class="full-width clearfix">
     <div class="container">
+        <div>
+            <h1 *ngIf="verb" style="font-size: 4em; font-style: italic; color:#969696; font-weight: lighter;">
+                <br>{{verb.singular}}
+            </h1>
+        </div>
         <div class="row">
             <div class="col-md-3 col-md-push-9 col-sm-5 col-sm-push-7 col-xs-12">
                 <aside>
@@ -9,7 +14,8 @@
                         </div>
                         <div class="panel-body">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Enter Your Search" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder="Enter Your Search"
+                                       aria-describedby="basic-addon2">
                                 <span class="input-group-addon" id="basic-addon2">
                                     <input class="btn btn-primary bg-color-1" type="submit" value="Search">
                                 </span>
@@ -64,133 +70,143 @@
                 </aside>
             </div>
             <div class="col-md-9 col-md-pull-3 col-sm-7 col-sm-pull-5 col-xs-12">
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-1" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-1.jpg" alt="Image">
-                        <span class="sticker bg-color-1">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-1">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-
-                        <div class="col-sm-6">
-                            <app-conjugation-detail *ngIf="conjugations && conjugations[4]" [languageId]="1" [baseLength]="verb.singular.length - 2"
-                                [conjugation]="conjugations[4]"></app-conjugation-detail>
+                <div class="panel panel-default courseSidebar">
+                    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif"><h1 style="font-size: 20px;">Persoonlijke vormen</h1></div>
+                    <div class="panel-heading bg-color-2 border-color-2">
+                        <div class="row">
+                        <h3 class="panel-title text-center">Aantonende wijs</h3>
+                        <div class="mode col-sm-6 text-center">
+                            <p>Enkelvoudige tijden</p>
                         </div>
-                        <div class="col-sm-6">
-                            <app-conjugation-detail *ngIf="conjugations && conjugations[7]" [languageId]="1" [baseLength]="verb.singular.length - 2"
-                                [conjugation]="conjugations[7]"></app-conjugation-detail>
+                        <div class="mode col-sm-6 text-center">
+                            <p>Samengestelde tijden</p>
                         </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[4]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[4]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[7]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[7]"></app-conjugation-detail>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[5]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[5]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[2]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[2]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[9]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[9]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default courseSidebar">
+                    <div class="panel-heading bg-color-2 border-color-2">
+                        <div class="row">
+                            <h3 class="panel-title text-center">Aanvoegende wijs</h3>
+                            <div class="mode col-sm-6 text-center">
+                                <p>Enkelvoudige tijden</p>
+                            </div>
+                            <div class="mode col-sm-6 text-center">
+                                <p>Samengestelde tijden</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[12]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[12]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default courseSidebar">
+                    <div class="panel-heading bg-color-2 border-color-2">
+                        <div class="row">
+                            <h3 class="panel-title text-center">Gebiedende wijs</h3>
+                            <div class="mode col-sm-6 text-center">
+                                <p>Enkelvoudige tijden</p>
+                            </div>
+                            <div class="mode col-sm-6 text-center">
+                                <p>Samengestelde tijden</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[10]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[10]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[11]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[11]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default courseSidebar">
+                    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif"><h1 style="font-size: 20px;">Onpersoonlijke vormen</h1></div>
+                    <div class="panel-heading bg-color-2 border-color-2">
+                        <div class="row">
+                            <div class="mode col-sm-6 text-center">
+                                <p>Enkelvoudige tijden</p>
+                            </div>
+                            <div class="mode col-sm-6 text-center">
+                                <p>Samengestelde tijden</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <app-conjugation-detail *ngIf="conjugations && conjugations[8]" [languageId]="1"
+                                                        [baseLength]="verb.singular.length - 2"
+                                                        [conjugation]="conjugations[8]"></app-conjugation-detail>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <ul class="list-inline btn-yellow btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-2" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-2.jpg" alt="Image">
-                        <span class="sticker bg-color-2">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-2">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-green btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-3" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-3.jpg" alt="Image">
-                        <span class="sticker bg-color-3">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-3">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-red btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-4" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-4.jpg" alt="Image">
-                        <span class="sticker bg-color-4">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-4">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-sky btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="media courseList couresListPage">
                     <a class="media-left border-color-5" href="course-single-left-sidebar.html">
                         <img class="media-object" src="img/home/courses/course-1.jpg" alt="Image">
@@ -202,12 +218,16 @@
                         </h3>
                         <ul class="list-inline">
                             <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years
+                            </li>
                             <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM
+                            </li>
                         </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
+                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain
+                            was
+                            born and I will give you a complete account of the system, and expound the actual teachings
+                            of
                             the great explorer.</p>
                         <ul class="list-inline btn-purple btnPart">
                             <li>
@@ -232,12 +252,16 @@
                         </h3>
                         <ul class="list-inline">
                             <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years
+                            </li>
                             <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM
+                            </li>
                         </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
+                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain
+                            was
+                            born and I will give you a complete account of the system, and expound the actual teachings
+                            of
                             the great explorer.</p>
                         <ul class="list-inline btn-pink btnPart">
                             <li>
@@ -254,38 +278,5 @@
             </div>
         </div>
 
-        <div class="pagerArea text-center">
-            <ul class="pager">
-                <li class="prev">
-                    <a href="#">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>Prev</a>
-                </li>
-                <li>
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">...</a>
-                </li>
-                <li>
-                    <a href="#">15</a>
-                </li>
-                <li class="next">
-                    <a href="#">Next
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
     </div>
 </section>
-
-
-<p *ngIf="verb">
-    {{verb.singular}}
-</p>

@@ -66,20 +66,20 @@
                     <div class="col-xs-12">
                         <div class="tabCommon media-left">
                             <ul class="nav nav-tabs">
-                                <li *ngFor="let fragment of fragments"><a style="padding:0px 8px 0px 8px;" data-toggle="tab" routerLink="/verblist" fragment="{{fragment}}">{{fragment}}</a></li>
+                                <li *ngFor="let fragment of fragments"><a style="padding:0px 9px 0px 8px;" data-toggle="tab" routerLink="/verblist" fragment="{{fragment}}">{{fragment}}</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div  *ngFor="let part of indexedVerbs" class="media courseList couresListPage">
+                <div  *ngFor="let part of indexedVerbs" class="media courseList couresListPage" style="min-height: 100px;">
                     <a id="{{part.index}}" class="media-left border-color-1" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-1.jpg" alt="Image">
-                        <span class="sticker bg-color-1">{{part.index}}</span>
+
+                        <span class="sticker bg-color-1">{{part.index}}</span> <!-- TODO Kleur veranderen in kleur van 'vervoegen' -->
                     </a>
-                    <div class="media-body" style="padding:10px;">
+                    <div class="media-body" style="padding:15px 15px 15px 115px;">
                         <ng-container *ngFor="let verb of part.verbs;last as isLast">
-                                <a routerLink="/verb/detail/{{verb.index}}">{{verb.singular}}</a>
-                                <ng-container *ngIf="isLast === false"> &bull; </ng-container>
+                                <a routerLink="/verb/detail/{{verb.index}}">{{verb.singular}}</a> <!-- TODO Tooltip met vertaling tonen? -->
+                                <ng-container *ngIf="isLast === false">&nbsp; &bull; &nbsp;</ng-container>
                             </ng-container>
                     </div>
                 </div>

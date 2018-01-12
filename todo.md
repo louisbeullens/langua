@@ -18,3 +18,6 @@ Aangemald blijven met Cookies?
 Melding geven dat cookies gebruikt worden
 
 Geldigheid token verkorten, maar sliding experation window gebruiken
+
+Bij engelse taal, werkwoord 'to do', ervoor zorgen dat die (zonder spatie) kunnen meegegeven worden naar /verb/detail
+(bv. streepjes in werkwoorden vervangen door spaties)  Ook voor wederkerige werkwoorden
