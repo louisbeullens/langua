@@ -35,7 +35,7 @@
 
     <ng-container *ngIf="tests && tests.length > 0">
         <b>Test hervatten</b>
-        <div *ngFor="let test of tests | async">
+        <div *ngFor="let test of tests">
             <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
             <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button>
             <hr>

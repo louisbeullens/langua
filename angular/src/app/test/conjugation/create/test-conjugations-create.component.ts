@@ -18,7 +18,7 @@ export class TestConjugationsCreateComponent implements OnInit {
 
     public tenseIds = [];
 
-    public tests: Observable<any>;
+    public tests = [];
 
     constructor(private api: ApiService, private memberService: MemberService, private testService: TestService) {
     }
@@ -29,7 +29,9 @@ export class TestConjugationsCreateComponent implements OnInit {
         this.tenses = this.getTenses();
 
         if (await this.memberService.getMemberId(false)) {
-            this.tests = await this.testService.getUnfinishedConjugationTests();
+            this.testService.getUnfinishedConjugationTests().subscribe(tests => {
+                this.tests = tests;
+            });
         }
     }
 

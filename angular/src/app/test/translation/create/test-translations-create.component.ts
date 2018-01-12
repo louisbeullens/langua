@@ -15,9 +15,9 @@ export class TestTranslationsCreateComponent implements OnInit {
     public wordTypes: Observable<any>;
     public toLanguageId: number;
     public fromLanguageId: number;
-    public tests: Observable<any>;
+    public tests = [];
     public selection = 0;
-    private wordTypeIds = [];
+    public wordTypeIds = [];
 
     constructor(private api: ApiService, private memberService: MemberService, private testService: TestService) {
     }
@@ -30,7 +30,9 @@ export class TestTranslationsCreateComponent implements OnInit {
         this.wordTypes = this.getWordTypes();
 
         if (await this.memberService.getMemberId(false)) {
-            this.tests = await this.testService.getUnfinishedTranslationTests();
+            this.testService.getUnfinishedTranslationTests().subscribe(tests => {
+                this.tests = tests;
+            });
         }
     }
 

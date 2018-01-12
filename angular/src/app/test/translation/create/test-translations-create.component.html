@@ -26,9 +26,9 @@
         <input type="radio" name="selection" [(ngModel)]="selection" [value]="3"> nooit goed gemaakte vragen
     </div><br>
 
-    <ng-container *ngIf="tests">
+    <ng-container *ngIf="tests && tests.length">
         <b>Test hervatten</b>
-        <div *ngFor="let test of tests | async">
+        <div *ngFor="let test of tests">
             <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
             <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button>
             <hr>

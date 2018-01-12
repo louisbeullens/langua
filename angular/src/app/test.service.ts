@@ -63,11 +63,11 @@ export class TestService {
     }
 
     getUnfinishedTranslationTests() {
-        return this.api.get('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedTranslationTests');
+        return this.api.get<any[]>('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedTranslationTests');
     }
 
     getUnfinishedConjugationTests() {
-        return this.api.get('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedConjugationTests');
+        return this.api.get<any[]>('/Members/' + this.memberService.getMemberIdSync().toString() + '/unfinishedConjugationTests');
     }
 
     getQuestion(order = null): Observable<any> {

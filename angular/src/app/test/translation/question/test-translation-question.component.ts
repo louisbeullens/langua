@@ -16,7 +16,7 @@ export class TestTranslationQuestionComponent implements OnInit {
 
     public specialChars: string[];
 
-    constructor(private testService: TestService, private router: Router) {
+    constructor(public testService: TestService, private router: Router) {
         this.specialChars = ['é','§','è','ç','à'];
     }
 
