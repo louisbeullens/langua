@@ -34,89 +34,22 @@
                     <div class="col-sm-5">
                         <ul class="list-inline functionList">
                             <li><i class="fa fa-globe bg-color-4" aria-hidden="true"></i></li>
-                            <li class="LanguageList">
-                                <select name="guiest_id1" id="guiest_id1" class="select-drop"
-                                        [ngModel]="memberService.getCurrentLanguageId()">
-                                    <option *ngFor="let language of languages" [ngValue]="language.id">
+                            <li>
+                                <form (ngSubmit)="search()">
+                                <input type="text" name="searchCtrl" style="width:100px; color: black;" [(ngModel)]="searchValue">
+                            </form>
+                            </li>
+                            <li><i class="fa fa-globe bg-color-4" aria-hidden="true"></i></li>
+                            <li>
+                                <select class="languages" [ngModel]="memberService.getCurrentLanguageId()" (change)="onLanguageChange($event)">
+                                    <option *ngFor="let language of languages" [attr.value]="language.id">
                                         {{language.name}}
                                     </option>
                                 </select>
                             </li>
                             <li><i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i> <a routerLink="/login">Login
                                 or Create an account</a></li>
-                            <li class="cart-dropdown">
-                                <a href="#" class="bg-color-6 shop-cart">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>
-                                    <span class="badge bg-color-1">3</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><i class="fa fa-shopping-basket " aria-hidden="true"></i>3 items in your cart
-                                    </li>
-                                    <li>
-                                        <a href="single-product.html">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="img/home/cart/cart-img.png" alt="cart-Image">
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4>Barbie Racing Car</h4>
-                                                    <div class="price">
-                                                        <span class="color-1">$50</span>
-                                                    </div>
-                                                    <span class="amount">Qnt: 1</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <span class="cancel"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                    </li>
-                                    <li>
-                                        <a href="single-product.html">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="img/home/cart/cart-img.png" alt="cart-Image">
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4>Barbie Racing Car</h4>
-                                                    <div class="price">
-                                                        <span class="color-1">$50</span>
-                                                    </div>
-                                                    <span class="amount">Qnt: 1</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <span class="cancel"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                    </li>
-                                    <li>
-                                        <a href="single-product.html">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="img/home/cart/cart-img.png" alt="cart-Image">
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4>Barbie Racing Car</h4>
-                                                    <div class="price">
-                                                        <span class="color-1">$50</span>
-                                                    </div>
-                                                    <span class="amount">Qnt: 1</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <span class="cancel"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                    </li>
-                                    <li>
-                                        <span class="cart-total">Subtotal</span>
-                                        <span class="cart-price">$150</span>
-                                        <div class="cart-button">
-                                            <button type="button" class="btn btn-primary"
-                                                    onclick="location.href='checkout-step-1.html'">Checkout
-                                            </button>
-                                            <button type="button" class="btn btn-primary"
-                                                    onclick="location.href='cart-page.html'">View Cart
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>

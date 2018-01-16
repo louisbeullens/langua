@@ -14,7 +14,6 @@ export class ConjugationDetailComponent implements OnInit {
   public forms = null;
 
   constructor() {
-    console.log('langId', this.languageId);
   }
 
   ngOnInit() {

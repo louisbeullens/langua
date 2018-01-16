@@ -27,6 +27,7 @@ import { FaqComponent } from './faq/faq.component';
 import { VerbListComponent } from './verb-list/verb-list.component';
 import { VerbDetailComponent } from './verb-detail/verb-detail.component';
 import { ConjugationDetailComponent } from './conjugation-detail/conjugation-detail.component';
+import { HighlightPipe } from './highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ConjugationDetailComponent } from './conjugation-detail/conjugation-det
     FaqComponent,
     VerbListComponent,
     VerbDetailComponent,
-    ConjugationDetailComponent
+    ConjugationDetailComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

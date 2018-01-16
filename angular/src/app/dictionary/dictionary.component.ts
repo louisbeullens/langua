@@ -7,16 +7,16 @@ import {SearchService} from "../search.service";
   styleUrls: ['./dictionary.component.css']
 })
 export class DictionaryComponent implements OnInit {
-  results;
+  public results = [];
 
   constructor(private searchService: SearchService) { }
 
   ngOnInit() {
       this.results = this.searchService.getResults();
-      this.searchService.resultsChanged.subscribe( (searchValue) => this.onResultsChanged(searchValue) );
+      this.searchService.resultsChanged.subscribe(_ => this.onResultsChanged() );
   }
 
-  onResultsChanged(searchValue): void {
+  onResultsChanged(): void {
     this.results = this.searchService.getResults();
   }
 }

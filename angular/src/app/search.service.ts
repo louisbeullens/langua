@@ -3,10 +3,11 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {HttpClient} from "@angular/common/http";
-import {Settings} from "./settings";
 
 import {Router} from "@angular/router";
 import {MemberService} from "./member.service";
+import { ApiService } from './api.service';
+import { Subject } from 'rxjs/Subject';
 
 interface Word {
   singular: string;
@@ -15,12 +16,12 @@ interface Word {
 
 @Injectable()
 export class SearchService {
-    @Output() resultsChanged = new EventEmitter<string>();
-    private settings = Settings;
     private words = [];
     private searchValue = '';
+    public resultsChanged: Subject<any>;
 
-    constructor(private http: HttpClient, private router: Router, private memberService: MemberService) {
+    constructor(private api: ApiService, private router: Router, private memberService: MemberService) {
+        this.resultsChanged = new Subject<any>();
         this.memberService.currentLanguageIdChanged.subscribe( () => this.requestResults(this.searchValue) );
     }
 
@@ -30,7 +31,7 @@ export class SearchService {
     }
 
     requestResults(searchValue: string): void {
-        const filter = encodeURI(JSON.stringify({
+        const filter = {
             include: 'wordType',
             where: {
                 and: [
@@ -41,25 +42,21 @@ export class SearchService {
                     {languageId: this.memberService.getCurrentLanguageId()}
                 ]
             }
-        }));
+        };
         console.log(filter);
-        this.http.get<Object[]>(this.settings.host + '/api/Words?filter=' + filter).subscribe(words => {
-            console.log('http response');
+        this.api.get<Object[]>('/Words', {filter: filter}).subscribe(words => {
             words.sort(function(a: Word, b: Word) {
                 const c = (a.singular !== '') ? a.singular : a.plural;
                 const d = (b.singular !== '') ? b.singular : b.plural;
                 return (c > d) ? 1 : 0;
             });
+            console.log('words', words);
             this.words = words;
-            this.router.navigateByUrl('/dictionary');
-            this.resultsChanged.emit(searchValue);
+            this.resultsChanged.next();
         }, err => console.log(err));
     }
 
     getResults() {
-        console.log('getResults', this.words.length);
-        console.log(this.words);
         return this.words;
     }
-
 }

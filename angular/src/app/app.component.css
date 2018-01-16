@@ -1,0 +1,9 @@
+.languages {
+    color: white;
+    border: 0;
+    background-color: black;
+}
+
+.languages > option {
+    background-color: grey;
+}
