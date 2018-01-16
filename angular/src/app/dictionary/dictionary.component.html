@@ -1,5 +1,75 @@
-<h1>Dictionary</h1>
-<ul *ngIf="results.length > 0">
-  <app-dictionary-item [item]="result" *ngFor="let result of results"></app-dictionary-item>
-</ul>
-<p *ngIf="results.length == 0">Geen resultaten gevonden</p>
+<!-- MAIN SECTION -->
+<section class="mainContent full-width clearfix">
+    <div class="container">
+        <h1>Woordenboek</h1>
+        <div class="resultInfo">
+            <h3>Woordenboek</h3>
+        </div>
+        <div class="input-group searchArea">
+            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                   placeholder="Zoek woord(en)...">
+            <button type="submit" class="input-group-addon button" id="basic-addon21">Zoeken</button>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-12 pull-left">
+                <aside>
+                    <div class="rightSidebar">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-color-4 border-color-4">
+                                <h3 class="panel-title">Nederlands - Spaans</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul *ngIf="results.length > 0">
+                                    <app-dictionary-item [item]="result"
+                                                         *ngFor="let result of results"></app-dictionary-item>
+                                </ul>
+                                <p *ngIf="results.length == 0">Geen resultaten gevonden</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-md-6 col-xs-12 pull-left">
+                <aside>
+                    <div class="rightSidebar">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-color-4 border-color-4">
+                                <h3 class="panel-title">Spaans - Nederlands</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul *ngIf="results.length > 0">
+                                    <app-dictionary-item [item]="result"
+                                                         *ngFor="let result of results"></app-dictionary-item>
+                                </ul>
+                                <p *ngIf="results.length == 0">Geen resultaten gevonden</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <!-- COLOR BAR -->
+    <div class="container-fluid color-bar clearfix">
+        <div class="row">
+            <div class="col-sm-1 col-xs-2 bg-color-1">fix bar</div>
+            <div class="col-sm-1 col-xs-2 bg-color-2">fix bar</div>
+            <div class="col-sm-1 col-xs-2 bg-color-3">fix bar</div>
+            <div class="col-sm-1 col-xs-2 bg-color-4">fix bar</div>
+            <div class="col-sm-1 col-xs-2 bg-color-5">fix bar</div>
+            <div class="col-sm-1 col-xs-2 bg-color-6">fix bar</div>
+            <div class="col-sm-1 bg-color-1 hidden-xs">fix bar</div>
+            <div class="col-sm-1 bg-color-2 hidden-xs">fix bar</div>
+            <div class="col-sm-1 bg-color-3 hidden-xs">fix bar</div>
+            <div class="col-sm-1 bg-color-4 hidden-xs">fix bar</div>
+            <div class="col-sm-1 bg-color-5 hidden-xs">fix bar</div>
+            <div class="col-sm-1 bg-color-6 hidden-xs">fix bar</div>
+        </div>
+    </div>

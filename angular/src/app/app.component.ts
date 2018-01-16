@@ -41,7 +41,7 @@ export class AppComponent {
         }
     }
 
-    onLanguageChange(event) {
-        this.memberService.changeCurrentLanguageId(event.target.value);
+    onLanguageChange(languageId) {
+        this.memberService.changeCurrentLanguageId(languageId);
     }
 }

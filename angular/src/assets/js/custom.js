@@ -34,9 +34,6 @@ jQuery(document).ready(function(){
     $(window).trigger('scroll');
   });
 
-//============================== SELECT BOX =========================
-  //$('.select-drop').selectbox();
-
 //============================== MENU DROPDOWN ON HOVER =========================
   var header_area = $('.header-wrapper');
   if (header_area.width() > 750) {

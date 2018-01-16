@@ -29,27 +29,34 @@
                                     href="mailto:info@yourdomain.com">info@langua.be</a></li>
                             <!--<li><i class="fa fa-phone bg-color-2" aria-hidden="true"></i> +1 234 567 8900</li>-->
                             <li><i class="fa fa-clock-o bg-color-6" aria-hidden="true"></i> Open: 24/7</li>
+                            <li><i class="fa fa-book bg-color-4" aria-hidden="true"></i></li>
+                            <li>
+                                <form (ngSubmit)="search()">
+                                    <input class="searchbox" type="text" name="searchCtrl" [(ngModel)]="searchValue"
+                                           placeholder="Zoek woord...">
+                                </form>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-sm-5">
                         <ul class="list-inline functionList">
-                            <li><i class="fa fa-globe bg-color-4" aria-hidden="true"></i></li>
-                            <li>
-                                <form (ngSubmit)="search()">
-                                <input type="text" name="searchCtrl" style="width:100px; color: black;" [(ngModel)]="searchValue">
-                            </form>
+                            <li class="dropdown singleDrop color-4 ">
+                                <i class="fa fa-globe bg-color-6" aria-hidden="true"></i>
+                                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"
+                                   role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <span>Language</span><span class="caret"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li class="" *ngFor="let language of languages" [attr.value]="language.id">
+                                        <a (click)="onLanguageChange(language.id)">{{language.name}}</a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><i class="fa fa-globe bg-color-4" aria-hidden="true"></i></li>
                             <li>
-                                <select class="languages" [ngModel]="memberService.getCurrentLanguageId()" (change)="onLanguageChange($event)">
-                                    <option *ngFor="let language of languages" [attr.value]="language.id">
-                                        {{language.name}}
-                                    </option>
-                                </select>
+                                <i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i>
+                                <a routerLink="/login">Inloggen of Aanmelden</a>
                             </li>
-                            <li><i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i> <a routerLink="/login">Login
-                                or Create an account</a></li>
-                            
                         </ul>
                     </div>
                 </div>
@@ -74,23 +81,22 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown singleDrop color-1   active ">
+                        <li class="dropdown singleDrop color-6 ">
                             <a routerLink="/" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-home bg-color-1" aria-hidden="true"></i> <span
-                                    class="active">Home</span>
+                                <i class="fa fa-home bg-color-6" aria-hidden="true"></i> <span
+                                    class="">Home</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-left">
-                                <li class=" active "><a href="index.html">Kidz School</a></li>
-                                <li class=""><a href="index-v2.html">Kidz Store</a></li>
-                                <li class=""><a href="index-v3.html">Kidz Daycare</a></li>
-                                <li class=""><a href="index-v4.html">Kidz Fashion</a></li>
+                                <li class=" active "><a href="index.html">Lid worden</a></li>
+                                <li class=""><a href="index-v2.html">Veelgestelde vragen</a></li>
+                                <li class=""><a href="index-v3.html">Help</a></li>
                             </ul>
                         </li>
                         <li class="dropdown singleDrop color-3 ">
                             <a routerLink="/test/translations" class="dropdown-toggle" data-toggle="dropdown"
                                role="button" aria-haspopup="true" aria-expanded="false"><i
-                                    class="fa fa-list-ul bg-color-3" aria-hidden="true"
+                                    class="fa fa-exchange bg-color-3" aria-hidden="true"
                                     (click)="testService.resetTest()"></i> <span>vertalen</span></a>
                             <ul class="dropdown-menu dropdown-menu-left">
                                 <li class=" "><a href="about_us.html">About</a></li>
@@ -104,10 +110,7 @@
                                     </ul>
                                 </li>
                                 <li class=" "><a href="testimonial.html">Testimonial</a></li>
-                                <li class="dropdown dropdown-submenu
-                     ||
-                     ||
-                     ">
+                                <li class="dropdown dropdown-submenu">
                                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Events
                                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     </a>
@@ -128,13 +131,12 @@
                                 <li class=""><a href="faq.html">FAQ</a></li>
                                 <li class=""><a href="sign-up-or-login.html">Sign Up / Login</a></li>
                                 <li class=""><a href="404.html">Error 404</a></li>
-                                <li><a href="coming-soon.html">Coming Soon</a></li>
                             </ul>
                         </li>
                         <li class=" dropdown megaDropMenu color-2 ">
                             <a routerLink="/test/conjugations" class="dropdown-toggle" data-toggle="dropdown"
                                data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false">
-                                <i class="fa fa-file-text-o bg-color-2" aria-hidden="true"
+                                <i class="fa fa-calendar-o bg-color-2" aria-hidden="true"
                                    (click)="testService.resetTest()"></i>
                                 <span>Vervoegen</span>
                             </a>
@@ -183,14 +185,11 @@
                         <li class="dropdown singleDrop color-4 ">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-pencil-square-o bg-color-4" aria-hidden="true"></i>
-                                <span>Store</span>
+                                <i class="fa fa-book bg-color-4" aria-hidden="true"></i>
+                                <span>Boeken</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li class="dropdown dropdown-submenu
-                     ||
-                     ||
-                     ">
+                                <li class="dropdown dropdown-submenu">
                                     <a href="javascript:void(0)" class="dropdown-toggle " data-toggle="dropdown">Products<i
                                             class="fa fa-chevron-right" aria-hidden="true"></i>
                                     </a>
@@ -204,30 +203,16 @@
                                 <li class=""><a href="single-product.html">Single Product</a></li>
                                 <li class=""><a href="category.html">Product Categories</a></li>
                                 <li class=""><a href="cart-page.html">Cart</a></li>
-                                <li class="dropdown dropdown-submenu">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Checkout<i
-                                            class="fa fa-chevron-right" aria-hidden="true"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=" "><a href="checkout-step-1.html">Personal Info</a></li>
-                                        <li class=" "><a href="checkout-step-2.html">Payment Info</a></li>
-                                        <li class=" "><a href="checkout-step-3.html">Confirmation</a></li>
-                                    </ul>
-                                </li>
                             </ul>
                         </li>
-                        <li class="dropdown singleDrop color-5  ">
+                        <li class="dropdown singleDrop color-1  ">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-calendar bg-color-5" aria-hidden="true"></i>
-                                <span>Blog</span>
+                                <i class="fa fa-file-text-o bg-color-1" aria-hidden="true"></i>
+                                <span>Lijsten</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li class="dropdown dropdown-submenu
-                     ||
-                    
-                    
-                  ">
+                                <li class="dropdown dropdown-submenu">
                                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Blog
                                         Grid<i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     </a>
@@ -239,25 +224,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown dropdown-submenu
-                     ||
-                     ||
-                     ">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Blog
-                                        List<i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=""><a href="blog-list.html">Blog List Fullwidth</a></li>
-                                        <li class=""><a href="blog-list-left-sidebar.html">Blog List Left Sidebar</a>
-                                        </li>
-                                        <li class=""><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown dropdown-submenu
-                     ||
-                     ||
-                     ">
+                                <li class="dropdown dropdown-submenu">
                                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Single
                                         Blog<i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     </a>
@@ -446,7 +413,7 @@
                         </div>
                         <div class="footerInfo">
                             <p>Schrijf je in op onze mailing list en ontvang het laaste Langua nieuws en -aanbiedingen
-                                in je mailbox.</p>
+                                in je mailbox.<br>&nbsp;</p>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Email adres"
                                        aria-describedby="basic-addon21">

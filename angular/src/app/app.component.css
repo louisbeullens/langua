@@ -1,9 +1,28 @@
-.languages {
-    color: white;
-    border: 0;
-    background-color: black;
+.searchbox {
+    color: #333333 !important;
+    border: 0px;
+    border-radius: 5px;
+    padding: 2px 2px 2px 12px;
+    margin: 0px 0px 0px -25px;
+    min-width: 160px;
 }
 
-.languages > option {
-    background-color: grey;
+.dropdown-menu > li > a {
+    color: #333333 !important;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.dropdown-menu > li > a:hover {
+    color: #666666 !important;
+    padding: 5px 0px 5px 30px;
+    cursor: pointer;
+}
+
+.footerInfoArea {
+    height: 330px;
+}
+
+.footerInfo > p {
+    margin: 8px 0px;
 }
