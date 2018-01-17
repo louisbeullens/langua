@@ -22,6 +22,7 @@ export class AppComponent {
         {name:'Frans', id:5}
     ];
 
+    public currentLanguage = 'Engels';
     public searchValue = '';
 
     constructor(public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
@@ -41,7 +42,8 @@ export class AppComponent {
         }
     }
 
-    onLanguageChange(languageId) {
+    onLanguageChange(languageId, language) {
+        this.currentLanguage = language;
         this.memberService.changeCurrentLanguageId(languageId);
     }
 }

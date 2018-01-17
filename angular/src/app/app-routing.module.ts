@@ -8,19 +8,25 @@ import {TestResultsComponent} from "./test/results/test-results.component";
 import {HomeComponent} from "./home/home.component";
 import {FaqComponent} from "./faq/faq.component";
 import {VerbListComponent} from "./verb-list/verb-list.component";
-import {VerbDetailComponent} from "./verb-detail/verb-detail.component";
+import {VerbDetailSpanishComponent} from "./verb-detail/spanish/verb-detail-spanish.component";
+import { VerbDetailContainerComponent } from './verb-detail/container/verb-detail-container.component';
+import { LandingComponent } from './landing/landing.component';
+import { TestimonialComponent } from './testimonial/testimonial.component';
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: '', component: LandingComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'dictionary', component: DictionaryComponent},
+    {path: 'faq', component: FaqComponent},
     {path: 'test', children: [
-        { path: 'translations', component: TestTranslationsComponent },
         { path: 'conjugations', component: TestConjugationsComponent },
         { path: 'results', component: TestResultsComponent },
+        { path: 'translations', component: TestTranslationsComponent }
     ] },
+    { path: 'testimonial', component: TestimonialComponent },
     {path: 'faq', component: FaqComponent},
-    {path: 'verb/detail/:name', component: VerbDetailComponent},
+    {path: 'verb/detail/:name', component: VerbDetailContainerComponent},
     {path: 'verblist', component: VerbListComponent}
 ];
 

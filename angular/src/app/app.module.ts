@@ -25,9 +25,14 @@ import { TestResultsComponent } from './test/results/test-results.component';
 import { HomeComponent } from './home/home.component';
 import { FaqComponent } from './faq/faq.component';
 import { VerbListComponent } from './verb-list/verb-list.component';
-import { VerbDetailComponent } from './verb-detail/verb-detail.component';
+import { VerbDetailSpanishComponent } from './verb-detail/spanish/verb-detail-spanish.component';
+import { VerbDetailEnglishComponent } from './verb-detail/english/verb-detail-english.component';
+import { VerbDetailFrenchComponent } from './verb-detail/french/verb-detail-french.component';
 import { ConjugationDetailComponent } from './conjugation-detail/conjugation-detail.component';
 import { HighlightPipe } from './highlight.pipe';
+import { VerbDetailContainerComponent } from './verb-detail/container/verb-detail-container.component';
+import { LandingComponent } from './landing/landing.component';
+import { TestimonialComponent } from './testimonial/testimonial.component';
 
 @NgModule({
   declarations: [
@@ -47,9 +52,14 @@ import { HighlightPipe } from './highlight.pipe';
     HomeComponent,
     FaqComponent,
     VerbListComponent,
-    VerbDetailComponent,
+    VerbDetailSpanishComponent,
+    VerbDetailEnglishComponent,
+    VerbDetailFrenchComponent,
     ConjugationDetailComponent,
-    HighlightPipe
+    HighlightPipe,
+    VerbDetailContainerComponent,
+    LandingComponent,
+    TestimonialComponent
   ],
   imports: [
     BrowserModule,

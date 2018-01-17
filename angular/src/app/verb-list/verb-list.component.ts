@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ApiService} from "../api.service";
 import {ActivatedRoute} from "@angular/router";
+import { MemberService } from '../member.service';
 
 declare var document;
 
@@ -9,19 +10,15 @@ declare var document;
     templateUrl: './verb-list.component.html',
     styleUrls: ['./verb-list.component.css']
 })
-export class VerbListComponent implements OnInit, AfterViewInit {
+export class VerbListComponent implements OnInit {
 
     public fragments: string[] = null;
     public indexedVerbs: any = null;
 
-    constructor(private api: ApiService, private route: ActivatedRoute) {
+    constructor(private api: ApiService, private memberService: MemberService, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.getVerbs();
-    }
-
-    ngAfterViewInit() {
         this.route.fragment.subscribe(fragment => {
             if (fragment && fragment.length === 1 && fragment >= 'A' && fragment <= 'Z') {
                 const element = document.querySelector('#'+fragment);
@@ -30,13 +27,17 @@ export class VerbListComponent implements OnInit, AfterViewInit {
                 }
             }
         });
+        this.memberService.currentLanguageIdChanged.subscribe(_ => {
+            this.getVerbs();
+        });
+        this.getVerbs();
     }
 
     getVerbs() {
         const filter = {
             where: {
                 and: [
-                    {languageId: 1},
+                    {languageId: this.memberService.getCurrentLanguageId()},
                     {wordTypeId: 19}
                 ]
             },
