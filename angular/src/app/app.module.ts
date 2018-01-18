@@ -11,7 +11,7 @@ import { SearchComponent } from './search/search.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { SearchService } from './search.service';
 import { AppRoutingModule } from './app-routing.module';
-import { DictionaryItemComponent } from './dictionary-item/dictionary-item.component';
+import { DictionaryItemComponent } from './dictionary/item/dictionary-item.component';
 import { SelectLanguageComponent } from './select-language/select-language.component';
 import { ApiService } from './api.service';
 import { TestTranslationsCreateComponent } from './test/translation/create/test-translations-create.component';

@@ -3,6 +3,8 @@ import {TestService} from "./test.service";
 import {MemberService} from "./member.service";
 import { SearchService } from './search.service';
 import { Router } from '@angular/router';
+import { ApiService } from './api.service';
+import { OnInit } from '@angular/core';
 
 declare var window: any;
 declare var screen: any;
@@ -13,22 +15,30 @@ declare var FB: any;
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     title = 'Langua';
-    languages: any = [
-        {name:'Spaans', id:1},
-        {name:'Engels', id:2},
-        {name:'Nederlands', id:4},
-        {name:'Frans', id:5}
-    ];
 
-    public currentLanguage = 'Engels';
+    public languages = null;
+    public currentLanguage = '';
     public searchValue = '';
 
-    constructor(public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
+    constructor(public apiService: ApiService, public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
     }
 
-    search(event) {
+    ngOnInit() {
+        this.apiService.getLanguages().then(lanugages => {
+            const currentLanguageId = this.memberService.getCurrentLanguageId();
+            for (let i=0; i< lanugages.length; i++) {
+                if (lanugages[i].id === currentLanguageId) {
+                    this.currentLanguage = lanugages[i].name;
+                    break;
+                }
+            }
+            this.languages = lanugages;
+        });
+    }
+
+    search() {
         this.searchService.changeSearchValue(this.searchValue);
         this.router.navigateByUrl('/dictionary');
     }

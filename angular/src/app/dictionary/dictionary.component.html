@@ -6,9 +6,11 @@
             <h3>Woordenboek</h3>
         </div>
         <div class="input-group searchArea">
-            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                   placeholder="Zoek woord(en)...">
+            <span class="input-group-addon">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [(ngModel)]="searchValue" (keyup)="onKeyup()"
+                placeholder="Zoek woord(en)...">
             <button type="submit" class="input-group-addon button" id="basic-addon21">Zoeken</button>
         </div>
 
@@ -18,14 +20,13 @@
                     <div class="rightSidebar">
                         <div class="panel panel-default">
                             <div class="panel-heading bg-color-4 border-color-4">
-                                <h3 class="panel-title">Nederlands - Spaans</h3>
+                                <h3 class="panel-title">{{nativeLanguage}} - {{currentLanguage}}</h3>
                             </div>
                             <div class="panel-body">
-                                <ul *ngIf="results.length > 0">
-                                    <app-dictionary-item [item]="result"
-                                                         *ngFor="let result of results"></app-dictionary-item>
+                                <ul *ngIf="results[0].length > 0">
+                                    <app-dictionary-item *ngFor="let result of results[0]" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
                                 </ul>
-                                <p *ngIf="results.length == 0">Geen resultaten gevonden</p>
+                                <p *ngIf="results[0].length == 0">Geen resultaten gevonden</p>
                             </div>
                         </div>
                     </div>
@@ -36,14 +37,13 @@
                     <div class="rightSidebar">
                         <div class="panel panel-default">
                             <div class="panel-heading bg-color-4 border-color-4">
-                                <h3 class="panel-title">Spaans - Nederlands</h3>
+                                <h3 class="panel-title">{{currentLanguage}} - {{nativeLanguage}}</h3>
                             </div>
                             <div class="panel-body">
-                                <ul *ngIf="results.length > 0">
-                                    <app-dictionary-item [item]="result"
-                                                         *ngFor="let result of results"></app-dictionary-item>
+                                <ul *ngIf="results[1].length > 0">
+                                    <app-dictionary-item *ngFor="let result of results[1]" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
                                 </ul>
-                                <p *ngIf="results.length == 0">Geen resultaten gevonden</p>
+                                <p *ngIf="results[1].length == 0">Geen resultaten gevonden</p>
                             </div>
                         </div>
                     </div>
@@ -53,23 +53,3 @@
 
     </div>
 </section>
-
-<!-- FOOTER -->
-<footer>
-    <!-- COLOR BAR -->
-    <div class="container-fluid color-bar clearfix">
-        <div class="row">
-            <div class="col-sm-1 col-xs-2 bg-color-1">fix bar</div>
-            <div class="col-sm-1 col-xs-2 bg-color-2">fix bar</div>
-            <div class="col-sm-1 col-xs-2 bg-color-3">fix bar</div>
-            <div class="col-sm-1 col-xs-2 bg-color-4">fix bar</div>
-            <div class="col-sm-1 col-xs-2 bg-color-5">fix bar</div>
-            <div class="col-sm-1 col-xs-2 bg-color-6">fix bar</div>
-            <div class="col-sm-1 bg-color-1 hidden-xs">fix bar</div>
-            <div class="col-sm-1 bg-color-2 hidden-xs">fix bar</div>
-            <div class="col-sm-1 bg-color-3 hidden-xs">fix bar</div>
-            <div class="col-sm-1 bg-color-4 hidden-xs">fix bar</div>
-            <div class="col-sm-1 bg-color-5 hidden-xs">fix bar</div>
-            <div class="col-sm-1 bg-color-6 hidden-xs">fix bar</div>
-        </div>
-    </div>

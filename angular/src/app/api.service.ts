@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import { tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment'
 
@@ -10,6 +11,8 @@ declare var location: any;
 export class ApiService {
     private host: string = null;
     private accessToken: string;
+
+    private languages = null;
 
     constructor(private http: HttpClient) {
         this.host =  location.protocol + '//' + environment.apiUrl;
@@ -50,5 +53,34 @@ export class ApiService {
 
     setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
+    }
+
+    getLanguages(): Promise<any> {
+        if (this.languages) {
+            return Promise.resolve(this.languages);
+        } else {
+            return this.get('/Languages', { filter: { where: { id: { neq: 3 } } } }).pipe(
+                tap(languages => {
+                    this.languages = languages;
+                })
+            ).toPromise();
+        }
+    }
+
+    getLanguageById(id: number): Promise<any> {
+        function findById(id: number) {
+            return function(element, index, array) {
+                return (element.id === id);
+            }
+        }
+        if (this.languages) {
+            return Promise.resolve(this.languages.find(findById(id)));
+        } else {
+            return new Promise((resolve, reject) => {
+                this.getLanguages().then(languages => {
+                    resolve(languages.find(findById(id)));
+                });
+            });
+        }
     }
 }

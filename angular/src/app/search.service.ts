@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable, Output, transition} from '@angular/core';
 
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
@@ -16,13 +16,17 @@ interface Word {
 
 @Injectable()
 export class SearchService {
-    private words = [];
+    private words = [[],[]];
     private searchValue = '';
     public resultsChanged: Subject<any>;
 
     constructor(private api: ApiService, private router: Router, private memberService: MemberService) {
         this.resultsChanged = new Subject<any>();
-        this.memberService.currentLanguageIdChanged.subscribe( () => this.requestResults(this.searchValue) );
+        this.memberService.currentLanguageIdChanged.subscribe(_ => {
+            if (this.searchValue !== '') {
+                this.requestResults(this.searchValue);
+            }
+        });
     }
 
     changeSearchValue(searchValue: string): void {
@@ -30,30 +34,84 @@ export class SearchService {
         this.requestResults(searchValue);
     }
 
+    getSearchValue() {
+        return this.searchValue;
+    }
+
     requestResults(searchValue: string): void {
-        const filter = {
+        const nativeScope = {
             include: 'wordType',
+            where: {languageId: this.memberService.getCurrentLanguageId() }
+        };
+        const nativeFilter = {
+            include: [
+                'wordType',
+                { relation: 'translations1', scope: nativeScope },
+                { relation: 'translations2', scope: nativeScope }
+            ],
             where: {
                 and: [
                     {or: [
                         {singular: {like: '%' + searchValue + '%'}},
                         {plural: {like: '%' + searchValue + '%'}}
                     ]},
-                    {languageId: this.memberService.getCurrentLanguageId()}
+                    {languageId: this.memberService.getNativeLanguageId()}
                 ]
             }
         };
-        console.log(filter);
-        this.api.get<Object[]>('/Words', {filter: filter}).subscribe(words => {
-            words.sort(function(a: Word, b: Word) {
-                const c = (a.singular !== '') ? a.singular : a.plural;
-                const d = (b.singular !== '') ? b.singular : b.plural;
-                return (c > d) ? 1 : 0;
+        this.api.get<any>('/Words', {filter: nativeFilter}).subscribe(words => {
+            this.words[0] = this.parseWords(words);
+            
+            const currentScope = {
+                include: 'wordType',
+                where: {languageId: this.memberService.getNativeLanguageId() }
+            };
+            const currentFilter = {
+                include: [
+                    'wordType',
+                    { relation: 'translations1', scope: currentScope },
+                    { relation: 'translations2', scope: currentScope }
+                ],
+                where: {
+                    and: [
+                        {or: [
+                            {singular: {like: '%' + searchValue + '%'}},
+                            {plural: {like: '%' + searchValue + '%'}}
+                        ]},
+                        {languageId: this.memberService.getCurrentLanguageId()}
+                    ]
+                }
+            };
+            this.api.get<any>('/Words', {filter: currentFilter}).subscribe(words => {
+                this.words[1] = this.parseWords(words);
+                this.resultsChanged.next();
             });
-            console.log('words', words);
-            this.words = words;
-            this.resultsChanged.next();
         }, err => console.log(err));
+    }
+
+    parseWords(words) {
+        words = words.filter(element => {
+            return element.translations1.length > 0 || element.translations2.length > 0;
+        });
+        words.sort((a: Word, b: Word) => {
+            const c = (a.singular !== '') ? a.singular : a.plural;
+            const d = (b.singular !== '') ? b.singular : b.plural;
+            return (c > d) ? true : false;
+        });
+        for (let i=0; i< words.length; i++) {
+            const word = words[i];
+            let translations = [];
+            if (word.translations1.length > 0) {
+                translations = translations.concat(word.translations1);
+            }
+            if (word.translations2.length > 0) {
+                translations = translations.concat(word.translations2);
+            }
+            word.translations = translations;
+            word.translations1 = undefined;
+            word.translations2 = undefined;
+        }
+        return words;
     }
 
     getResults() {

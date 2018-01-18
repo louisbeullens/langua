@@ -6,6 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./dictionary-item.component.css']
 })
 export class DictionaryItemComponent implements OnInit {
+  @Input() searchValue;
   @Input() item;
 
   constructor() { }

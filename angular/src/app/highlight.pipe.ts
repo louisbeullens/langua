@@ -5,10 +5,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class HighlightPipe implements PipeTransform {
 
-  transform(value: string, bold: string): any {
-    const parts = value.split(' ');
-    parts[parts.length - 1] = parts[parts.length - 1].replace(bold,'<b>' + bold + '</b>');
-    return parts.join(' ');
+  transform(value: string, part: string, tag: string = 'b', cssClass: string = '', all: boolean = false): any {
+    const repl = '<' + tag + ((cssClass !== '')? ' class="' + cssClass + '"': '') + '>'+ part +'</' + tag + '>';
+    if (all) {
+      return value.split(part).join(repl);
+    } else {
+      const parts = value.split(' ');
+      parts[parts.length - 1] = parts[parts.length - 1].replace(part, repl);
+      return parts.join(' ');
+    }
   }
 
 }
