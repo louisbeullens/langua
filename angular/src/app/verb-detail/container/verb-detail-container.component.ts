@@ -19,7 +19,7 @@ export class VerbDetailContainerComponent implements OnInit {
 
     ngOnInit() {
         const verbFilter = {
-            where: {index: this.route.snapshot.paramMap.get('name')},
+            where: {singular: this.route.snapshot.paramMap.get('name').split('_').join(' ')},
         };
         this.api.get<any>('/Words', {filter: verbFilter}).subscribe(async verbs => {
             const verb = verbs[0];

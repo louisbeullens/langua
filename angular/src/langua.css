@@ -1,0 +1,104 @@
+.mainContent {
+    padding: 40px 0px 25px 0px;
+}
+
+.sectionTitle h2 {
+    margin-bottom: 50px;
+}
+
+body.bodyColor.pattern-01 {
+    background-image: url("./img/patterns/001.png"); /* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-02 {
+    background-image: url("./img/patterns/002.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-03 {
+    background-image: url("./img/patterns/003.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-04 {
+    background-image: url("./img/patterns/004.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-06 {
+    background-image: url("./img/patterns/006.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-07 {
+    background-image: url("./img/patterns/007.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body.bodyColor.pattern-05 {
+    background-image: url("./img/patterns/005.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.pageTitleSection {
+    background-image: url("./img/page-title/page-title-bg.jpg"); /* TOD NOG IN GEBRUIK? PB 8/1/2017 */
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    color: #ffffff;
+    padding: 75px 0;
+}
+
+@media (min-width: 1200px) {
+    .tabCommon .media-body {
+        /* PB 8/1/2018 padding: 50px 30px 0 0; */
+        padding: 15px;
+    }
+}
+
+.servicesSection {
+    background-image: url("./img/home/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
+    width: 100%;
+    background-repeat: repeat;
+    height: auto;
+    padding-bottom: 60px;
+}
+
+.teamSection {
+    background-image: url("./img/home/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
+    width: 100%;
+    background-repeat: repeat;
+    height: auto;
+}
+
+.commentSection {
+    background-image: url("./img/home/pattern-light.png");  /* TODO NOG NI GEBRUIK? PB 8/1/2018 */
+    width: 100%;
+    background-repeat: repeat;
+    height: auto;
+}
+
+.countUpSection {
+    background-image: url("./assets/img/CounterBackground.jpg");
+    width: 100%;
+    background-size: cover;
+    background-position: center center !important;
+    background-attachment: fixed;
+    color: #ffffff;
+    padding: 80px 0;
+}

@@ -6,9 +6,9 @@
             <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </span>
-            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [(ngModel)]="searchValue" (keyup)="onKeyup()"
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [(ngModel)]="searchValue" (keyup)="onKeyup($event.target.value)"
                 placeholder="Zoek woord(en)...">
-            <button type="submit" class="input-group-addon button" id="basic-addon21">Zoeken</button>
+            <button type="button" (click)="onClick()" class="input-group-addon button" id="basic-addon21">Zoeken</button>
         </div>
 
         <div class="row">
@@ -20,10 +20,10 @@
                                 <h3 class="panel-title">{{nativeLanguage}} - {{currentLanguage}}</h3>
                             </div>
                             <div class="panel-body">
-                                <ul *ngIf="results[0].length > 0">
-                                    <app-dictionary-item *ngFor="let result of results[0]" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
+                                <ul *ngIf="results.native.length > 0">
+                                    <app-dictionary-item *ngFor="let result of results.native" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
                                 </ul>
-                                <p *ngIf="results[0].length == 0">Geen resultaten gevonden</p>
+                                <p *ngIf="results.native.length == 0">Geen resultaten gevonden</p>
                             </div>
                         </div>
                     </div>
@@ -37,10 +37,10 @@
                                 <h3 class="panel-title">{{currentLanguage}} - {{nativeLanguage}}</h3>
                             </div>
                             <div class="panel-body">
-                                <ul *ngIf="results[1].length > 0">
-                                    <app-dictionary-item *ngFor="let result of results[1]" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
+                                <ul *ngIf="results.current.length > 0">
+                                    <app-dictionary-item *ngFor="let result of results.current" [searchValue]="searchValue" [item]="result"></app-dictionary-item>
                                 </ul>
-                                <p *ngIf="results[1].length == 0">Geen resultaten gevonden</p>
+                                <p *ngIf="results.current.length == 0">Geen resultaten gevonden</p>
                             </div>
                         </div>
                     </div>

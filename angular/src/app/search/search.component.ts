@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit {
     }
 
     onClick(): void {
-        this.searchService.changeSearchValue(this.search);
+        this.searchService.setSearchValue(this.search, 3);
     }
 
 }

@@ -27,7 +27,8 @@ const routes: Routes = [
     { path: 'testimonial', component: TestimonialComponent },
     {path: 'faq', component: FaqComponent},
     {path: 'verb/detail/:name', component: VerbDetailContainerComponent},
-    {path: 'verblist', component: VerbListComponent}
+    {path: 'verblist', component: VerbListComponent},
+    {path: 'verblist/:locale', component: VerbListComponent}
 ];
 
 @NgModule({

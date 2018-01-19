@@ -119,7 +119,7 @@ export class MemberService {
         return this.api.get<Language[]>('/Languages');
     }
 
-    changeCurrentLanguageId(languageId): void {
+    setCurrentLanguageId(languageId): void {
         this.choosenLanguage = languageId;
         this.currentLanguageIdChanged.next(languageId);
     }

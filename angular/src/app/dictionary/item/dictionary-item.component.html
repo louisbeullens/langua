@@ -5,7 +5,7 @@
     </a>
     <span class="translation">
       <ng-container *ngFor="let translation of item.translations;last as isLast">
-        <a (click)="searchService.changeSearchValue(translation.singular)">{{translation.singular}}</a> <a routerLink="/verb/detail/{{translation.index}}"><i class="fa fa-file-text-o"></i> ({{translation.wordType.name}})</a>
+        <a (click)="searchService.setSearchValue(translation.singular, 2)">{{translation.singular}}</a> <a routerLink="/verb/detail/{{translation.index}}"><i class="fa fa-file-text-o"></i> ({{translation.wordType.name}})</a>
         <ng-container *ngIf="isLast === false"> , </ng-container>
       </ng-container>
     </span>
@@ -16,7 +16,7 @@
       <span class="translation">
           <ng-container *ngFor="let translation of item.translations;last as isLast">
               <ng-container *ngIf="translation.singular !== ''">
-                <a (click)="searchService.changeValue(translation.singular)">{{translation.singular}}</a> ({{translation.wordType.name}})
+                <a (click)="searchService.setSearchValue(translation.singular, 2)">{{translation.singular}}</a> ({{translation.wordType.name}})
                 <ng-container *ngIf="isLast === false"> , </ng-container>
               </ng-container>
           </ng-container>
@@ -28,7 +28,7 @@
         <span class="translation">
             <ng-container *ngFor="let translation of item.translations;last as isLast">
                 <ng-container *ngIf="translation.plural !== ''">
-                  <a (click)="searchService.changeValue(translation.plural)">{{translation.plural}}</a> ({{translation.wordType.name}})
+                  <a (click)="searchService.setSearchValue(translation.plural, 2)">{{translation.plural}}</a> ({{translation.wordType.name}})
                   <ng-container *ngIf="isLast === false"> , </ng-container>
                 </ng-container>
             </ng-container>

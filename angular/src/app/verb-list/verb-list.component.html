@@ -1,6 +1,17 @@
 <section class="mainContent full-width clearfix">
     <div class="container">
         <div class="row">
+            <div class="col-xs-12">
+                <div class="sectionTitle text-center">
+                    <h2>
+                        <span class="shape shape-left bg-color-4"></span>
+                        <span>{{languageAdj[(languageId || memberService.getCurrentLanguageId()) - 1]}} werkwoorden</span>
+                        <span class="shape shape-right bg-color-4"></span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-3 col-sm-5 col-xs-12">
                 <aside>
                     <div class="panel panel-default courseSidebar">
@@ -10,39 +21,32 @@
                         <div class="panel-body">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter Your Search" aria-describedby="basic-addon2">
-                                <span class="input-group-addon" id="basic-addon2"><input class="btn btn-primary bg-color-1" type="submit" value="Search"></span>
+                                <span class="input-group-addon" id="basic-addon2">
+                                    <input class="btn btn-primary bg-color-1" type="submit" value="Search">
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default courseSidebar">
                         <div class="panel-heading bg-color-2 border-color-2">
-                            <h3 class="panel-title">Filter By</h3>
+                            <h3 class="panel-title">Filter</h3>
                         </div>
                         <div class="panel-body">
                             <div class="lightDrop">
-                                <select name="guiest_id4" id="guiest_id4" class="select-drop">
-                                    <option value="0">Alle werkwoorden</option>
-                                    <option value="1">Regelmatige werkwoorden</option>
-                                    <option value="2">Uitzonderingen</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div class="lightDrop">
-                                <select name="guiest_id5" id="guiest_id5" class="select-drop">
-                                    <option value="0">Ages</option>
-                                    <option value="1">3</option>
-                                    <option value="2">4</option>
-                                    <option value="3">5</option>
+                                <select [(ngModel)]="verbType" name="guiest_id4" id="guiest_id4" class="select-drop" (change)="onChange()">
+                                    <option [ngValue]="0">Alle werkwoorden</option>
+                                    <option [ngValue]="1">Regelmatige werkwoorden</option>
+                                    <option [ngValue]="2">Uitzonderingen</option>
                                 </select>
                             </div>
                             <div class="priceRange">
                                 <div class="price-slider-inner">
-                      <span class="amount-wrapper">
-                        Price:
-                        <input type="text" id="price-amount-1" readonly>
-                        <strong>-</strong>
-                        <input type="text" id="price-amount-2" readonly>
-                      </span>
+                                    <span class="amount-wrapper">
+                                        Price:
+                                        <input type="text" id="price-amount-1" readonly>
+                                        <strong>-</strong>
+                                        <input type="text" id="price-amount-2" readonly>
+                                    </span>
                                     <div id="price-range"></div>
                                 </div>
                                 <input class="btn btn-primary bg-color-2" type="submit" value="Filter">
@@ -66,21 +70,25 @@
                     <div class="col-xs-12">
                         <div class="tabCommon media-left">
                             <ul class="nav nav-tabs">
-                                <li *ngFor="let fragment of fragments"><a style="padding:0px 9px 0px 8px;" data-toggle="tab" routerLink="/verblist" fragment="{{fragment}}">{{fragment}}</a></li>
+                                <li *ngFor="let fragment of fragments">
+                                    <a style="padding:0px 9px 0px 8px;" data-toggle="tab" routerLink="/verblist" fragment="{{fragment}}">{{fragment}}</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div  *ngFor="let part of indexedVerbs" class="media courseList couresListPage" style="min-height: 100px;">
+                <div *ngFor="let part of indexedVerbs" class="media courseList couresListPage" style="min-height: 100px;">
                     <a id="{{part.index}}" class="media-left border-color-1" href="course-single-left-sidebar.html">
 
-                        <span class="sticker bg-color-1">{{part.index}}</span> <!-- TODO Kleur veranderen in kleur van 'vervoegen' -->
+                        <span class="sticker bg-color-1">{{part.index}}</span>
+                        <!-- TODO Kleur veranderen in kleur van 'vervoegen' -->
                     </a>
                     <div class="media-body" style="padding:15px 15px 15px 115px;">
                         <ng-container *ngFor="let verb of part.verbs;last as isLast">
-                                <a routerLink="/verb/detail/{{verb.index}}">{{verb.singular}}</a> <!-- TODO Tooltip met vertaling tonen? -->
-                                <ng-container *ngIf="isLast === false">&nbsp; &bull; &nbsp;</ng-container>
-                            </ng-container>
+                            <a routerLink="/verb/detail/{{verb.singular.split(' ').join('_')}}">{{verb.singular}}</a>
+                            <!-- TODO Tooltip met vertaling tonen? -->
+                            <ng-container *ngIf="isLast === false">&nbsp; &bull; &nbsp;</ng-container>
+                        </ng-container>
                     </div>
                 </div>
                 <div class="media courseList couresListPage">
@@ -89,7 +97,10 @@
                         <span class="sticker bg-color-2">C</span>
                     </a>
                     <div class="media-body">
-                        <p><br>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer.</p>
+                        <p>
+                            <br>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain
+                            was born and I will give you a complete account of the system, and expound the actual teachings
+                            of the great explorer.</p>
                     </div>
                 </div>
                 <div class="media courseList couresListPage">
@@ -98,15 +109,27 @@
                         <span class="sticker bg-color-3">$50</span>
                     </a>
                     <div class="media-body">
-                        <h3 class="media-heading"><a href="course-single-left-sidebar.html" class="color-3">Phasellus convallis eros.</a></h3>
+                        <h3 class="media-heading">
+                            <a href="course-single-left-sidebar.html" class="color-3">Phasellus convallis eros.</a>
+                        </h3>
                         <ul class="list-inline">
-                            <li><i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li><i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
+                            <li>
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
+                            <li>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
                         </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer.</p>
+                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
+                            born and I will give you a complete account of the system, and expound the actual teachings of
+                            the great explorer.</p>
                         <ul class="list-inline btn-red btnPart">
-                            <li><a href="cart-page.html" class="btn btn-primary "><i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a></li>
-                            <li><a href="course-single-left-sidebar.html" class="btn btn-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a></li>
+                            <li>
+                                <a href="cart-page.html" class="btn btn-primary ">
+                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
+                            </li>
+                            <li>
+                                <a href="course-single-left-sidebar.html" class="btn btn-link">
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -116,15 +139,27 @@
                         <span class="sticker bg-color-5">$50</span>
                     </a>
                     <div class="media-body">
-                        <h3 class="media-heading"><a href="course-single-left-sidebar.html" class="color-5">Phasellus convallis eros.</a></h3>
+                        <h3 class="media-heading">
+                            <a href="course-single-left-sidebar.html" class="color-5">Phasellus convallis eros.</a>
+                        </h3>
                         <ul class="list-inline">
-                            <li><i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li><i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
+                            <li>
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
+                            <li>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
                         </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer.</p>
+                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
+                            born and I will give you a complete account of the system, and expound the actual teachings of
+                            the great explorer.</p>
                         <ul class="list-inline btn-purple btnPart">
-                            <li><a href="cart-page.html" class="btn btn-primary "><i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a></li>
-                            <li><a href="course-single-left-sidebar.html" class="btn btn-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a></li>
+                            <li>
+                                <a href="cart-page.html" class="btn btn-primary ">
+                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
+                            </li>
+                            <li>
+                                <a href="course-single-left-sidebar.html" class="btn btn-link">
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -134,11 +169,21 @@
                         <span class="sticker bg-color-6">$50</span>
                     </a>
                     <div class="media-body">
-                        <h3 class="media-heading"><a href="course-single-left-sidebar.html" class="color-6">Phasellus convallis eros.</a></h3>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer.</p>
+                        <h3 class="media-heading">
+                            <a href="course-single-left-sidebar.html" class="color-6">Phasellus convallis eros.</a>
+                        </h3>
+                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
+                            born and I will give you a complete account of the system, and expound the actual teachings of
+                            the great explorer.</p>
                         <ul class="list-inline btn-pink btnPart">
-                            <li><a href="cart-page.html" class="btn btn-primary "><i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a></li>
-                            <li><a href="course-single-left-sidebar.html" class="btn btn-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a></li>
+                            <li>
+                                <a href="cart-page.html" class="btn btn-primary ">
+                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
+                            </li>
+                            <li>
+                                <a href="course-single-left-sidebar.html" class="btn btn-link">
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

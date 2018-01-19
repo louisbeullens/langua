@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ApiService} from "../api.service";
 import {ActivatedRoute} from "@angular/router";
 import { MemberService } from '../member.service';
+import { Location } from '@angular/common';
 
 declare var document;
 
@@ -14,8 +15,12 @@ export class VerbListComponent implements OnInit {
 
     public fragments: string[] = null;
     public indexedVerbs: any = null;
+    public languageAdj = ['Spaanse','Engelse','Latijnse','Nederlandse','Franse'];
 
-    constructor(private api: ApiService, private memberService: MemberService, private route: ActivatedRoute) {
+    public languageId: number;
+    public verbType = 0;
+
+    constructor(private api: ApiService, public memberService: MemberService, private route: ActivatedRoute, private locationService: Location) {
     }
 
     ngOnInit() {
@@ -27,17 +32,35 @@ export class VerbListComponent implements OnInit {
                 }
             }
         });
-        this.memberService.currentLanguageIdChanged.subscribe(_ => {
+        const languageIds = { es: 1, en: 2, nl: 4, fr: 5 };
+        const locales = { 1: 'es', 2: 'en', 4: 'nl', 5: 'fr' };
+        this.route.params.subscribe(params => {
+            this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
             this.getVerbs();
         });
+        this.memberService.currentLanguageIdChanged.subscribe(languageId => {
+            this.languageId = languageId;
+            if (this.route.snapshot.paramMap.has('locale')) {
+                this.locationService.go('/verblist/' + locales[languageId]);
+            }
+            this.getVerbs();
+        });
+        this.languageId = this.memberService.getCurrentLanguageId();
+        if (this.route.snapshot.paramMap.has('locale')) {
+            this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
+        }
         this.getVerbs();
+    }
+
+    onChange() {
+
     }
 
     getVerbs() {
         const filter = {
             where: {
                 and: [
-                    {languageId: this.memberService.getCurrentLanguageId()},
+                    {languageId: this.languageId},
                     {wordTypeId: 19}
                 ]
             },

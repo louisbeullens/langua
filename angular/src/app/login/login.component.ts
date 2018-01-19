@@ -5,6 +5,7 @@ import {Subject} from "rxjs/Subject";
 
 declare var window;
 declare var FB;
+declare var grecaptcha;
 
 @Component({
     selector: 'app-login',

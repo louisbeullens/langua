@@ -26,6 +26,12 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.searchService.searchValueChanged.subscribe(event => {
+            if (event.id !== 0) {
+                this.searchValue = event.value;
+            }
+        });
+
         this.apiService.getLanguages().then(lanugages => {
             const currentLanguageId = this.memberService.getCurrentLanguageId();
             for (let i=0; i< lanugages.length; i++) {
@@ -39,8 +45,10 @@ export class AppComponent implements OnInit {
     }
 
     search() {
-        this.searchService.changeSearchValue(this.searchValue);
-        this.router.navigateByUrl('/dictionary');
+        this.searchService.setSearchValue(this.searchValue, 0);
+        if (this.searchValue !== '') {
+            this.router.navigateByUrl('/dictionary');
+        }
     }
 
     onDonate() {
@@ -54,6 +62,6 @@ export class AppComponent implements OnInit {
 
     onLanguageChange(languageId, language) {
         this.currentLanguage = language;
-        this.memberService.changeCurrentLanguageId(languageId);
+        this.memberService.setCurrentLanguageId(languageId);
     }
 }

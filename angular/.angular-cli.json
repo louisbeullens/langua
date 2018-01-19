@@ -21,7 +21,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "style.css",
+        "langua.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

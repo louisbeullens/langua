@@ -1,47 +1,47 @@
-import {EventEmitter, Injectable, Output, transition} from '@angular/core';
+import { EventEmitter, Injectable, Output, transition } from '@angular/core';
 
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
-import {HttpClient} from "@angular/common/http";
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { HttpClient } from "@angular/common/http";
 
-import {Router} from "@angular/router";
-import {MemberService} from "./member.service";
+import { Router } from "@angular/router";
+import { MemberService } from "./member.service";
 import { ApiService } from './api.service';
 import { Subject } from 'rxjs/Subject';
 
+import { map } from 'rxjs/operators';
+
 interface Word {
-  singular: string;
-  plural: string;
+    singular: string;
+    plural: string;
 }
 
 @Injectable()
 export class SearchService {
-    private words = [[],[]];
+    private results = {
+        native: [],
+        current: []
+    };
     private searchValue = '';
-    public resultsChanged: Subject<any>;
+    public searchValueChanged: Subject<any>;
 
     constructor(private api: ApiService, private router: Router, private memberService: MemberService) {
-        this.resultsChanged = new Subject<any>();
-        this.memberService.currentLanguageIdChanged.subscribe(_ => {
-            if (this.searchValue !== '') {
-                this.requestResults(this.searchValue);
-            }
-        });
+        this.searchValueChanged = new Subject<any>();
     }
 
-    changeSearchValue(searchValue: string): void {
+    setSearchValue(searchValue: string, id: number): void {
         this.searchValue = searchValue;
-        this.requestResults(searchValue);
+        this.searchValueChanged.next({value: searchValue, id: id });
     }
 
     getSearchValue() {
         return this.searchValue;
     }
 
-    requestResults(searchValue: string): void {
+    async getResults(searchValue: string): Promise<any> {
         const nativeScope = {
             include: 'wordType',
-            where: {languageId: this.memberService.getCurrentLanguageId() }
+            where: { languageId: this.memberService.getCurrentLanguageId() }
         };
         const nativeFilter = {
             include: [
@@ -51,42 +51,45 @@ export class SearchService {
             ],
             where: {
                 and: [
-                    {or: [
-                        {singular: {like: '%' + searchValue + '%'}},
-                        {plural: {like: '%' + searchValue + '%'}}
-                    ]},
-                    {languageId: this.memberService.getNativeLanguageId()}
+                    {
+                        or: [
+                            { singular: { like: '%' + searchValue + '%' } },
+                            { plural: { like: '%' + searchValue + '%' } }
+                        ]
+                    },
+                    { languageId: this.memberService.getNativeLanguageId() }
                 ]
             }
         };
-        this.api.get<any>('/Words', {filter: nativeFilter}).subscribe(words => {
-            this.words[0] = this.parseWords(words);
-            
-            const currentScope = {
-                include: 'wordType',
-                where: {languageId: this.memberService.getNativeLanguageId() }
-            };
-            const currentFilter = {
-                include: [
-                    'wordType',
-                    { relation: 'translations1', scope: currentScope },
-                    { relation: 'translations2', scope: currentScope }
-                ],
-                where: {
-                    and: [
-                        {or: [
-                            {singular: {like: '%' + searchValue + '%'}},
-                            {plural: {like: '%' + searchValue + '%'}}
-                        ]},
-                        {languageId: this.memberService.getCurrentLanguageId()}
-                    ]
-                }
-            };
-            this.api.get<any>('/Words', {filter: currentFilter}).subscribe(words => {
-                this.words[1] = this.parseWords(words);
-                this.resultsChanged.next();
-            });
-        }, err => console.log(err));
+        let words = await this.api.get<any>('/Words', { filter: nativeFilter }).toPromise();
+        this.results.native = this.parseWords(words);
+
+        const currentScope = {
+            include: 'wordType',
+            where: { languageId: this.memberService.getNativeLanguageId() }
+        };
+        const currentFilter = {
+            include: [
+                'wordType',
+                { relation: 'translations1', scope: currentScope },
+                { relation: 'translations2', scope: currentScope }
+            ],
+            where: {
+                and: [
+                    {
+                        or: [
+                            { singular: { like: '%' + searchValue + '%' } },
+                            { plural: { like: '%' + searchValue + '%' } }
+                        ]
+                    },
+                    { languageId: this.memberService.getCurrentLanguageId() }
+                ]
+            }
+        };
+        return this.api.get<any>('/Words', { filter: currentFilter }).pipe(map(words => {
+            this.results.current = this.parseWords(words);
+            return this.results;
+        })).toPromise();
     }
 
     parseWords(words) {
@@ -100,7 +103,7 @@ export class SearchService {
             return (c > d) ? 1 : (c === d) ? 0 : -1;
         });
         //console.log('after', words);
-        for (let i=0; i< words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
             const word = words[i];
             let translations = [];
             if (word.translations1.length > 0) {
@@ -114,9 +117,5 @@ export class SearchService {
             word.translations2 = undefined;
         }
         return words;
-    }
-
-    getResults() {
-        return this.words;
     }
 }

@@ -17,7 +17,7 @@ export class SelectLanguageComponent implements OnInit {
 
   onChange(event) {
     console.log(this.choosenLanguage);
-    this.memberService.changeCurrentLanguageId(this.choosenLanguage);
+    this.memberService.setCurrentLanguageId(this.choosenLanguage);
   }
 
 }
