@@ -1,18 +1,18 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit, AfterViewChecked } from '@angular/core';
 import {MemberService} from '../member.service';
 import {Router} from '@angular/router';
 import {Subject} from "rxjs/Subject";
 
 declare var window;
 declare var FB;
-declare var grecaptcha;
+declare var grecaptcha = null;
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewChecked {
     readonly PRELOGIN = 0;
     readonly REGISTER = 1;
     readonly LOGIN = 2;
@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
     mode = this.PRELOGIN;
 
     public email = '';
+
+    private grecaptchaId: any = null;
 
     constructor(private memberService: MemberService, private router: Router, private zone: NgZone) {
         window.fbAsyncInit = function () {
@@ -45,6 +47,14 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
+    ngAfterViewChecked() {
+        if (this.mode === this.REGISTER && this.grecaptchaId === null) {
+            this.grecaptchaId = grecaptcha.render('g-recaptcha',{
+                sitekey: '6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl'
+            });
+        }
+    }
+
     onChangeInputType(element) {
         element.type = (element.type === 'password') ? 'text' : 'password';
     }
@@ -65,9 +75,13 @@ export class LoginComponent implements OnInit {
                 });
                 break;
             case this.REGISTER:
-                this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
-                    console.log(member);
-                });
+                const response = grecaptcha.getResponse(this.grecaptchaId);
+                console.log(response);
+                if (response !== '') {
+                    this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
+                        console.log(member);
+                    });
+                }
                 break;
         }
     }

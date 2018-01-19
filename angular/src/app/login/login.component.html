@@ -9,16 +9,15 @@
                     <div class="panel-body">
                         <form role="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
                             <div class="form-group formField">
-                                <input type="text" name="email" class="form-control" placeholder="E-mail"
-                                       [(ngModel)]="email" required email>
+                                <input type="text" name="email" class="form-control" placeholder="E-mail" [(ngModel)]="email" required email>
                             </div>
                             <div class="form-group formField">
-                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3"
-                                       value="Volgende" [disabled]="form.invalid">
+                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Volgende" [disabled]="form.invalid">
                             </div>
                             <div class="form-group formField">
-                                <button type="button" class="btn btn-block btn-facebook-filled btn-rounded"
-                                        (click)="FBGetLoginStatus()"><i class="fa fa-facebook"></i> <span>Aanmelden met Facebook</span>
+                                <button type="button" class="btn btn-block btn-facebook-filled btn-rounded" (click)="FBGetLoginStatus()">
+                                    <i class="fa fa-facebook"></i>
+                                    <span>Aanmelden met Facebook</span>
                                 </button>
                             </div>
                         </form>
@@ -33,8 +32,8 @@
                     <div class="panel-body">
                         <form role="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
                             <div class="form-group formField">
-                                <input type="text" name="email" class="form-control" placeholder="E-mail"
-                                       [ngModel]="email" disabled><!-- TODO: oogje-->
+                                <input type="text" name="email" class="form-control" placeholder="E-mail" [ngModel]="email" disabled>
+                                <!-- TODO: oogje-->
                             </div>
                             <div class="homeContactContent">
                                 <div class="form-group formField">
@@ -43,15 +42,16 @@
                                 </div>
                             </div>
                             <div class="form-group formField">
-                                <p class="help-block"><a href="#">Wachtwoord vergeten?</a></p><br>
+                                <p class="help-block">
+                                    <a href="#">Wachtwoord vergeten?</a>
+                                </p>
+                                <br>
                             </div>
                             <div class="form-group formField">
-                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3"
-                                       value="Aanmelden" [disabled]="form.invalid">
+                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Aanmelden" [disabled]="form.invalid">
                             </div>
                             <div class="form-group formField">
-                                <input type="button" (click)="mode=PRELOGIN"
-                                       class="btn btn-primary btn-block bg-color-3 border-color-3" value="Vorige">
+                                <input type="button" (click)="mode=PRELOGIN" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Vorige">
                             </div>
                         </form>
                     </div>
@@ -65,16 +65,13 @@
                     <div class="panel-body">
                         <form role="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
                             <div class="form-group formField">
-                                <input type="text" name="email" class="form-control" placeholder="E-mail"
-                                       [ngModel]="email" disabled>
+                                <input type="text" name="email" class="form-control" placeholder="E-mail" [ngModel]="email" disabled>
                             </div>
                             <div class="form-group formField">
-                                <input type="text" name="firstname" class="form-control" placeholder="Voornaam" ngModel
-                                       required #firstnameCtrl="ngModel">
+                                <input type="text" name="firstname" class="form-control" placeholder="Voornaam" ngModel required #firstnameCtrl="ngModel">
                             </div>
                             <div class="form-group formField">
-                                <input type="text" name="lastname" class="form-control" placeholder="Achternaam" ngModel
-                                       required #lastnameCtrl="ngModel">
+                                <input type="text" name="lastname" class="form-control" placeholder="Achternaam" ngModel required #lastnameCtrl="ngModel">
                             </div>
                             <div class="homeContactContent">
                                 <div class="form-group formField">
@@ -88,15 +85,14 @@
                                     <input type="password" name="confirm" class="form-control" placeholder="Wachtwoord" ngModel required minlength="3" #confirmCtrl>
                                 </div>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl"></div>
                             <div class="form-group formField">
-                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3"
-                                       value="Registreren"
-                                       [disabled]="form.invalid || firstnameCtrl.value === lastnameCtrl.value || passwordCtrl.value !== confirmCtrl.value">
+                                <div id="g-recaptcha"></div>
                             </div>
                             <div class="form-group formField">
-                                <input type="button" (click)="mode=PRELOGIN"
-                                       class="btn btn-primary btn-block bg-color-3 border-color-3" value="Vorige">
+                                <input type="submit" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Registreren" [disabled]="form.invalid || firstnameCtrl.value === lastnameCtrl.value || passwordCtrl.value !== confirmCtrl.value">
+                            </div>
+                            <div class="form-group formField">
+                                <input type="button" (click)="mode=PRELOGIN" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Vorige">
                             </div>
                         </form>
                     </div>
