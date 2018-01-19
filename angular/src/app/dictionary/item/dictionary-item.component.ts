@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { SearchService } from '../../search.service';
 
 @Component({
   selector: 'app-dictionary-item',
@@ -9,7 +10,7 @@ export class DictionaryItemComponent implements OnInit {
   @Input() searchValue;
   @Input() item;
 
-  constructor() { }
+  constructor(public searchService: SearchService) { }
 
   ngOnInit() {
   }

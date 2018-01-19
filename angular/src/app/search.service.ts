@@ -93,11 +93,13 @@ export class SearchService {
         words = words.filter(element => {
             return element.translations1.length > 0 || element.translations2.length > 0;
         });
+        //console.log('before', words);
         words.sort((a: Word, b: Word) => {
-            const c = (a.singular !== '') ? a.singular : a.plural;
-            const d = (b.singular !== '') ? b.singular : b.plural;
-            return (c > d) ? true : false;
+            const c = (a.singular !== '') ? a.singular.toLowerCase() : a.plural.toLowerCase();
+            const d = (b.singular !== '') ? b.singular.toLowerCase() : b.plural.toLowerCase();
+            return (c > d) ? 1 : (c === d) ? 0 : -1;
         });
+        //console.log('after', words);
         for (let i=0; i< words.length; i++) {
             const word = words[i];
             let translations = [];

@@ -3,3 +3,13 @@
 .mainContent {
     padding: 50px 0px 30px 0px;
 }
+
+h1 {
+    font-family: 'Dosis', sans-serif;
+    text-transform: initial;
+    color: #666;
+}
+
+.panel-body ul, .panel-body p {
+    padding: 10px 0px 0px 30px;
+}

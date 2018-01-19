@@ -1,0 +1,16 @@
+p, a {
+    color: black;
+}
+
+.translation, .translation a {
+    color: #666;
+}
+
+span.translation {
+    display: block;
+}
+
+li {
+    list-style-position: outside;
+    list-style-type: disc;
+}

@@ -26,6 +26,7 @@ export class DictionaryComponent implements OnInit {
   };
 
   onResultsChanged(): void {
+    this.searchValue = this.searchService.getSearchValue();
     this.results = this.searchService.getResults();
   }
 
