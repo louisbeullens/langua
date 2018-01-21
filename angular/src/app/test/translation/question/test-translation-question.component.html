@@ -16,23 +16,15 @@
         <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" focus #answerCtrl><br><br>
         <input type="button" *ngFor="let char of specialChars" (click)="insertChar(answerCtrl,char)" attr.value=" {{char}} "/>
     </ng-container>
-    <ng-template #submitted>
-        <p>{{valid}}</p>
-        <p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
-    </ng-template>
-</p>
+    <ng-template #submitted><p>{{valid}}</p>
+<p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p></ng-template></p>
 <div class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" [attr.aria-valuenow]="order - 1"
-         aria-valuemin="0" attr.aria-valuemax="{{testService.test.numQuestions}}"
-         [style.width]="(order - 1) / testService.test.numQuestions | percent">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" [attr.aria-valuenow]="order - 1" aria-valuemin="0" attr.aria-valuemax="{{testService.test.numQuestions}}" [style.width]="(order - 1) / testService.test.numQuestions | percent">
         <span class="sr-only">{{(order - 1) / testService.test.numQuestions | percent }} voltooid</span>
     </div>
 </div>
-<p>{{ order }} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion |
-    percent }}</p>
-<button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()"
-        [disabled]="answer === ''">Ok
+<p>{{ order }} / {{testService.test.numQuestions}} {{ testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
+<button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()" [disabled]="answer === ''">Ok
 </button>
-<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion ===
-    testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
+<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
 </button>

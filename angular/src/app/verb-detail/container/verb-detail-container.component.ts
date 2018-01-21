@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from "../../api.service";
-import { forEach } from '@angular/router/src/utils/collection';
+import {forEach} from '@angular/router/src/utils/collection'; //TODO Nog in gebruik?
 
 @Component({
     selector: 'app-verb-detail-container',
@@ -24,21 +24,23 @@ export class VerbDetailContainerComponent implements OnInit {
         this.api.get<any>('/Words', {filter: verbFilter}).subscribe(async verbs => {
             const verb = verbs[0];
             this.verb = verbs[0];
-            this.tenses = await this.api.get<any>('/Languages/' + verb.languageId + '/tenses', {filter: {order:'order ASC'}}).toPromise();
+            this.tenses = await this.api.get<any>('/Languages/' + verb.languageId + '/tenses', {filter: {order: 'order ASC'}}).toPromise();
             const tenseIds = this.tenses.map(tense => tense.id);
             const conjugationFilter = {
                 include: 'tense',
-                where: {and: [
-                    {verbId: verb.id},
-                    {tenseId: {inq: tenseIds}}
-                ]},
+                where: {
+                    and: [
+                        {verbId: verb.id},
+                        {tenseId: {inq: tenseIds}}
+                    ]
+                },
                 order: 'tenseId ASC'
             };
             const conjugationList = await this.api.get<any>('/Conjugations', {filter: conjugationFilter}).toPromise();
-            console.log('conjugationList',conjugationList);
+            console.log('conjugationList', conjugationList);
             const conjugations = {};
 
-            for (let i=0; i<conjugationList.length; i++) {
+            for (let i = 0; i < conjugationList.length; i++) {
                 conjugations[conjugationList[i].tense.id] = conjugationList[i];
             }
 
@@ -46,5 +48,4 @@ export class VerbDetailContainerComponent implements OnInit {
             console.log(this.conjugations);
         });
     }
-
 }

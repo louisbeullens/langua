@@ -5,6 +5,7 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './conjugation-detail.component.html',
   styleUrls: ['./conjugation-detail.component.css']
 })
+
 export class ConjugationDetailComponent implements OnInit {
 
   @Input() public languageId;
@@ -22,10 +23,10 @@ export class ConjugationDetailComponent implements OnInit {
           this.forms = ['', 'Yo', 'Tú', 'Él / Élla', 'Nosotros / Nosotras', 'Vosotros / Vosotras', 'Ellos / Ellas'];
           break;
         case 2:
-          this.forms = ['', 'I', 'you', 'he / she / it', 'we', 'you', 'they'];
+          this.forms = ['', 'I', 'You', 'He / She / It', 'We', 'You', 'They'];
           break;
         case 2:
-          this.forms = ['', 'je', 'tu', 'il / elle', 'nous', 'vous', 'ils / elles'];
+          this.forms = ['', 'Je', 'Tu', 'Il / Elle', 'Nous', 'Vous', 'Ils / Elles'];
           break;
         default:
           this.forms = ['','','','','','',''];

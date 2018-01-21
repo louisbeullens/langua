@@ -10,7 +10,6 @@ import {TestService} from "../../../test.service";
     styleUrls: ['./test-translations-create.component.css']
 })
 export class TestTranslationsCreateComponent implements OnInit {
-    // public languages: [any];
     public languages: Observable<any>; // TODO: language en wordType interface maken
     public wordTypes: Observable<any>;
     public toLanguageId: number;
@@ -74,5 +73,4 @@ export class TestTranslationsCreateComponent implements OnInit {
                 test => console.log('success', test),
                 err => console.log('error', err)));
     }
-
 }

@@ -1,0 +1,135 @@
+/* Customize the Checkbox / Radio label */
+.languaCheckbox, .languaRadio {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin: 3px 0px;
+    cursor: pointer;
+    /* font-size: 22px; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: normal;
+}
+
+/* Hide the browser's default checkbox */
+.languaCheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border: 2px solid rgba(234, 112, 102, 0.3);
+    border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+.languaCheckbox:hover input ~ .checkmark {
+    border: 2px solid rgba(234, 112, 102, 0.6);
+    border-radius: 5px;
+}
+
+/* When the checkbox is checked, add a red background */
+.languaCheckbox input:checked ~ .checkmark {
+    background-color: #CF7869;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.languaCheckbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.languaCheckbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* Customize the label (the languaRadio) */
+.languaRadio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin: 3px 0px;
+    cursor: pointer;
+    /* font-size: 22px; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: normal;
+}
+
+/* Hide the browser's default radio button */
+.languaRadio input {
+    position: absolute;
+    opacity: 0;
+}
+
+/* Create a custom radio button */
+.checkdot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+
+    border: 2px solid rgba(234, 112, 102, 0.3);
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.languaRadio:hover input ~ .checkdot {
+
+    border: 2px solid rgba(234, 112, 102, 0.6);
+}
+
+/* When the radio button is checked, add a red background */
+.languaRadio input:checked ~ .checkdot {
+    background-color: #CF7869;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkdot:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.languaRadio input:checked ~ .checkdot:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.languaRadio .checkdot:after {
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+}

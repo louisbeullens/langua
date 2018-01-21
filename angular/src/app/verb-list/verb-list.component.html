@@ -32,26 +32,20 @@
                             <h3 class="panel-title">Filter</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="lightDrop">
-                                <select [(ngModel)]="verbType" name="guiest_id4" id="guiest_id4" class="select-drop" (change)="onChange()">
-                                    <option [ngValue]="0">Alle werkwoorden</option>
-                                    <option [ngValue]="1">Regelmatige werkwoorden</option>
-                                    <option [ngValue]="2">Uitzonderingen</option>
-                                </select>
+
+                            <div class="filterVerbs dropdown color-2">
+                                <button class="dropdown-toggle color-2" id="filterVerbType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Alle werkwoorden
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="filterVerbType">
+                                    <li class=""><a href="">Alle werkwoorden</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class=""><a href="">Regelmatige werkwoorden</a></li>
+                                    <li class=""><a href="">Uitzonderingen</a></li>
+                                </ul>
                             </div>
-                            <div class="priceRange">
-                                <div class="price-slider-inner">
-                                    <span class="amount-wrapper">
-                                        Price:
-                                        <input type="text" id="price-amount-1" readonly>
-                                        <strong>-</strong>
-                                        <input type="text" id="price-amount-2" readonly>
-                                    </span>
-                                    <div id="price-range"></div>
-                                </div>
-                                <input class="btn btn-primary bg-color-2" type="submit" value="Filter">
-                                <!-- <span class="priceLabel">Price: <strong>$12 - $30</strong></span> -->
-                            </div>
+
                         </div>
                     </div>
                     <div class="coursesCounter">
@@ -81,7 +75,6 @@
                     <a id="{{part.index}}" class="media-left border-color-1" href="course-single-left-sidebar.html">
 
                         <span class="sticker bg-color-1">{{part.index}}</span>
-                        <!-- TODO Kleur veranderen in kleur van 'vervoegen' -->
                     </a>
                     <div class="media-body" style="padding:15px 15px 15px 115px;">
                         <ng-container *ngFor="let verb of part.verbs;last as isLast">
@@ -89,102 +82,6 @@
                             <!-- TODO Tooltip met vertaling tonen? -->
                             <ng-container *ngIf="isLast === false">&nbsp; &bull; &nbsp;</ng-container>
                         </ng-container>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-2" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-2.jpg" alt="Image">
-                        <span class="sticker bg-color-2">C</span>
-                    </a>
-                    <div class="media-body">
-                        <p>
-                            <br>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain
-                            was born and I will give you a complete account of the system, and expound the actual teachings
-                            of the great explorer.</p>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-3" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-3.jpg" alt="Image">
-                        <span class="sticker bg-color-3">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-3">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-red btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-5" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-1.jpg" alt="Image">
-                        <span class="sticker bg-color-5">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-5">Phasellus convallis eros.</a>
-                        </h3>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>Age 2 to 4 Years</li>
-                            <li>
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>9.00AM-11.00AM</li>
-                        </ul>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-purple btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="media courseList couresListPage">
-                    <a class="media-left border-color-6" href="course-single-left-sidebar.html">
-                        <img class="media-object" src="img/home/courses/course-2.jpg" alt="Image">
-                        <span class="sticker bg-color-6">$50</span>
-                    </a>
-                    <div class="media-body">
-                        <h3 class="media-heading">
-                            <a href="course-single-left-sidebar.html" class="color-6">Phasellus convallis eros.</a>
-                        </h3>
-                        <p>They must explain to you how all this mistaken idea of denouncing pleasure and praising pain was
-                            born and I will give you a complete account of the system, and expound the actual teachings of
-                            the great explorer.</p>
-                        <ul class="list-inline btn-pink btnPart">
-                            <li>
-                                <a href="cart-page.html" class="btn btn-primary ">
-                                    <i class="fa fa-shopping-basket " aria-hidden="true"></i>Add to Cart</a>
-                            </li>
-                            <li>
-                                <a href="course-single-left-sidebar.html" class="btn btn-link">
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i> More</a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
