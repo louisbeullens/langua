@@ -1,11 +1,10 @@
-<section class="whiteSection full-width clearfix p-t-n">
+<section class="mainContent full-width clearfix">
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="sectionTitle text-center">
                     <h2>
-                        <span class="shape shape-left bg-color-4"></span>
-                        <span>Resultaten</span>
+                        <span class="shape shape-left bg-color-4"></span> <span>Resultaten</span>
                         <span class="shape shape-right bg-color-4"></span>
                     </h2>
                 </div>
@@ -15,7 +14,8 @@
             <div class="col-xs-12">
                 <div class="tabCommon tabLeft">
                     <ul class="nav nav-tabs">
-                        <li><a data-toggle="tab" routerLink="/test/translations">&nbsp;&nbsp;Vertalen&nbsp;&nbsp;</a></li>
+                        <li><a data-toggle="tab" routerLink="/test/translations">&nbsp;&nbsp;Vertalen&nbsp;&nbsp;</a>
+                        </li>
                         <li><a data-toggle="tab" routerLink="/test/conjugations">Vervoegen</a></li>
                         <li class="active"><a data-toggle="tab" routerLink="/test/results">Resultaten</a></li>
                     </ul>
@@ -24,11 +24,8 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div *ngIf="results;else noResults">
-                                        <p>Laatste test: {{results.lastTest.correct}} juiste antwoorden van
-                                            {{results.lastTest.total}} vragen</p>
-                                        <p>Alle testen: {{results.allTests.correct}} juiste antwoorden van
-                                            {{results.allTests.total}} vragen uit {{results.allTests.numTests}}
-                                            testen</p>
+                                        <p>Laatste test: {{results.lastTest.correct}} juiste antwoorden van {{results.lastTest.total}} vragen</p>
+                                        <p>Alle testen: {{results.allTests.correct}} juiste antwoorden van {{results.allTests.total}} vragen uit {{results.allTests.numTests}} testen</p>
                                         <button class="btn btn-primary" (click)="onResetResults()">
                                             Resultaten verwijderen
                                         </button>
@@ -41,60 +38,45 @@
                                                     <div style="display: block; width: 250px; position: absolute; bottom:0px;">
                                                         <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
                                                         <span style="position:absolute; width: 20px; height: 20px; top: 50%; left: 50%; margin:-10px;">66%</span>
-                                                        <canvas baseChart width="250" height="250"
-                                                                [options]="{
+                                                        <canvas baseChart width="250" height="250" [options]="{
     legend: {
       display: true,
       position: 'bottom'
     }
-  }"
-                                                                [datasets]="[{
+  }" [datasets]="[{
                                                     label:'resultaat',
                                                     data:[1,2]
-                                                    }]"
-                                                                [labels]="['juist', 'fout']"
-                                                                [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]"
-                                                                [chartType]="'doughnut'"></canvas>
+                                                    }]" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]" [chartType]="'doughnut'"></canvas>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4" style="height: 100%; position: relative;">
                                                     <div style="display: block; width: 200px; position: absolute; bottom: 0px;">
                                                         <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
                                                         <span style="position:absolute; width: 20px; height: 20px; top: 50%; left: 50%; margin:-10px;">66%</span>
-                                                        <canvas baseChart width="200" height="200"
-                                                                [options]="{
+                                                        <canvas baseChart width="200" height="200" [options]="{
     legend: {
       display: true,
       position: 'bottom'
     }
-  }"
-                                                                [datasets]="[{
+  }" [datasets]="[{
                                                     label:'resultaat',
                                                     data:[1,2]
-                                                    }]"
-                                                                [labels]="['juist', 'fout']"
-                                                                [colors]="[{backgroundColor:['yellow', 'cyan']}]"
-                                                                [chartType]="'doughnut'"></canvas>
+                                                    }]" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['yellow', 'cyan']}]" [chartType]="'doughnut'"></canvas>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4" style="height: 100%; position: relative;">
                                                     <div style="display: block; width: 200px; position: absolute; bottom: 0px;">
                                                         <span style="display: block; width: 100%; text-align: center; margin-bottom: 5px;">Laatste test</span>
                                                         <span style="position:absolute; width: 10px; height: 10px; top: 50%; left: 50%; margin:-5px;">66%</span>
-                                                        <canvas baseChart width="200" height="150"
-                                                                [options]="{
+                                                        <canvas baseChart width="200" height="150" [options]="{
     legend: {
       display: true,
       position: 'bottom'
     }
-  }"
-                                                                [datasets]="[{
+  }" [datasets]="[{
                                                     label:'resultaat',
                                                     data:[1,2]
-                                                    }]"
-                                                                [labels]="['juist', 'fout']"
-                                                                [colors]="[{backgroundColor:['yellow', 'cyan']}]"
-                                                                [chartType]="'doughnut'"></canvas>
+                                                    }]" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['yellow', 'cyan']}]" [chartType]="'doughnut'"></canvas>
                                                     </div>
                                                 </div>
                                             </div>

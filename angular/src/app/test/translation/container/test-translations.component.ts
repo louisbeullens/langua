@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TestService} from "../../../test.service";
-import {Router} from "@angular/router";
+import {Router} from "@angular/router"; //TODO nog in gebruik?
 
 @Component({
   selector: 'app-test-translations',
@@ -13,5 +13,4 @@ export class TestTranslationsComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

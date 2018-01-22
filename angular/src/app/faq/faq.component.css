@@ -1,0 +1,17 @@
+th {
+    padding: 5px 20px;
+    text-align: center;
+}
+
+td {
+    padding: 5px 0px 0px 0px;
+    text-align: center;
+}
+
+td.alignRight {
+    text-align: right;
+}
+
+.panel-body p {
+    margin: 0px 0px 15px 0px;
+}

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ApiService} from "../api.service";
 import {ActivatedRoute} from "@angular/router";
-import { MemberService } from '../member.service';
-import { Location } from '@angular/common';
+import {MemberService} from '../member.service';
+import {Location} from '@angular/common';
 
 declare var document;
 
@@ -15,10 +15,10 @@ export class VerbListComponent implements OnInit {
 
     public fragments: string[] = null;
     public indexedVerbs: any = null;
-    public languageAdj = ['Spaanse','Engelse','Latijnse','Nederlandse','Franse'];
+    public languageAdj = ['Spaanse', 'Engelse', 'Latijnse', 'Nederlandse', 'Franse'];
 
     public languageId: number;
-    public verbType = 0;
+    public verbType = 0;        //TODO Is deze nog in gebruik?
 
     constructor(private api: ApiService, public memberService: MemberService, private route: ActivatedRoute, private locationService: Location) {
     }
@@ -26,14 +26,14 @@ export class VerbListComponent implements OnInit {
     ngOnInit() {
         this.route.fragment.subscribe(fragment => {
             if (fragment && fragment.length === 1 && fragment >= 'A' && fragment <= 'Z') {
-                const element = document.querySelector('#'+fragment);
+                const element = document.querySelector('#' + fragment);
                 if (element) {
                     element.scrollIntoView({behavior: 'smooth'});
                 }
             }
         });
-        const languageIds = { es: 1, en: 2, nl: 4, fr: 5 };
-        const locales = { 1: 'es', 2: 'en', 4: 'nl', 5: 'fr' };
+        const languageIds = {es: 1, en: 2, nl: 4, fr: 5};
+        const locales = {1: 'es', 2: 'en', 4: 'nl', 5: 'fr'};
         this.route.params.subscribe(params => {
             this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
             this.getVerbs();
@@ -52,7 +52,7 @@ export class VerbListComponent implements OnInit {
         this.getVerbs();
     }
 
-    onChange() {
+    onChange() {    //TODO Is deze nog nodig voor iets?
 
     }
 

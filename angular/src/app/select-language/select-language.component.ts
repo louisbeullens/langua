@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MemberService} from "../member.service";
 
 @Component({
-  selector: 'app-select-language',
-  templateUrl: './select-language.component.html',
-  styleUrls: ['./select-language.component.css']
+    selector: 'app-select-language',
+    templateUrl: './select-language.component.html',
+    styleUrls: ['./select-language.component.css']
 })
+
 export class SelectLanguageComponent implements OnInit {
-  choosenLanguage: number;
+    choosenLanguage: number;
 
-  constructor(private memberService: MemberService) { }
+    constructor(private memberService: MemberService) {
+    }
 
-  ngOnInit() {
-    this.choosenLanguage = this.memberService.getCurrentLanguageId();
-  }
+    ngOnInit() {
+        this.choosenLanguage = this.memberService.getCurrentLanguageId();
+    }
 
-  onChange(event) {
-    console.log(this.choosenLanguage);
-    this.memberService.setCurrentLanguageId(this.choosenLanguage);
-  }
-
+    onChange(event) { // TODO Event nog in gebruik?
+        console.log(this.choosenLanguage);
+        this.memberService.setCurrentLanguageId(this.choosenLanguage);
+    }
 }
