@@ -35,14 +35,14 @@
 
                             <div class="filterVerbs dropdown color-2">
                                 <button class="dropdown-toggle color-2" id="filterVerbType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Alle werkwoorden
+                                    {{verbTypeOptionNames[verbType]}}
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="filterVerbType">
-                                    <li class=""><a href="">Alle werkwoorden</a></li>
+                                    <li class=""><a (click)="onChange(0)">{{verbTypeOptionNames[0]}}</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li class=""><a href="">Regelmatige werkwoorden</a></li>
-                                    <li class=""><a href="">Uitzonderingen</a></li>
+                                    <li class=""><a (click)="onChange(1)">{{verbTypeOptionNames[1]}}</a></li>
+                                    <li class=""><a (click)="onChange(2)">{{verbTypeOptionNames[2]}}</a></li>
                                 </ul>
                             </div>
 
@@ -65,7 +65,7 @@
                         <div class="tabCommon media-left">
                             <ul class="nav nav-tabs">
                                 <li *ngFor="let fragment of fragments">
-                                    <a style="padding:0px 9px 0px 8px;" data-toggle="tab" routerLink="/verblist" fragment="{{fragment}}">{{fragment}}</a>
+                                    <a style="padding:0px 9px 0px 8px;" data-toggle="tab" routerLink="/verblist/{{locale}}" fragment="{{fragment}}">{{fragment}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -78,7 +78,7 @@
                     </a>
                     <div class="media-body" style="padding:15px 15px 15px 115px;">
                         <ng-container *ngFor="let verb of part.verbs;last as isLast">
-                            <a routerLink="/verb/detail/{{verb.singular.split(' ').join('_')}}">{{verb.singular}}</a>
+                            <a routerLink="/verb/{{verb.singular.split(' ').join('_')}}">{{verb.singular}}</a>
                             <!-- TODO Tooltip met vertaling tonen? -->
                             <ng-container *ngIf="isLast === false">&nbsp; &bull; &nbsp;</ng-container>
                         </ng-container>

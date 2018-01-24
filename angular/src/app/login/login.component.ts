@@ -1,11 +1,10 @@
 import {Component, NgZone, OnInit, AfterViewChecked } from '@angular/core';
 import {MemberService} from '../member.service';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {Subject} from "rxjs/Subject";
 
 declare var window;
 declare var FB;
-declare var grecaptcha;
 
 @Component({
     selector: 'app-login',
@@ -17,13 +16,14 @@ export class LoginComponent implements OnInit, AfterViewChecked {
     readonly REGISTER = 1;
     readonly LOGIN = 2;
 
-    mode = this.PRELOGIN;
+    public mode = this.PRELOGIN;
 
     public email = '';
+    public grecaptchaResponse = '';
 
     private grecaptchaId: any = null;
 
-    constructor(private memberService: MemberService, private router: Router, private zone: NgZone) {
+    constructor(private memberService: MemberService, private router: Router, private zone: NgZone, private route: ActivatedRoute) {
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '699980090205893',
@@ -45,13 +45,36 @@ export class LoginComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
+        if (this.route.snapshot.data.mode === this.REGISTER) {
+            this.mode = this.REGISTER;
+        }
+    }
+
+    renderReCaptcha() {
+        if (window.grecaptcha) {
+            this.grecaptchaId = window.grecaptcha.render('g-recaptcha',{
+                sitekey: '6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl',
+                callback: (response => this.grecaptchaCallback(response)),
+                'expired-callback': (response => this.grecaptchaExpiredCallback()),
+                'error-callback': (_ => this.grecaptchaErrorCallback())
+            });
+        } else {
+            setTimeout(_ => { this.renderReCaptcha() }, 100);
+        }
     }
 
     ngAfterViewChecked() {
         if (this.mode === this.REGISTER && this.grecaptchaId === null) {
-            this.grecaptchaId = grecaptcha.render('g-recaptcha',{
-                sitekey: '6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl'
-            });
+            this.grecaptchaId = 'pending';
+            this.renderReCaptcha();
+        }
+    }
+
+    requestPasswordReset() {
+        if (this.email !== '') {
+            this.memberService.requestPasswordReset(this.email).subscribe(response => {
+                this.router.navigateByUrl('/password/reset');
+            })
         }
     }
 
@@ -75,15 +98,18 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                 });
                 break;
             case this.REGISTER:
-                const response = grecaptcha.getResponse(this.grecaptchaId);
-                console.log(response);
-                if (response !== '') {
+                if (this.grecaptchaResponse !== '') {
                     this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
                         console.log(member);
                     });
                 }
                 break;
         }
+    }
+
+    onPrevious() {
+        this.grecaptchaId = null;
+        this.mode = this.PRELOGIN;
     }
 
     FBGetLoginStatus() {
@@ -111,5 +137,17 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                 this.zone.run(_ => this.router.navigateByUrl('/test/results'));
             }, err => console.log(err));
         }
+    }
+
+    grecaptchaCallback(response) {
+        this.grecaptchaResponse = response;
+    }
+
+    grecaptchaExpiredCallback() {
+        this.grecaptchaResponse = '';
+    }
+
+    grecaptchaErrorCallback() {
+        this.grecaptchaResponse = 'none';
     }
 }

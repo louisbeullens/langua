@@ -12,6 +12,7 @@ import {VerbDetailSpanishComponent} from "./verb-detail/spanish/verb-detail-span
 import { VerbDetailContainerComponent } from './verb-detail/container/verb-detail-container.component';
 import { LandingComponent } from './landing/landing.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const routes: Routes = [
     {path: '', component: LandingComponent},
@@ -19,14 +20,21 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'dictionary', component: DictionaryComponent},
     {path: 'faq', component: FaqComponent},
+    {path: 'password/reset', component: PasswordResetComponent},
+    {path: 'register', component: LoginComponent, data: {mode: 1}},
     {path: 'test', children: [
         { path: 'conjugations', component: TestConjugationsComponent },
+        { path: 'conjugations/es', component: TestConjugationsComponent, data: {languageId: 1} },
+        { path: 'conjugations/en', component: TestConjugationsComponent, data: {languageId: 2} },
+        { path: 'conjugations/fr', component: TestConjugationsComponent, data: {languageId: 5} },
         { path: 'results', component: TestResultsComponent },
-        { path: 'translations', component: TestTranslationsComponent }
+        { path: 'translations', component: TestTranslationsComponent },
+        { path: 'translations/es', component: TestTranslationsComponent, data: {languageId: 1} },
+        { path: 'translations/en', component: TestTranslationsComponent, data: {languageId: 2} },
+        { path: 'translations/fr', component: TestTranslationsComponent, data: {languageId: 5} },
     ] },
     { path: 'testimonial', component: TestimonialComponent },
-    {path: 'faq', component: FaqComponent},
-    {path: 'verb/detail/:name', component: VerbDetailContainerComponent},
+    {path: 'verb/:name', component: VerbDetailContainerComponent},
     {path: 'verblist', component: VerbListComponent},
     {path: 'verblist/:locale', component: VerbListComponent}
 ];

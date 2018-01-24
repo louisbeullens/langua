@@ -25,7 +25,7 @@ export class ConjugationDetailComponent implements OnInit {
         case 2:
           this.forms = ['', 'I', 'You', 'He / She / It', 'We', 'You', 'They'];
           break;
-        case 2:
+        case 5:
           this.forms = ['', 'Je', 'Tu', 'Il / Elle', 'Nous', 'Vous', 'Ils / Elles'];
           break;
         default:

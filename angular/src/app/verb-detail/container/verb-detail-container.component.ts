@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from "../../api.service";
 import {forEach} from '@angular/router/src/utils/collection'; //TODO Nog in gebruik?
+import { MemberService } from '../../member.service';
 
 @Component({
     selector: 'app-verb-detail-container',
@@ -14,16 +15,37 @@ export class VerbDetailContainerComponent implements OnInit {
     public tenses = null;
     public conjugations = null;
 
-    constructor(private route: ActivatedRoute, private api: ApiService) {
+    constructor(private route: ActivatedRoute, private api: ApiService, private memberService: MemberService) {
     }
 
     ngOnInit() {
+        const scope = {
+            where: { languageId: this.memberService.getNativeLanguageId() }
+        }
         const verbFilter = {
-            where: {singular: this.route.snapshot.paramMap.get('name').split('_').join(' ')},
+            include: [
+                { relation: 'translations1', scope: scope },
+                { relation: 'translations2', scope: scope },
+            ],
+            where: {
+                singular: this.route.snapshot.paramMap.get('name').split('_').join(' ')
+            },
         };
         this.api.get<any>('/Words', {filter: verbFilter}).subscribe(async verbs => {
             const verb = verbs[0];
-            this.verb = verbs[0];
+
+            verb.translations = [];
+            if (verb.translations1.length > 0) {
+                verb.translations = verb.translations.concat(verb.translations1);
+            }
+            if (verb.translations2.length > 0) {
+                verb.translations = verb.translations.concat(verb.translations2);
+            }
+            verb.translations1 = undefined;
+            verb.translations2 = undefined;
+
+            this.verb = verb;
+
             this.tenses = await this.api.get<any>('/Languages/' + verb.languageId + '/tenses', {filter: {order: 'order ASC'}}).toPromise();
             const tenseIds = this.tenses.map(tense => tense.id);
             const conjugationFilter = {

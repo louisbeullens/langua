@@ -37,6 +37,7 @@ module.exports = function (app, next) {
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
         member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
+        mailinglist: [newModel, 'MailingList'],
         role: [newModel, 'Role', [{name: 'admin'}]],
         rolemapping: [newModel, 'RoleMapping', roleMappingCreate],
         iplocation: [newModel, 'IpLocation'],
@@ -272,7 +273,7 @@ module.exports = function (app, next) {
     }
 
     function memberMapFn(a) {
-        return {
+        const member = {
             firstname: a.userfirstname,
             lastname: a.userlastname,
             email: a.useremail.trim(),
@@ -281,6 +282,8 @@ module.exports = function (app, next) {
             _old_id: a.userid,
             emailVerified: true
         };
+        app.models.MailingList.create({email: member.email});
+        return member;
     }
 
     function LanguageMapFn(a) {
@@ -296,6 +299,7 @@ module.exports = function (app, next) {
 
     function wordMapFn(a) {
         return {
+            isRegular: true,
             gender: a.wsex,
             articleSingular: a.wblev,
             singular: a.wev,
@@ -310,6 +314,7 @@ module.exports = function (app, next) {
 
     function verbMapFn(a) {
         return {
+            isRegular: true,
             singular: a.verbname,
             hint: a.verbtip,
             _old_id: a.verbid,
@@ -407,6 +412,14 @@ module.exports = function (app, next) {
         };
 
         if (conjugation.verbId > 0) {
+            if (conjugation.isRegular == 0) {
+                app.models.Word.findById(conjugation.verbId, {}, function(err, word) {
+                    if (word) {
+                        word.isRegular = false;
+                        word.save();
+                    }
+                });
+            }
             return conjugation;
         } else {
             return null;

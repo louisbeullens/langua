@@ -1,138 +1,115 @@
-<section class="mainContent full-width clearfix">
-    <div class="container">
-        <div>
-            <h1 *ngIf="verb" style="font-size: 4em; font-style: italic; color:#969696; font-weight: lighter;">
-                {{verb.singular}} </h1>
-        </div>
+<div class="panel panel-default courseSidebar">
+    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif">
+        <h1 style="font-size: 20px;">Persoonlijke vormen</h1>
+    </div>
+    <div class="panel-heading bg-color-2 border-color-2">
         <div class="row">
-            <div class="col-md-3 col-md-push-9 col-sm-5 col-sm-push-7 col-xs-12">
-                <aside>
-                    <div class="coursesCounter">   <!-- //TODO Hier Google ad plaatsen (en natuurlijk ook bij andere talen)   Component van maken? -->
-                        <div class="counterInner">
-                            <h3>Next Course Start In</h3>
-                            <div class="coursesCountStart clearfix">
-                                <div id="courseTimer" class="courseCountTimer"></div>
-                            </div>
-                            <a href="#" class="btn btn-primary">buy course</a>
-                        </div>
-                    </div>
-                </aside>
+            <h3 class="panel-title text-center">Aantonende wijs</h3>
+            <div class="mode col-sm-6 text-center">
+                <p>Enkelvoudige tijden</p>
             </div>
-            <div class="col-md-9 col-md-pull-3 col-sm-7 col-sm-pull-5 col-xs-12">
-                <div class="panel panel-default courseSidebar">
-                    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif">
-                        <h1 style="font-size: 20px;">Persoonlijke vormen</h1></div>
-                    <div class="panel-heading bg-color-2 border-color-2">
-                        <div class="row">
-                            <h3 class="panel-title text-center">Aantonende wijs</h3>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Enkelvoudige tijden</p>
-                            </div>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Samengestelde tijden</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[1]" [languageId]="2" [base]="''" [conjugation]="conjugations[1]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[7]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[7]"></app-conjugation-detail>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[5]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[5]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[2]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[2]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[9]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[9]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default courseSidebar">
-                    <div class="panel-heading bg-color-2 border-color-2">
-                        <div class="row">
-                            <h3 class="panel-title text-center">Aanvoegende wijs</h3>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Enkelvoudige tijden</p>
-                            </div>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Samengestelde tijden</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[12]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[12]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default courseSidebar">
-                    <div class="panel-heading bg-color-2 border-color-2">
-                        <div class="row">
-                            <h3 class="panel-title text-center">Gebiedende wijs</h3>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Enkelvoudige tijden</p>
-                            </div>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Samengestelde tijden</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[10]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[10]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[11]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[11]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default courseSidebar">
-                    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif">
-                        <h1 style="font-size: 20px;">Onpersoonlijke vormen</h1></div>
-                    <div class="panel-heading bg-color-2 border-color-2">
-                        <div class="row">
-                            <div class="mode col-sm-6 text-center">
-                                <p>Enkelvoudige tijden</p>
-                            </div>
-                            <div class="mode col-sm-6 text-center">
-                                <p>Samengestelde tijden</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <app-conjugation-detail *ngIf="conjugations && conjugations[8]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[8]"></app-conjugation-detail>
-                            </div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="mode col-sm-6 text-center">
+                <p>Samengestelde tijden</p>
             </div>
         </div>
     </div>
-</section>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[1]" [languageId]="2" [base]="''" [conjugation]="conjugations[1]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[7]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[7]"></app-conjugation-detail>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[5]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[5]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[2]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[2]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[9]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[9]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default courseSidebar">
+    <div class="panel-heading bg-color-2 border-color-2">
+        <div class="row">
+            <h3 class="panel-title text-center">Aanvoegende wijs</h3>
+            <div class="mode col-sm-6 text-center">
+                <p>Enkelvoudige tijden</p>
+            </div>
+            <div class="mode col-sm-6 text-center">
+                <p>Samengestelde tijden</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[12]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[12]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default courseSidebar">
+    <div class="panel-heading bg-color-2 border-color-2">
+        <div class="row">
+            <h3 class="panel-title text-center">Gebiedende wijs</h3>
+            <div class="mode col-sm-6 text-center">
+                <p>Enkelvoudige tijden</p>
+            </div>
+            <div class="mode col-sm-6 text-center">
+                <p>Samengestelde tijden</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[10]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[10]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[11]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[11]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default courseSidebar">
+    <div class="form text-center" style="margin:5px 0px; padding:9px; border-radius: 7px; text-transform: capitalize; font-family: 'Dosis', sans-serif">
+        <h1 style="font-size: 20px;">Onpersoonlijke vormen</h1>
+    </div>
+    <div class="panel-heading bg-color-2 border-color-2">
+        <div class="row">
+            <div class="mode col-sm-6 text-center">
+                <p>Enkelvoudige tijden</p>
+            </div>
+            <div class="mode col-sm-6 text-center">
+                <p>Samengestelde tijden</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <app-conjugation-detail *ngIf="conjugations && conjugations[8]" [languageId]="1" [base]="verb.base" [conjugation]="conjugations[8]"></app-conjugation-detail>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+    </div>
+</div>

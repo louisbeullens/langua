@@ -1,0 +1,15 @@
+.score {
+    font-size: 1.4em;
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -10px;
+}
+
+.media {
+    min-height: 300px;
+}

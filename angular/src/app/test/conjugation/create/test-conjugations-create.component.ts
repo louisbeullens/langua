@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {ApiService} from "../../../api.service";
 import {MemberService} from "../../../member.service";
 import {TestService} from "../../../test.service";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-test-conjugations-create',
@@ -20,7 +21,7 @@ export class TestConjugationsCreateComponent implements OnInit {
 
     public tests = [];
 
-    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService) {
+    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService, private route: ActivatedRoute) {
     }
 
     async ngOnInit() {
@@ -33,6 +34,8 @@ export class TestConjugationsCreateComponent implements OnInit {
                 this.tests = tests;
             });
         }
+
+        this.languageId = this.route.snapshot.data.languageId || this.languageId;
     }
 
     onSubmit(form) {

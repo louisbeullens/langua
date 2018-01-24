@@ -13,8 +13,13 @@ export class MemberService {
     private nativeLanguage = 4;
     private trainingLanguage = 2;
     private roles: string[] = null;
+    private registered = false;
 
     constructor(private api: ApiService) {
+    }
+
+    requestPasswordReset(email: string) {
+        return this.api.post<any>('/Members/reset',{email: email});
     }
 
     login(email: string, password: string): Observable<AccessToken> {
@@ -22,6 +27,7 @@ export class MemberService {
             tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
+                this.registered = true;
                 this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
                     this.roles = roles;
                 });
@@ -34,6 +40,7 @@ export class MemberService {
             tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
+                this.registered = true;
                 this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
                     this.roles = roles;
                 });
@@ -81,6 +88,11 @@ export class MemberService {
 
     hasRole(role: string): boolean {
         return (this.roles && this.roles.indexOf(role) !== -1) ? true : false;
+    }
+
+    isRegistered() {
+        console.log('registered,', this.registered);
+        return this.registered;
     }
 
     getResults(): Promise<any> {

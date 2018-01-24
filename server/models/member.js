@@ -5,7 +5,9 @@ var app = require('../../server/server');
 var config = require('../../server/config.json');
 var path = require('path');
 
-const privateSettings = require('../../server/private-settings');
+var loopback = require('loopback');
+
+var privateSettings = require('../private-settings');
 
 module.exports = function (Member) {
 
@@ -14,15 +16,23 @@ module.exports = function (Member) {
     Member.getVerifyOptions = function () {
         const defaultOptions = {
             type: 'email',
-            from: 'registratie@langua.be',
-            host: '192.168.0.139',
-            redirect: 'http://192.168.0.139:4200/'
+            from: 'registratie@Langua.be',
+            subject: 'Welkom bij Langua',
+            protocol: privateSettings.protocol,
+            host: privateSettings.host,
+            port: privateSettings.port,
+            redirect: privateSettings.redirect,
+            template: path.join(__dirname, '..', 'templates', 'verify.ejs')
         };
         return Object.assign({}, this.settings.verifyOptions || defaultOptions);
     };
 
     Member.afterRemote('create', function(ctx, memberInstance, next) {
-        memberInstance.verify(Member.getVerifyOptions());
+        Member.app.models.MailingList.create({email: memberInstance.email});
+        const verifyOptions = Object.assign({}, Member.getVerifyOptions());
+        verifyOptions.firstname = memberInstance.firstname;
+        verifyOptions.lastname = memberInstance.lastname;
+        memberInstance.verify(verifyOptions);
         next();
     });
 
@@ -286,5 +296,25 @@ module.exports = function (Member) {
         ],
         http: {path: '/:id/resetResults', verb: 'get'},
         returns: {type: 'boolean', root: true}
+    });
+
+    Member.on('resetPasswordRequest', function(info) {
+        const template = loopback.template(path.resolve(path.join(__dirname,'..','templates','password-reset.ejs')));
+        const html = template({
+            token: info.accessToken.id,
+            verifyHref: privateSettings.protocol + '://' + privateSettings.frontend + '/password/reset?token='+info.accessToken.id,
+            firstname: info.user.firstname,
+            lastname: info.user.lastname
+        });
+        Member.app.models.Email.send({
+            to: info.email,
+            from: 'noreply@langua.be',
+            subject: 'Wachtwoord vergeten',
+            html: html
+        }, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
 };

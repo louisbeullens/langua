@@ -1,5 +1,10 @@
 'use strict';
 
 module.exports = {
-    sendgridApiKey: ''
+    sendgridApiKey: 'string',
+    protocol: 'http',
+    frontend: 'localhost:4200',
+    host: 'localhost',
+    port: 3000,
+    redirect: 'http://localhost:4200/login'
 };

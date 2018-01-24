@@ -18,7 +18,9 @@ export class VerbListComponent implements OnInit {
     public languageAdj = ['Spaanse', 'Engelse', 'Latijnse', 'Nederlandse', 'Franse'];
 
     public languageId: number;
-    public verbType = 0;        //TODO Is deze nog in gebruik?
+    public locale: string = '';
+    public verbTypeOptionNames = ['Alle werkwoorden', 'Regelmatige werkwoorden', 'Uitzonderingen']
+    public verbType = 0;        //deze is binnekort nodig voor filter.
 
     constructor(private api: ApiService, public memberService: MemberService, private route: ActivatedRoute, private locationService: Location) {
     }
@@ -35,8 +37,11 @@ export class VerbListComponent implements OnInit {
         const languageIds = {es: 1, en: 2, nl: 4, fr: 5};
         const locales = {1: 'es', 2: 'en', 4: 'nl', 5: 'fr'};
         this.route.params.subscribe(params => {
-            this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
-            this.getVerbs();
+            if (this.route.snapshot.paramMap.has('locale')) {
+                this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
+                this.locale = this.route.snapshot.params['locale'];
+                this.getVerbs();
+            }
         });
         this.memberService.currentLanguageIdChanged.subscribe(languageId => {
             this.languageId = languageId;
@@ -48,16 +53,18 @@ export class VerbListComponent implements OnInit {
         this.languageId = this.memberService.getCurrentLanguageId();
         if (this.route.snapshot.paramMap.has('locale')) {
             this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
+            this.locale = this.route.snapshot.params['locale'];
         }
         this.getVerbs();
     }
 
-    onChange() {    //TODO Is deze nog nodig voor iets?
-
+    onChange(type) {    //TODO Is deze nog nodig voor iets? ja, binnekort
+        this.verbType = type;
+        this.getVerbs();
     }
 
     getVerbs() {
-        const filter = {
+        const filter: any = {
             where: {
                 and: [
                     {languageId: this.languageId},
@@ -66,16 +73,26 @@ export class VerbListComponent implements OnInit {
             },
             order: 'index ASC'
         };
+        if (this.verbType === 1) {
+            filter.where.and.push({isRegular: true});
+        } else if (this.verbType === 2) {
+            filter.where.and.push({isRegular: false});
+        }
         this.api.get<any>('/Words', {filter: filter}).subscribe(verbs => {
             this.indexedVerbs = [];
             this.fragments = [];
             verbs = verbs.map(entry => {
                 return {singular: entry.singular, index: entry.index};
             });
-            let index = '@';
+            let index = '@'; //eerste ascii character voor 'A'
+            const specialChars = {É: 'E'};
             for (let i = 0; i < verbs.length; i++) {
-                if (verbs[i].index[0].toUpperCase() > index) {
-                    index = verbs[i].index[0].toUpperCase();
+                let firstChar = verbs[i].index[0].toUpperCase();
+                if (specialChars[firstChar]) {
+                    firstChar = specialChars[firstChar];
+                }
+                if (firstChar > index) {
+                    index = firstChar;
                     this.fragments.push(index);
                     this.indexedVerbs.push({index: index, verbs: []});
                 }

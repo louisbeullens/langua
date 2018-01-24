@@ -10,14 +10,24 @@ import {Observable} from "rxjs/Observable";
 export class TestResultsComponent implements OnInit {
     public results: any = null;
 
+    public options = {
+        legend: {
+          display: true,
+          position: 'bottom'
+        }
+      };
+
     constructor(private memberService: MemberService) {
     }
 
     ngOnInit() {
         this.memberService.getResults().then(results => {
-            this.results = results;
-            console.log(results);
-        }).catch(err => console.log('getResults err', err));
+            this.results = {};
+            for (let key in results) {
+                this.results[key] = [results[key].correct, results[key].incorrect]
+            }
+        
+        }).catch(err => {});
     }
 
     onResetResults() {

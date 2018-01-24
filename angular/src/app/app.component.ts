@@ -21,8 +21,9 @@ export class AppComponent implements OnInit {
     public languages = null;
     public currentLanguage = '';
     public searchValue = '';
+    public email;
 
-    constructor(public apiService: ApiService, public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
+    constructor(public api: ApiService, public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
     }
 
     ngOnInit() {
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
             }
         });
 
-        this.apiService.getLanguages().then(lanugages => {
+        this.api.getLanguages().then(lanugages => {
             const currentLanguageId = this.memberService.getCurrentLanguageId();
             for (let i=0; i< lanugages.length; i++) {
                 if (lanugages[i].id === currentLanguageId) {
@@ -41,6 +42,13 @@ export class AppComponent implements OnInit {
                 }
             }
             this.languages = lanugages;
+        });
+    }
+
+    onSubmit() {
+        this.api.post<any>('/MailingList',{email: this.email}).subscribe(response => {
+            this.email = '';
+            console.log(response);
         });
     }
 

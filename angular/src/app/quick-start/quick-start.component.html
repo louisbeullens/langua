@@ -1,0 +1,98 @@
+<div class="row">
+  <ng-container *ngIf="info">
+    <div class="col-sm-4 col-xs-12 block">
+      <div class="thumbnail thumbnailContent">
+        <a href="course-single-left-sidebar.html">
+          <img src="assets/img/Spanish-Language.jpg" alt="Hablas Espagñol?" class="img-responsive">
+        </a>
+        <div class="caption border-color-1">
+          <h3 class="color-1">Spaans / Espagñol</h3>
+          <ul class="list-unstyled">
+            <li>
+              <i class="fa fa-book" aria-hidden="true"></i>{{info[1].wordCount}} Woorden</li>
+            <li>
+              <i class="fa fa-file-text-o" aria-hidden="true"></i>{{info[1].verbCount}} Werkwoorden</li>
+            <li>
+              <i class="fa fa-calendar-o" aria-hidden="true"></i>{{info[1].conjugaionCount}} Vervoegingen</li>
+          </ul>
+          <p>
+            <br>Spaans (of Castilliaans) is na het Mandarijn Chinees de meest gesproken taal ter wereld.
+            <br> Altijd handig dus!</p>
+          <ul class="list-inline btn-red">
+            <li>
+              <a routerLink="/test/translations/es" class="btn btn-vertalen">
+                <i class="fa fa-exchange" aria-hidden="true"></i>Vertalen</a>
+            </li>
+            <li>
+              <a routerLink="/test/conjugations/es" class="btn btn-vervoegen">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i>Vervoegen</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12 block">
+      <div class="thumbnail thumbnailContent">
+        <a href="course-single-left-sidebar.html">
+          <img src="assets/img/English-Language.jpg" alt="Do you speak English?" class="img-responsive">
+        </a>
+        <div class="caption border-color-3">
+          <h3 class="color-3">Engels / English</h3>
+          <ul class="list-unstyled">
+            <li>
+              <i class="fa fa-book" aria-hidden="true"></i>{{info[2].wordCount}} Woorden</li>
+            <li>
+              <i class="fa fa-file-text-o" aria-hidden="true"></i>{{info[2].verbCount}} Werkwoorden</li>
+            <li>
+              <i class="fa fa-calendar-o" aria-hidden="true"></i>{{info[2].conjugaionCount}} Vervoegingen</li>
+          </ul>
+          <p>
+            <br>Engels is momenteel zonder twijfel de belangrijkste internationale taal en een vereiste in vele vakgebieden.
+            Let's go for it! </p>
+          <ul class="list-inline btn-red">
+            <li>
+              <a routerLink="/test/translations/en" class="btn btn-vertalen">
+                <i class="fa fa-exchange" aria-hidden="true"></i>Vertalen</a>
+            </li>
+            <li>
+              <a routerLink="/test/conjugations/en" class="btn btn-vervoegen">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i>Vervoegen</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12 block">
+      <div class="thumbnail thumbnailContent">
+        <a href="course-single-left-sidebar.html">
+          <img src="assets/img/French-Language.jpg" alt="Parlez-vous Français?" class="img-responsive">
+        </a>
+        <div class="caption border-color-4">
+          <h3 class="color-4">Frans / Français</h3>
+          <ul class="list-unstyled">
+            <li>
+              <i class="fa fa-book" aria-hidden="true"></i>{{info[5].wordCount}} Woorden</li>
+            <li>
+              <i class="fa fa-file-text-o" aria-hidden="true"></i>{{info[5].verbCount}} Werkwoorden</li>
+            <li>
+              <i class="fa fa-calendar-o" aria-hidden="true"></i>{{info[5].conjugaionCount}} Vervoegingen</li>
+          </ul>
+          <p>
+            <br>Frans is de officiële taal in tientallen landen wereldwijd. Wordt jij één van de 75 miljoen gebruikers van deze
+            taal?
+          </p>
+          <ul class="list-inline btn-red">
+            <li>
+              <a routerLink="/test/translations/fr" class="btn btn-vertalen">
+                <i class="fa fa-exchange" aria-hidden="true"></i>Vertalen</a>
+            </li>
+            <li>
+              <a routerLink="/test/conjugations/fr" class="btn btn-vervoegen">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i>Vervoegen</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

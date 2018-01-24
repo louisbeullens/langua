@@ -1,4 +1,31 @@
-<!-- Moet hier niet meer in dan enkel onderstaande?  bv. vertaling van het werkwoord (of melding waarom inschrijven?); Google advertenties; alle gemeenschappelijk opmaak?; ... -->
-<app-verb-detail-spanish *ngIf="verb && verb.languageId === 1" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-spanish>
-<app-verb-detail-english *ngIf="verb && verb.languageId === 2" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-english>
-<app-verb-detail-french *ngIf="verb && verb.languageId === 5" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-french>
+<section class="mainContent full-width clearfix">
+    <div class="container">
+        <div *ngIf="verb">
+            <h1 style="display: inline-block; font-size: 4em; font-style: italic; color:#969696; font-weight: lighter; margin-right: 10px;">{{verb.singular}}</h1>
+            <ng-container *ngIf="verb.translations.length > 0 && memberService.isRegistered() === true">
+                (<ng-container *ngFor="let translation of verb.translations;last as isLast">
+                        <span>
+                            {{translation.singular}}
+                            <ng-container *ngIf="isLast === false">, </ng-container>
+                        </span>
+                    </ng-container>)
+            </ng-container>
+            <span *ngIf="verb.translations.length > 0 && memberService.isRegistered() === false">(<a routerLink="/login">inloggen</a> of <a routerLink="/register">registreren</a> om de vertaling weer te geven.)</span>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-push-9 col-sm-5 col-sm-push-7 col-xs-12">
+                <aside>
+                    <div class="coursesCounter">
+                        <!-- TODO Hier moet Google add komen.  Via component? (Als het kan qua hoogte mooi alinieren met 'persoonlijke vormen' -->
+
+                    </div>
+                </aside>
+            </div>
+            <div class="col-md-9 col-md-pull-3 col-sm-7 col-sm-pull-5 col-xs-12">
+                <app-verb-detail-spanish *ngIf="verb && verb.languageId === 1" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-spanish>
+                <app-verb-detail-english *ngIf="verb && verb.languageId === 2" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-english>
+                <app-verb-detail-french *ngIf="verb && verb.languageId === 5" [verb]="verb" [tenses]="tenses" [conjugations]="conjugations"></app-verb-detail-french>
+            </div>
+        </div>
+    </div>
+</section>

@@ -6,6 +6,10 @@
     "validateUpsert": true
   },
   "properties": {
+    "isRegular": {
+      "type": "boolean",
+      "required": true
+    },
     "gender": {
       "type": "string",
       "length": 1,

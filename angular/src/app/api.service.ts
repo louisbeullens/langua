@@ -10,9 +10,10 @@ declare var location: any;
 @Injectable()
 export class ApiService {
     private host: string = null;
-    private accessToken: string;
+    private accessToken: string = null;
 
     private languages = null;
+    private languaInfo = null;
 
     constructor(private http: HttpClient) {
         this.host =  location.protocol + '//' + environment.apiUrl;
@@ -53,6 +54,18 @@ export class ApiService {
 
     setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
+    }
+
+    resetAccessToken() {
+        this.accessToken = null;
+    }
+
+    getLanguaInfo(): Promise<any> {
+        if (this.languaInfo) {
+            return Promise.resolve(this.languaInfo);
+        } else {
+            return this.get<any>('/Languages/info').toPromise();
+        }
     }
 
     getLanguages(): Promise<any> {

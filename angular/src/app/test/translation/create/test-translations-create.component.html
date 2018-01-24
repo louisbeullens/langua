@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSubmit(form)" #form="ngForm">
 
-    <b>Taal</b>
+    <b class="subtitle">Taal</b>
     <div>
         <select name="fromLanguageId" [(ngModel)]="fromLanguageId" #fromLanguageIdSelect>
             <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
@@ -14,7 +14,7 @@
     </div>
     <br>
 
-    <b>Woordtype</b>
+    <b class="subtitle">Woordtype</b>
     <div *ngFor="let wordType of wordTypes | async">
         <!-- <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)"/><span>{{ wordType.name }}</span><br>  -->
         <label class="languaCheckbox">{{ wordType.name }}
@@ -23,6 +23,7 @@
     </div>
     <br>
 
+    <b class="subtitle">Soort vragen</b>
     <label class="languaRadio">Alle vragen <input type="radio" name="selection" [(ngModel)]="selection" [value]="0"> <span class="checkdot"></span> </label>
     <label class="languaRadio">Nooit eerder gemaakte vragen <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> <span class="checkdot"></span> </label>
     <label class="languaRadio">Ooit eerder gemaakte fouten <input type="radio" name="selection" [(ngModel)]="selection" [value]="2"> <span class="checkdot"></span> </label>

@@ -1,0 +1,24 @@
+{
+  "name": "MailingList",
+  "plural": "MailingList",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "unsubscribeToken": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "hidden": ["unsubscribeToken"],
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

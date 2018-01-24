@@ -33,6 +33,9 @@ import { HighlightPipe } from './highlight.pipe';
 import { VerbDetailContainerComponent } from './verb-detail/container/verb-detail-container.component';
 import { LandingComponent } from './landing/landing.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
+import { DoughnutComponent } from './doughnut/doughnut.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { QuickStartComponent } from './quick-start/quick-start.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,10 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
     HighlightPipe,
     VerbDetailContainerComponent,
     LandingComponent,
-    TestimonialComponent
+    TestimonialComponent,
+    DoughnutComponent,
+    PasswordResetComponent,
+    QuickStartComponent
   ],
   imports: [
     BrowserModule,

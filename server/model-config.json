@@ -91,5 +91,9 @@
   "Book": {
     "dataSource": "langua",
     "public": true
+  },
+  "MailingList": {
+    "dataSource": "langua",
+    "public": true
   }
 }

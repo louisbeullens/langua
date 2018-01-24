@@ -3,6 +3,7 @@ import {MemberService} from "../../../member.service";
 import {Observable} from "rxjs/Observable";
 import {ApiService} from "../../../api.service";
 import {TestService} from "../../../test.service";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-test-translations-create',
@@ -18,7 +19,7 @@ export class TestTranslationsCreateComponent implements OnInit {
     public selection = 0;
     public wordTypeIds = [];
 
-    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService) {
+    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService, private route: ActivatedRoute) {
     }
 
     async ngOnInit() {
@@ -33,6 +34,8 @@ export class TestTranslationsCreateComponent implements OnInit {
                 this.tests = tests;
             });
         }
+
+        this.toLanguageId = this.route.snapshot.data.languageId || this.toLanguageId;
     }
 
     getWordTypes(): Observable<any> {
