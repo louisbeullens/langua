@@ -1,10 +1,9 @@
-import {Component, NgZone, OnInit, AfterViewChecked } from '@angular/core';
-import {MemberService} from '../member.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subject} from "rxjs/Subject";
+import { Component, NgZone, OnInit, AfterViewChecked } from '@angular/core';
+import { MemberService } from '../member.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from "rxjs/Subject";
 
 declare var window;
-declare var FB;
 
 @Component({
     selector: 'app-login',
@@ -25,7 +24,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
 
     constructor(private memberService: MemberService, private router: Router, private zone: NgZone, private route: ActivatedRoute) {
         window.fbAsyncInit = function () {
-            FB.init({
+            window.FB.init({
                 appId: '699980090205893',
                 autoLogAppEvents: true,
                 version: 'v2.11'
@@ -52,7 +51,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
 
     renderReCaptcha() {
         if (window.grecaptcha) {
-            this.grecaptchaId = window.grecaptcha.render('g-recaptcha',{
+            this.grecaptchaId = window.grecaptcha.render('g-recaptcha', {
                 sitekey: '6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl',
                 callback: (response => this.grecaptchaCallback(response)),
                 'expired-callback': (response => this.grecaptchaExpiredCallback()),
@@ -112,18 +111,12 @@ export class LoginComponent implements OnInit, AfterViewChecked {
         this.mode = this.PRELOGIN;
     }
 
-    FBGetLoginStatus() {
-        FB.getLoginStatus(response => {
-            if (response.status === 'connected') {
-                this.FBLoginCallback(response);
-            } else {
-                FB.login(response => this.FBLoginCallback(response), {
-                    auth_type: 'rerequest',
-                    scope: 'email,public_profile,user_friends',
-                    return_scopes: true
-                });
-            }
-        }, true);
+    FBLogin() {
+        window.FB.login(response => this.FBLoginCallback(response), {
+            auth_type: 'rerequest',
+            scope: 'email,public_profile,user_friends',
+            return_scopes: true
+        });
     }
 
     FBLoginCallback(response) {

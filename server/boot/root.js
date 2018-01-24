@@ -29,7 +29,7 @@ module.exports = function (server) {
         }
 
         server.models.Email.send({
-          to: ['Louis@Langua.be'],
+          to: ['Peter@Langua.be','Louis@Langua.be'],
           from: req.body.email,
           subject: 'vraagje',
           html: '<body><pre>' + req.body.message + '</pre></body>'
