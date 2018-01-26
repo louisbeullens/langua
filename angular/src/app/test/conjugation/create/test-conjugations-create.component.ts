@@ -27,7 +27,6 @@ export class TestConjugationsCreateComponent implements OnInit {
     async ngOnInit() {
         this.languageId = this.memberService.getTrainingLanguageId();
         this.languages = this.memberService.getTrainingLanguages();
-        this.tenses = this.getTenses();
 
         if (await this.memberService.getMemberId(false)) {
             this.testService.getUnfinishedConjugationTests().subscribe(tests => {
@@ -36,6 +35,7 @@ export class TestConjugationsCreateComponent implements OnInit {
         }
 
         this.languageId = this.route.snapshot.data.languageId || this.languageId;
+        this.tenses = this.getTenses();
     }
 
     onSubmit(form) {
@@ -46,7 +46,7 @@ export class TestConjugationsCreateComponent implements OnInit {
     }
 
     onLanguageIdChanged() {
-        console.log('change');
+        this.tenseIds = [];
         this.tenses = this.getTenses();
     }
 

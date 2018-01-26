@@ -96,7 +96,8 @@ module.exports = function (Test) {
                 }
             }
 
-            for (var i = 0; i < results.length && ids.length < limit; i++) {
+            while (results.length > 0 && ids.length < limit) {
+                const i = Math.floor(Math.random() * results.length);
                 var singularPossible = false;
                 var pluralPossible = false;
 
@@ -143,6 +144,12 @@ module.exports = function (Test) {
                         ids.push({id: id, form: singular ? 'S' : 'P'});
                     }
                 }
+
+                results.splice(i,1);
+            }
+
+            if (ids.length === 0) {
+                next(new Error("Geen vragen gevonden"));
             }
 
             ctx.args.data['lastQuestion'] = 0;
@@ -161,9 +168,9 @@ module.exports = function (Test) {
         var regulartityCondition = '';
 
         if (ctx.args.data.regularity === 1) {
-            regulartityCondition = 'isRegular=1 AND';
+            regulartityCondition = 'isRegular=1 AND ';
         } else if (ctx.args.data.regularity === 2) {
-            regulartityCondition = 'isRegular=0 AND';
+            regulartityCondition = 'isRegular=0 AND ';
         }
 
         const sql = "SELECT * FROM Conjugation WHERE " + regulartityCondition + "tenseId IN (?);";
@@ -174,13 +181,18 @@ module.exports = function (Test) {
 
         Test.app.datasources.langua.connector.execute(sql, params, function (err, results) {
 
+            if (err) {
+                next(err);
+            }
+
             function findId(id) {
                 return function (item) {
                     return item.id === id;
                 }
             }
 
-            for (var i = 0; i < results.length && ids.length < limit; i++) {
+            while (results.length > 0 && ids.length < limit) {
+                const i = Math.floor(Math.random() * results.length);
 
                 const forms = [];
                 const verb = results[i];
@@ -198,12 +210,15 @@ module.exports = function (Test) {
                     }
 
                 }
+
+                results.splice(i,1);
             }
 
             if (ids.length === 0) {
                 next(new Error("Geen vragen gevonden"));
             }
 
+            ctx.args.data['lastQuestion'] = 0;
             ctx.args.data['numQuestions'] = ids.length;
 
             console.log(ids);

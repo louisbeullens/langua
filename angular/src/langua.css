@@ -242,3 +242,11 @@ body.bodyColor.pattern-05 {
 b.subtitle {
     font-size: 16px;
 }
+
+.font0 {
+    font-size: 0px;
+}
+
+.question {
+    font-size: 20px;
+}

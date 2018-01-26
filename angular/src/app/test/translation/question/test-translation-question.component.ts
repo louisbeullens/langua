@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TestService} from '../../../test.service';
 import {Router} from "@angular/router";
+import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
     selector: 'app-test-translation-question',
     templateUrl: './test-translation-question.component.html',
     styleUrls: ['./test-translation-question.component.css']
 })
-export class TestTranslationQuestionComponent implements OnInit {
+export class TestTranslationQuestionComponent implements OnInit, AfterViewChecked {
     public question;
     public answer = '';
     public valid = '';
@@ -16,12 +17,20 @@ export class TestTranslationQuestionComponent implements OnInit {
 
     public specialChars: string[];
 
+    @ViewChild('answerCtrl') answerEl:ElementRef;
+
     constructor(public testService: TestService, private router: Router) {
         this.specialChars = ['é','§','è','ç','à'];
     }
 
     ngOnInit() {
         this.getQuestion();
+    }
+
+    ngAfterViewChecked() {
+        if (this.answerEl) {
+            this.answerEl.nativeElement.focus();
+        }
     }
 
     getQuestion() {
@@ -42,6 +51,7 @@ export class TestTranslationQuestionComponent implements OnInit {
                     }
                 }
                 this.question = question;
+                console.log('question', question);
             }, err => {
                 console.log(err);
             });

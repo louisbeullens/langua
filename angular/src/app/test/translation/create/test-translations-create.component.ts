@@ -27,7 +27,6 @@ export class TestTranslationsCreateComponent implements OnInit {
         this.toLanguageId = this.memberService.getTrainingLanguageId();
 
         this.languages = this.memberService.getTrainingLanguages();
-        this.wordTypes = this.getWordTypes();
 
         if (await this.memberService.getMemberId(false)) {
             this.testService.getUnfinishedTranslationTests().subscribe(tests => {
@@ -36,6 +35,7 @@ export class TestTranslationsCreateComponent implements OnInit {
         }
 
         this.toLanguageId = this.route.snapshot.data.languageId || this.toLanguageId;
+        this.wordTypes = this.getWordTypes();
     }
 
     getWordTypes(): Observable<any> {
@@ -43,6 +43,7 @@ export class TestTranslationsCreateComponent implements OnInit {
     }
 
     onToLanguageChanged(): void {
+        this.wordTypeIds = [];
         this.wordTypes = this.getWordTypes();
     }
 

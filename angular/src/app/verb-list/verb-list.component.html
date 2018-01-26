@@ -39,23 +39,23 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="filterVerbType">
-                                    <li class=""><a (click)="onChange(0)">{{verbTypeOptionNames[0]}}</a></li>
+                                    <li class="">
+                                        <a (click)="onChange(0)">{{verbTypeOptionNames[0]}}</a>
+                                    </li>
                                     <li role="separator" class="divider"></li>
-                                    <li class=""><a (click)="onChange(1)">{{verbTypeOptionNames[1]}}</a></li>
-                                    <li class=""><a (click)="onChange(2)">{{verbTypeOptionNames[2]}}</a></li>
+                                    <li class="">
+                                        <a (click)="onChange(1)">{{verbTypeOptionNames[1]}}</a>
+                                    </li>
+                                    <li class="">
+                                        <a (click)="onChange(2)">{{verbTypeOptionNames[2]}}</a>
+                                    </li>
                                 </ul>
                             </div>
 
                         </div>
                     </div>
-                    <div class="coursesCounter">
-                        <div class="counterInner">
-                            <h3>Next Course Start In</h3>
-                            <div class="coursesCountStart clearfix">
-                                <div id="courseTimer" class="courseCountTimer"></div>
-                            </div>
-                            <a href="#" class="btn btn-primary">buy course</a>
-                        </div>
+                    <div style="width: 100%;">
+                            <app-ad-sense></app-ad-sense>
                     </div>
                 </aside>
             </div>

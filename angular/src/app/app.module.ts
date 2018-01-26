@@ -36,6 +36,7 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
 import { DoughnutComponent } from './doughnut/doughnut.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { QuickStartComponent } from './quick-start/quick-start.component';
+import { AdSenseComponent } from './ad-sense/ad-sense.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { QuickStartComponent } from './quick-start/quick-start.component';
     TestimonialComponent,
     DoughnutComponent,
     PasswordResetComponent,
-    QuickStartComponent
+    QuickStartComponent,
+    AdSenseComponent
   ],
   imports: [
     BrowserModule,
