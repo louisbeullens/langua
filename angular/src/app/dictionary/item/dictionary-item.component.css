@@ -1,5 +1,6 @@
 p, a {
     color: black;
+    cursor: pointer;
 }
 
 .translation, .translation a {

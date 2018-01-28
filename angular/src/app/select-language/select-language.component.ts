@@ -18,7 +18,6 @@ export class SelectLanguageComponent implements OnInit {
     }
 
     onChange(event) { // TODO Event nog in gebruik?
-        console.log(this.choosenLanguage);
         this.memberService.setCurrentLanguageId(this.choosenLanguage);
     }
 }

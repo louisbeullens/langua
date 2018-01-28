@@ -61,7 +61,6 @@ export class TestTranslationQuestionComponent implements OnInit, AfterViewChecke
     }
 
     onKeyDown(event) {
-        console.log('onkeydown');
         if ((event.which === 13 || event.keyCode === 13) && this.answer !== '') {
             this.onSubmit();
         }

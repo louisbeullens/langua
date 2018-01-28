@@ -91,7 +91,6 @@ export class MemberService {
     }
 
     isRegistered() {
-        console.log('registered,', this.registered);
         return this.registered;
     }
 

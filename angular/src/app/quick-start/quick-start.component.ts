@@ -14,7 +14,6 @@ export class QuickStartComponent implements OnInit {
 
   ngOnInit() {
     this.api.getLanguaInfo().then(info => {
-      console.log(info);
       this.info = info;
     });
   }

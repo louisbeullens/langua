@@ -3,26 +3,6 @@
     padding: 10px 10px 5px 5px;
 }
 
-.btn-vertalen {
-    background-color: white;
-    padding: 15px 10px;
-}
-
-.btn-vertalen:hover {
-    background-color: #CF7869;
-    color: white;
-}
-
-.btn-vervoegen {
-    background-color: white;
-    padding: 15px 10px;
-}
-
-.btn-vervoegen:hover {
-    background-color: #BDD271;
-    color: white;
-}
-
 .alignRight {
     text-align: right;
 }

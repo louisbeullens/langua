@@ -250,3 +250,9 @@ b.subtitle {
 .question {
     font-size: 20px;
 }
+
+.adSense-sm {
+    padding-left: 15px !important;
+    width: 250px;
+
+}

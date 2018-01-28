@@ -59,7 +59,6 @@ export class VerbDetailContainerComponent implements OnInit {
                 order: 'tenseId ASC'
             };
             const conjugationList = await this.api.get<any>('/Conjugations', {filter: conjugationFilter}).toPromise();
-            console.log('conjugationList', conjugationList);
             const conjugations = {};
 
             for (let i = 0; i < conjugationList.length; i++) {
@@ -67,7 +66,6 @@ export class VerbDetailContainerComponent implements OnInit {
             }
 
             this.conjugations = conjugations;
-            console.log(this.conjugations);
         });
     }
 }
