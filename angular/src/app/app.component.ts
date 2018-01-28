@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject, LOCALE_ID } from '@angular/core';
 import {TestService} from "./test.service";
 import {MemberService} from "./member.service";
 import { SearchService } from './search.service';
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     public searchValue = '';
     public email;
 
-    constructor(public api: ApiService, public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
+    constructor(@Inject(LOCALE_ID) private locale: any, public api: ApiService, public searchService: SearchService, private router: Router , public memberService: MemberService, public testService: TestService) {
     }
 
     ngOnInit() {
@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
     }
 
     onLanguageChange(languageId, language) {
+        console.log('locale:',this.locale, LOCALE_ID);
         this.currentLanguage = language;
         this.memberService.setCurrentLanguageId(languageId);
     }

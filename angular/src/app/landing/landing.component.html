@@ -249,7 +249,7 @@
 </section>
 
 <!-- COUNT UP SECTION-->
-<section class="countUpSection">
+<section *ngIf="info" class="countUpSection" #counterUp>
   <div class="container">
       <div class="sectionTitleSmall">
           <h2>Wist je dat...</h2>
@@ -259,26 +259,26 @@
       <div class="row">
           <div class="col-sm-3 col-xs-12">
               <div class="text-center">
-                  <div class="counter">179</div>
-                  <div class="counterInfo bg-color-1">Woorden</div>
+                  <div class="counter">{{ info.tenseCount }}</div>
+                  <div class="counterInfo bg-color-1">Tijden</div>
               </div>
           </div>
           <div class="col-sm-3 col-xs-12">
               <div class="text-center">
-                  <div class="counter">579</div>
+                  <div class="counter">{{ info.memberCount }}</div>
                   <div class="counterInfo bg-color-2">Gebruikers</div>
               </div>
           </div>
           <div class="col-sm-3 col-xs-12">
               <div class="text-center">
-                  <div class="counter">279</div>
-                  <div class="counterInfo bg-color-3">happy clients</div>
+                <div class="counter">{{ info.wordCount }}</div>
+                <div class="counterInfo bg-color-3">Woorden</div>
               </div>
           </div>
           <div class="col-sm-3 col-xs-12">
               <div class="text-center">
-                  <div class="counter">479</div>
-                  <div class="counterInfo bg-color-4">hours support</div>
+                  <div class="counter">{{ info.testCount }}</div>
+                  <div class="counterInfo bg-color-4">Testen</div>
               </div>
           </div>
       </div>

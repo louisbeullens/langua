@@ -9,6 +9,7 @@ import {Member, AccessToken, Language} from './interfaces';
 export class MemberService {
     public currentLanguageIdChanged = new Subject<number>();
     private memberId: number = null;
+    private memberInfo: any = null;
     private choosenLanguage = 2;
     private nativeLanguage = 4;
     private trainingLanguage = 2;
@@ -25,9 +26,10 @@ export class MemberService {
     login(email: string, password: string): Observable<AccessToken> {
         return this.api.post<AccessToken>('/Members/login', {email: email, password: password}).pipe(
             tap( tokenObject => {
+                // TODO: login handler maken;
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
-                this.registered = true;
+                this.getMemberInfo().subscribe(info => this.registered = true);
                 this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
                     this.roles = roles;
                 });
@@ -40,7 +42,7 @@ export class MemberService {
             tap( tokenObject => {
                 this.api.setAccessToken(tokenObject.id);
                 this.memberId = tokenObject.userId;
-                this.registered = true;
+                this.getMemberInfo().subscribe(info => this.registered = true);
                 this.api.get<string[]>('/Members/' + this.memberId + '/roles').subscribe(roles => {
                     this.roles = roles;
                 });
@@ -74,16 +76,14 @@ export class MemberService {
         return this.memberId;
     }
 
-    getMemberInfo(): Promise<Member> {
-        if (this.memberId) {
-            return new Promise((resolve, reject) => {
-                this.api.get<Member>('/Members/' + this.memberId.toString()).subscribe(member => {
-                    resolve(member);
-                }, err => reject(err));
-            });
-        } else {
-            return Promise.resolve({id: null, email: null, firstname: null, lastname: null});
-        }
+    getMemberInfo() {
+        return this.api.get<Member>('/Members/' + this.memberId.toString()).pipe(tap(info => this.memberInfo = info));
+    }
+
+    getMemberName() {
+        let firstname = this.memberInfo.firstname[0].toUpperCase() + this.memberInfo.firstname.slice(1);
+        let lastname = this.memberInfo.lastname[0].toUpperCase() + this.memberInfo.lastname.slice(1);
+        return firstname + ' ' + lastname;
     }
 
     hasRole(role: string): boolean {

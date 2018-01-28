@@ -1,6 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {ChartsModule} from "ng2-charts";
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import localeNl from '@angular/common/locales/nl';
+import localeNlExtra from '@angular/common/locales/extra/nl';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -37,6 +42,10 @@ import { DoughnutComponent } from './doughnut/doughnut.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { QuickStartComponent } from './quick-start/quick-start.component';
 import { AdSenseComponent } from './ad-sense/ad-sense.component';
+
+registerLocaleData(localeFr, 'fr');
+registerLocaleData(localeNl, 'nl');
+registerLocaleData(localeNl, 'nl-BE', localeNlExtra);
 
 @NgModule({
   declarations: [
@@ -76,7 +85,7 @@ import { AdSenseComponent } from './ad-sense/ad-sense.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [MemberService, SearchService, ApiService, TestService],
+  providers: [ { provide: LOCALE_ID, useValue: 'nl' }, MemberService, SearchService, ApiService, TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

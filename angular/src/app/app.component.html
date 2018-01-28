@@ -56,9 +56,13 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
+                            <li *ngIf="memberService.isRegistered() === false">
                                 <i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i>
                                 <a routerLink="/login">Inloggen of registreren</a>
+                            </li>
+                            <li *ngIf="memberService.isRegistered() === true">
+                                <i class="fa fa-user bg-color-5" aria-hidden="true"></i>
+                                <a routerLink="/login">{{ memberService.getMemberName() }}</a>
                             </li>
                         </ul>
                     </div>

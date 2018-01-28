@@ -57,16 +57,14 @@ module.exports = function (Language) {
         returns: { type: '[Tense]', root: true }
     });
 
-    Language.info = function(cb) {
+    Language.info = function (cb) {
         function getWordCount(languageId, cb) {
             Language.app.models.Word.count({
                 and: [
                     { languageId: languageId },
                     { wordTypeId: { neq: 19 } }
                 ]
-            }, function(err, count) {
-                cb(err, count);
-            });
+            }, cb);
         }
 
         function getVerbCount(languageId, cb) {
@@ -75,9 +73,7 @@ module.exports = function (Language) {
                     { languageId: languageId },
                     { wordTypeId: 19 }
                 ]
-            }, function(err, count) {
-                cb(err, count);
-            });
+            }, cb);
         }
 
         function getConjugationCount(languageId, cb) {
@@ -95,16 +91,26 @@ module.exports = function (Language) {
                     });
                     Language.app.models.Conjugation.count({
                         tenseId: { inq: tenseIds }
-                    }, function(err, count) {
-                        cb(err, count);
-                    });
+                    }, cb);
                 }
             });
         }
 
-        console.log('info');
+        function getMemberCount(cb) {
+            Language.app.models.Member.count({
+                email: { nlike: 'langua.be' }
+            }, cb);
+        }
 
-        const info = {};
+        function getTestCount(cb) {
+            Language.app.models.Test.count(cb);
+        }
+
+        function getTenseCount(cb) {
+            Language.app.models.Tense.count(cb);
+        }
+
+        const info = { languages: {} };
         async.waterfall([
             function (cb) {
                 async.series([
@@ -112,37 +118,48 @@ module.exports = function (Language) {
                     async.apply(getVerbCount, 1),
                     async.apply(getConjugationCount, 1)
                 ], function (err, results) {
-                    cb(err, { wordCount: results[0], verbCount: results[1], conjugaionCount: results[2] });
+                    cb(err, { wordCount: results[0], verbCount: results[1], conjugationCount: results[2] });
                 });
             },
             function (spanish, cb) {
-                info[1] = spanish;
+                info.languages[1] = spanish;
                 async.series([
                     async.apply(getWordCount, 2),
                     async.apply(getVerbCount, 2),
                     async.apply(getConjugationCount, 2)
                 ], function (err, results) {
-                    cb(err, { wordCount: results[0], verbCount: results[1], conjugaionCount: results[2] });
+                    cb(err, { wordCount: results[0], verbCount: results[1], conjugationCount: results[2] });
                 });
             },
             function (english, cb) {
-                info[2] = english;
+                info.languages[2] = english;
                 async.series([
                     async.apply(getWordCount, 5),
                     async.apply(getVerbCount, 5),
                     async.apply(getConjugationCount, 5)
                 ], function (err, results) {
-                    cb(err, { wordCount: results[0], verbCount: results[1], conjugaionCount: results[2] });
+                    cb(err, { wordCount: results[0], verbCount: results[1], conjugationCount: results[2] });
+                });
+            },
+            function (french, cb) {
+                info.languages[5] = french;
+                async.series([
+                    async.apply(getMemberCount),
+                    async.apply(getTestCount),
+                    async.apply(getTenseCount)
+                ], function (err, results) {
+                    cb(err, { memberCount: results[0], testCount: results[1], tenseCount: results[2] });
                 });
             }
-        ], function (err, french) {
-                info[5] = french;
-                cb(err, info);
-            })
+        ], function (err, otherInfo) {
+            otherInfo.wordCount = info.languages[1].wordCount + info.languages[1].verbCount + info.languages[2].wordCount + info.languages[2].verbCount + info.languages[5].wordCount + info.languages[5].verbCount;
+            info.other = otherInfo;
+            cb(err, info);
+        })
     }
 
     Language.remoteMethod('info', {
-        http: {path: '/info', verb: 'get'},
-        returns: {type: 'object', root: true}
+        http: { path: '/info', verb: 'get' },
+        returns: { type: 'object', root: true }
     })
 };
