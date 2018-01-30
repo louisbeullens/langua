@@ -4,15 +4,17 @@
         <ng-container *ngFor="let translation of question.word.translations, let isLast=last">
             <span class="question" *ngIf="translation.wordTypeId === 19">{{translation.singular}}</span>
             <ng-container *ngIf="translation.wordTypeId !== 19">
-                <span class="question" *ngIf="question.form === 'S' && translation.singular !==''">(ev) {{ translation.articleSingular }} {{ translation.singular }}</span>
-                <span class="question" *ngIf="question.form === 'P' && translation.plural !==''">(mv) {{ translation.articlePlural }} {{ translation.plural }}</span>
+                <span class="question" *ngIf="question.form === 'S' && translation.singular !==''">{{ translation.articleSingular }} {{ translation.singular }}</span>
+                <span class="question" *ngIf="question.form === 'P' && translation.plural !==''">{{ translation.articlePlural }} {{ translation.plural }}</span>
             </ng-container>
             <span class="question" *ngIf="isLast === false">; </span>
         </ng-container>
+        <span *ngIf="question.form === 'S' && question.wordTypeId !== 19" class="suffix">&nbsp;(ev)</span>
+    <span *ngIf="question.form === 'P' && question.wordTypeId !== 19" class="suffix">&nbsp;(mv)</span>
     </span>
 
     <hr>
-    
+
     <ng-container *ngIf="valid === '';else submitted">
         <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
         <br>
@@ -21,10 +23,14 @@
     </ng-container>
     <ng-template #submitted>
         <p>{{valid}}</p>
-        <p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
+        <p *ngIf="valid === 'fout'">Jouw antwoord was
+            <span class="wrong">{{answer}}</span>.
+            <br> Het juiste antwoord was
+            <span class="correct">{{correction}}</span>.</p>
     </ng-template>
 
-    <br><br>
+    <br>
+    <br>
 
     <div class="progress">
         <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" [style.width]="(order - 1) / testService.test.numQuestions | percent">

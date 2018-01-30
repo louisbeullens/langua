@@ -251,6 +251,21 @@ b.subtitle {
     font-size: 24px;
 }
 
+.suffix {
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.wrong {
+    font-weight: bold;
+    color: #ea7066;
+}
+
+.correct {
+    font-weight: bold;
+    color: #b5d56a;
+}
+
 .adSense-sm {
     padding-left: 15px !important;
     width: 250px;
