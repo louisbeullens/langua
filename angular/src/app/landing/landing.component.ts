@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../api.service';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 declare const jQuery: any;
 
@@ -11,12 +13,15 @@ declare const jQuery: any;
 })
 export class LandingComponent implements OnInit, AfterViewChecked {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private http: HttpClient) { }
 
   public info: any = null;
   public checked: boolean = false;
 
-  @ViewChild('counterUp') counterUp:ElementRef;
+  public questionSend = false;
+
+  @ViewChild('counterUp') private counterUp:ElementRef;
+  @ViewChild('contactForm') private contactForm: ElementRef; 
 
   ngOnInit() {
       this.api.getLanguaInfo().then(info => this.info = info.other);
@@ -44,5 +49,20 @@ ngAfterViewChecked() {
         });
     }
 }
+
+onSubmit(form) {
+    this.http.post<any>(location.protocol + '//' + environment.backend + '/faq/askQuestion', form.value).subscribe(response => {
+      this.questionSend = true;
+      form.value.name = '';
+      form.value.email = '';
+      form.value.message = '';
+    });
+  }
+
+  goToContactForm() {
+    if (this.contactForm) {
+      this.contactForm.nativeElement.scrollIntoView({behavior: 'smooth'});
+    }
+  }
 
 }

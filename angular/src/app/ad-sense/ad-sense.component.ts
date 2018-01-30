@@ -22,7 +22,7 @@ export class AdSenseComponent implements OnInit, AfterViewInit {
         } catch (e) {
             console.error("error");
         }
-    }, 1000);
+    }, 5000);
 }
 
 }

@@ -16,7 +16,7 @@ module.exports = function (server) {
     if (req.body.email !== '' && req.body.firstname !== '' && req.body.message !== '') {
       const template = loopback.template(path.resolve(path.join(__dirname, '..', 'templates', 'ask-question.ejs')));
       const html = template({
-        firstname: req.body.firstname
+        firstname: req.body.name
       });
       server.models.Email.send({
         to: req.body.email,
@@ -25,7 +25,7 @@ module.exports = function (server) {
         html: html
       }, function (err, result) {
         if (err) {
-          return console.log(err);
+          return res.send(JSON.stringify({ status: 'error' }));
         }
 
         server.models.Email.send({

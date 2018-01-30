@@ -3,9 +3,7 @@ import {ChartsModule} from "ng2-charts";
 import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
 import localeNl from '@angular/common/locales/nl';
-import localeNlExtra from '@angular/common/locales/extra/nl';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -43,9 +41,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { QuickStartComponent } from './quick-start/quick-start.component';
 import { AdSenseComponent } from './ad-sense/ad-sense.component';
 
-registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeNl, 'nl');
-registerLocaleData(localeNl, 'nl-BE', localeNlExtra);
 
 @NgModule({
   declarations: [

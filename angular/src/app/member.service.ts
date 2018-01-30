@@ -4,6 +4,7 @@ import {tap} from 'rxjs/operators';
 import {ApiService} from './api.service';
 import {Subject} from 'rxjs/Subject';
 import {Member, AccessToken, Language} from './interfaces';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class MemberService {

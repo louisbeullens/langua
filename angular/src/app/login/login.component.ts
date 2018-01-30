@@ -89,17 +89,14 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                 });
                 break;
             case this.LOGIN:
-                this.memberService.login(form.controls.email.value, form.value.password).subscribe(async tokenObj => {
-                    console.log(tokenObj);
-                    const member = await this.memberService.getMemberInfo();
-                    console.log(member);
-                    this.router.navigateByUrl('/test/results');
+                this.memberService.login(form.controls.email.value, form.value.password).subscribe(tokenObj => {
+                    this.router.navigateByUrl('/home');
                 });
                 break;
             case this.REGISTER:
                 if (this.grecaptchaResponse !== '') {
                     this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
-                        console.log(member);
+                        this.router.navigateByUrl('/home')
                     });
                 }
                 break;
@@ -122,12 +119,8 @@ export class LoginComponent implements OnInit, AfterViewChecked {
     FBLoginCallback(response) {
         console.log(response);
         if (response.status === 'connected') {
-            this.memberService.facebookLogin(response.authResponse.accessToken).subscribe(async tokenObj => {
-                console.log('gotToken');
-                console.log(tokenObj);
-                const member = await this.memberService.getMemberInfo();
-                console.log(member);
-                this.zone.run(_ => this.router.navigateByUrl('/test/results'));
+            this.memberService.facebookLogin(response.authResponse.accessToken).subscribe(tokenObj => {
+                this.zone.run(_ => this.router.navigateByUrl('/home'));
             }, err => console.log(err));
         }
     }

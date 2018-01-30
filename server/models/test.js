@@ -157,8 +157,6 @@ module.exports = function (Test) {
 
             ctx.session = {ids: ids};
 
-            console.log('ids.length', ids.length);
-
             next();
         });
     }
@@ -230,8 +228,6 @@ module.exports = function (Test) {
     }
 
     Test.beforeRemote('create', function (ctx, testObject, next) {
-
-        console.log('beforeCreate');
 
         if (ctx.args.data.type === 'T') {
             createTestTranslations(ctx, next);
@@ -431,8 +427,6 @@ module.exports = function (Test) {
 
     Test.afterRemote('create', function (ctx, testInstance, next) {
 
-        console.log('afterCreate');
-
         var ids = ctx.session.ids;
 
         for (var i = 0; i < ids.length; i++) {
@@ -460,7 +454,7 @@ module.exports = function (Test) {
                 {
                     relation: 'conjugation',
                     scope: {
-                        include: 'verb'
+                        include: ['verb', 'tense']
                     }
                 }, {
                     relation: 'word',
@@ -498,12 +492,9 @@ module.exports = function (Test) {
                         }
                     };
                     Test.app.models.ConjugationForm.find(filter, function (err, conjugationForms) {
-                        console.log('searching for prefixes');
                         if (err) {
                             return cb(err, null);
                         }
-
-                        console.log('prefixes length ', conjugationForms.length);
 
                         if (conjugationForms.length > 0) {
                             question.prefix = conjugationForms[Math.floor(Math.random() * conjugationForms.length)].name;

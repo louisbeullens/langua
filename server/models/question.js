@@ -4,8 +4,6 @@ module.exports = function(Question) {
 
     Question.beforeRemote('prototype.__create__answers', function(ctx, unused, next) {
 
-        console.log('beforeQuestionCreateAnswer');
-
         ctx.args.data.valid = false;
 
         Question.findById(ctx.req.params.id, {include:['test','word','conjugation']} ,function(err, question) {
@@ -34,7 +32,6 @@ module.exports = function(Question) {
                     }
                 } else if (test.type === 'C') {
                     validAnswer = question.conjugation()['form'+question.form];
-                    console.log('valid answer',validAnswer);
                 }
 
                 if (question.order > test.lastQuestion) {

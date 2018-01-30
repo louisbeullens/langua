@@ -24,7 +24,7 @@
                             vervoegingen.
                         </li>
                     </ul>
-                    <a href="about_us.html" class="btn btn-primary">Snel starten</a>
+                    <a class="btn btn-primary" (click)="goToQuickStart()">Snel starten</a>
                 </div>
             </div>
         </div>
@@ -32,12 +32,12 @@
 </section>
 
 <section class="whiteSection full-width clearfix coursesSection" id="ourCourses">
-    <div class="container">
-        <p>RESPONSIVE PUB HERE OP VOLLE BREEDTE</p>
+    <div class="container" style="background: blue;">
+        <app-ad-sense></app-ad-sense>
     </div>
 </section>
 
-<section class="whiteSection full-width clearfix coursesSection" id="ourCourses">
+<section class="whiteSection full-width clearfix coursesSection" id="ourCourses" #quickStart>
     <div class="container">
         <div class="sectionTitle text-center">
             <h2>

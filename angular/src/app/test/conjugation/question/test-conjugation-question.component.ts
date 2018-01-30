@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewChecked, ViewChild, ElementRef} from '@angular/core';
 import {TestService} from '../../../test.service';
 import {Router} from "@angular/router";
 
@@ -7,18 +7,26 @@ import {Router} from "@angular/router";
     templateUrl: './test-conjugation-question.component.html',
     styleUrls: ['./test-conjugation-question.component.css']
 })
-export class TestConjugationQuestionComponent implements OnInit {
+export class TestConjugationQuestionComponent implements OnInit, AfterViewChecked {
     public question;
     public valid = '';
     public answer = '';
     public correction = '';
     public order = 1;
 
+    @ViewChild('answerCtrl') private answerEl: ElementRef;
+
     constructor(public testService: TestService, private router: Router) {
     }
 
     ngOnInit() {
         this.getQuestion();
+    }
+
+    ngAfterViewChecked() {
+        if (this.answerEl) {
+            this.answerEl.nativeElement.focus();
+        }
     }
 
     onSubmit() {

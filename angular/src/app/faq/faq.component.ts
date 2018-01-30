@@ -19,7 +19,7 @@ export class FaqComponent implements OnInit {
   onSubmit(form) {
     this.http.post<any>(location.protocol + '//' + environment.backend + '/faq/askQuestion', form.value).subscribe(response => {
       this.questionSend = true;
-      form.value.firstname = '';
+      form.value.name = '';
       form.value.email = '';
       form.value.message = '';
     });

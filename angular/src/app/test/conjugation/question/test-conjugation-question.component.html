@@ -1,20 +1,32 @@
 <div *ngIf="question">
-    <p>{{question.conjugation.verb.singular}}</p>
+    <span class="question">{{question.conjugation.verb.singular}}</span> <span class="tense">({{question.conjugation.tense.name}})</span>
+    <hr>
     <ng-container *ngIf="valid === '';else submitted">
-        {{question.prefix}}  <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)">
+        {{question.prefix}}  <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
     </ng-container>
     <ng-template #submitted>
 <p>{{valid}}</p>
 <p *ngIf="valid === 'fout'">Jou antwoord was {{answer}}. het juiste antwoord was {{correction}}.</p>
 </ng-template>
+
+<br><br>
+
+<div class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" [style.width]="(order - 1) / testService.test.numQuestions | percent">
+        {{(order - 1) / testService.test.numQuestions | percent }}
+    </div>
 </div>
-<p>{{ order }} / {{testService.test.numQuestions}} {{
-    testService.test.validAnswers / testService.test.lastQuestion | percent }}</p>
-<button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()"
-        [disabled]="(testService.test.lastQuestion) === testService.test.numQuestions || answer === ''">
-    Ok
-</button>
-<button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()"
-        [disabled]="(testService.test.lastQuestion) === testService.test.numQuestions">Volgende
-    vraag
-</button>
+<div class="container-fluid" style="padding-left: 0px;">
+    <div class="row" style="height: 48px;">
+        <div class="col-sm-9">
+            <button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()" [disabled]="answer === ''">Ok
+            </button>
+            <button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
+            </button>
+        </div>
+        <div class="col-sm-3" style="height: 100%; position: relative;">
+            <div style="position: absolute; bottom: 0px; right: 0px;">{{ order }} / {{testService.test.numQuestions}}
+            </div>
+        </div>
+    </div>
+</div>

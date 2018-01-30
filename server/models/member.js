@@ -33,6 +33,16 @@ module.exports = function (Member) {
         verifyOptions.firstname = memberInstance.firstname;
         verifyOptions.lastname = memberInstance.lastname;
         memberInstance.verify(verifyOptions);
+        Member.app.models.Email.send({
+            to: ['Peter@Langua.be','Louis@Langua.be'],
+            from: 'registratie@Langua.be',
+            subject: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname,
+            text: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname
+          }, function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+          });
         next();
     });
 
