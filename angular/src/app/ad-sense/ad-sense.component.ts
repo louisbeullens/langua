@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 declare var window;
@@ -9,6 +9,9 @@ declare var window;
   styleUrls: ['./ad-sense.component.css']
 })
 export class AdSenseComponent implements OnInit, AfterViewInit {
+
+  @Input() public adSlot: string = '7542695710';
+  @Input() public delay: number = 2000;
 
   constructor() { }
 
@@ -22,7 +25,7 @@ export class AdSenseComponent implements OnInit, AfterViewInit {
         } catch (e) {
             console.error("error");
         }
-    }, 5000);
+    }, this.delay);
 }
 
 }

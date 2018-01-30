@@ -6,12 +6,10 @@ module.exports = function (Language) {
 
     Language.getWordTypes = function (id, cb) {
 
-        // (LEFT) JOIN wel nodig?
         var sql = "SELECT DISTINCT WordType.id, WordType.name FROM Word JOIN WordType ON wordTypeId=WordType.id WHERE languageId=? AND wordTypeId != 0 ORDER BY WordType.id;";
 
         Language.app.dataSources.langua.connector.execute(sql, [id], function (err, results) {
             if (err) {
-                console.log(err);
                 cb(err, []);
             }
 
@@ -37,7 +35,6 @@ module.exports = function (Language) {
 
         Language.app.dataSources.langua.connector.execute(sql, [id], function (err, results) {
             if (err) {
-                console.log(err);
                 cb(err, []);
             }
 
@@ -83,7 +80,6 @@ module.exports = function (Language) {
                 }
             }, function (err, tenses) {
                 if (err) {
-                    console.log(err);
                     cb(err);
                 } else {
                     const tenseIds = tenses.map(function (tense) {

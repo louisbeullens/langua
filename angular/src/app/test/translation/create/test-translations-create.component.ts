@@ -19,7 +19,7 @@ export class TestTranslationsCreateComponent implements OnInit {
     public selection = 0;
     public wordTypeIds = [];
 
-    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService, private route: ActivatedRoute) {
+    constructor(private api: ApiService, private memberService: MemberService, public testService: TestService, private route: ActivatedRoute) {
     }
 
     async ngOnInit() {
@@ -63,10 +63,6 @@ export class TestTranslationsCreateComponent implements OnInit {
         }
 
         console.log(this.wordTypeIds);
-    }
-
-    onResume(test) {
-        this.testService.setCurrentTest(test);
     }
 
     onSubmit(form) {

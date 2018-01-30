@@ -42,7 +42,7 @@
         <b>Test hervatten</b>
         <div *ngFor="let test of tests">
             <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
-            <button class="btn btn-primary" (click)="onResume(test)">Hervatten</button>
+            <button class="btn btn-primary" (click)="testService.setCurrentTest(test)">Hervatten</button>
             <hr>
         </div>
         <br>

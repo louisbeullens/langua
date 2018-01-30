@@ -21,7 +21,7 @@ export class TestConjugationsCreateComponent implements OnInit {
 
     public tests = [];
 
-    constructor(private api: ApiService, private memberService: MemberService, private testService: TestService, private route: ActivatedRoute) {
+    constructor(private api: ApiService, private memberService: MemberService, public testService: TestService, private route: ActivatedRoute) {
     }
 
     async ngOnInit() {

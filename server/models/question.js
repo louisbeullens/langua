@@ -8,8 +8,7 @@ module.exports = function(Question) {
 
         Question.findById(ctx.req.params.id, {include:['test','word','conjugation']} ,function(err, question) {
             if (err) {
-                console.log(err);
-                return next();
+                return next(err);
             }
 
             if (question) {

@@ -84,8 +84,7 @@ module.exports = function (Test) {
 
         Test.app.dataSources.langua.connector.execute(query, params, function (err, results) {
             if (err) {
-                console.log(err);
-                return;
+                return next(err);
             }
 
             var ids = [];
@@ -105,8 +104,6 @@ module.exports = function (Test) {
 
                 if (results[i].languageId1 === ctx.args.data.languageAnswerId && ids.findIndex(findId(results[i].word1Id)) === -1) {
 
-                    //console.log("1 --> 2");
-
                     if (results[i]['singular1'] !== '' && results[i]['singular2'] !== '') {
                         singularPossible = true;
                     }
@@ -116,8 +113,6 @@ module.exports = function (Test) {
                     id = results[i].word1Id;
                 }
                 else if (results[i].languageId2 === ctx.args.data.languageAnswerId && ids.findIndex(findId(results[i].word2Id)) === -1) {
-
-                    //console.log("2 --> 1");
 
                     if (results[i]['singular1'] !== '' && results[i]['singular2'] !== '') {
                         singularPossible = true;
@@ -219,8 +214,6 @@ module.exports = function (Test) {
             ctx.args.data['lastQuestion'] = 0;
             ctx.args.data['numQuestions'] = ids.length;
 
-            console.log(ids);
-
             ctx.session = {ids: ids};
             next();
         });
@@ -236,193 +229,6 @@ module.exports = function (Test) {
         } else {
             next(new Error("Type onbekend"));
         }
-
-
-        /*else {
-
-            var selection = ctx.args.data.selection;
-
-            console.log('selection ', selection);
-
-            var scope = {
-                where: {
-                    languageId: ctx.args.data.languageQuestionId
-                }
-            };
-
-            var filter = {
-                fields: {id: true, wordTypeId: true},
-                include: [
-                    {
-                        relation: 'translations1',
-                        scope: scope
-                    },
-                    {
-                        relation: 'translations2',
-                        scope: scope
-                    }
-                ],
-                where: {
-                    and: [
-                        {languageId: ctx.args.data.languageAnswerId},
-                        {wordTypeId: {inq: ctx.args.data.wordTypeIds}}
-                    ]
-                }
-            };
-
-            if (ctx.args.data.selection === 1) {
-                filter = {
-                    fields: {id: true, wordTypeId: true},
-                    include: [
-                        {
-                            relation: 'translations1',
-                            scope: scope
-                        },
-                        {
-                            relation: 'translations2',
-                            scope: scope
-                        },
-                        {
-                            relation: 'questions',
-                            scope: {
-                                include: 'answers',
-                                where: {
-                                    memberId: ctx.args.data.memberId
-                                }
-                            }
-                        }
-                    ],
-                    where: {
-                        and: [
-                            {languageId: ctx.args.data.languageAnswerId},
-                            {wordTypeId: {inq: ctx.args.data.wordTypeIds}}
-                        ]
-                    }
-                };
-            }
-
-            var start = +new Date();
-
-            Test.app.models.Word.find(filter, function (err, words) {
-                var stop = +new Date();
-                console.log('query time loopback: ' + (stop - start).toString());
-                if (err) {
-                    console.log(err);
-                    next();
-                    return;
-                }
-                console.log('words ' + words.length.toString());
-
-                const ids = [];
-
-                start = +new Date();
-
-                loopwords: for (var i = 0; i < words.length && ids.length < limit; i++) {
-
-                    if (selection === 1) {
-                        const questions = words[i].questions();
-                        for (var j = 0; j < questions.length; j++) {
-                            //console.log('question found');
-                            if (questions[j].answers().length > 0) {
-                                //console.log('answer found');
-                                continue loopwords;
-                            }
-                        }
-                    }
-
-                    var singular = (Math.random() < 0.5) ? false : true;
-
-                    const translations1 = words[i].translations1();
-                    const translations2 = words[i].translations2();
-
-                    if (words[i].wordTypeId === 19) {
-                        singular = true;
-                    }
-                    else {
-                        var found = false;
-
-                        for (var j = 0; !found && j < translations1.length; j++) {
-                            if ((singular && translations1[j].singular !== '') || (!singular && translations1[j].plural !== '')) {
-                                found = true;
-                            }
-                        }
-
-                        for (var j = 0; !found && j < translations2.length; j++) {
-                            if ((singular && translations2[j].singular !== '') || (!singular && translations2[j].plural !== '')) {
-                                found = true
-                            }
-                        }
-
-                        singular = (found) ? singular : !singular;
-                    }
-
-                    if (translations1.length > 0 || translations2.length > 0) {
-                        ids.push({id: words[i].id, singular: singular});
-                    }
-                }
-
-                stop = +new Date();
-                console.log('filter time loopback: ' + (stop - start).toString());
-
-                ctx.args.data['lastQuestion'] = 0;
-                ctx.args.data['numQuestions'] = ids.length;
-
-                console.log('ids.length', ids.length);
-
-                ctx.session = {ids: ids};
-
-                next();
-            });
-        }
-
-        /*var query = "SELECT word1Id, word1.languageId AS languageId1, word2Id, word2.languageId AS languageId2, word1.*, word2.* " +
-            "FROM Translation " +
-            "JOIN Word AS word1 ON word1Id=word1.id " +
-            "JOIN Word AS word2 ON word2Id=word2.id " +
-
-            "WHERE ((word1.languageId=? AND word2.languageId=?) OR (word1.languageId=? AND word2.languageId=?)) AND word1.wordTypeId in (?) AND word1.wordTypeId = word2.wordTypeId;";
-
-        var params = [
-            ctx.args.data.languageAnswerId,
-            ctx.args.data.languageQuestionId,
-            ctx.args.data.languageQuestionId,
-            ctx.args.data.languageAnswerId,
-            ctx.args.data.wordTypeIds
-        ];
-
-        Test.app.dataSources.langua.connector.execute(query,params,function(err, results)
-        {
-            if (err)
-            {
-                console.log(err);
-                return;
-            }
-
-            var ids = [];
-
-            console.log(results.length);
-            console.log(results[0]);
-
-            for (var i=0; i<results.length; i++)
-            {
-                var singular = (Math.random() < 0.5) ? true : false;
-
-                if (results[i].languageId1 === ctx.args.data.languageAnswerId && ids.indexOf(results[i].word1Id) === -1)
-                    ids.push(results[i].word1Id);
-                else if (results[i].languageId2 === ctx.args.data.languageAnswerId && ids.indexOf(results[i].word2Id) === -1)
-                    ids.push(results[i].word2Id);
-            }
-
-            ctx.session = { ids: ids };
-
-            ctx.args.data['lastQuestion'] = 0;
-            ctx.args.data['numQuestions'] = (ids.length < 20) ? ids.length : 20;
-
-            for (var key in testObject)
-                console.log(key);
-
-            next();
-        });*/
     });
 
     Test.afterRemote('create', function (ctx, testInstance, next) {
@@ -430,7 +236,6 @@ module.exports = function (Test) {
         var ids = ctx.session.ids;
 
         for (var i = 0; i < ids.length; i++) {
-            //console.log(ids[i].singular ? 'ev' : 'mv');
             var question = {
                 linkId: ids[i].id,
                 form: ids[i].form,

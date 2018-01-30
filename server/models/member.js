@@ -47,7 +47,6 @@ module.exports = function (Member) {
     });
 
     function logIpAddress(ctx, accessToken, next) {
-        console.log('User with id: ' + accessToken.userId + ' logged in form ip: ' + ctx.req.ip);
 
         Member.app.datasources.FreeGeoIp.findById('84.196.187.163', function(err, freeGeoIp) {
             if (err) {
@@ -77,8 +76,7 @@ module.exports = function (Member) {
 
     Member.emailExists = function (email, cb) {
         Member.findOne({where: {email: email}}, function (err, result) {
-            cb(err, (result) ? true : false);
-            return;
+            return cb(err, (result) ? true : false);
         });
     };
 
@@ -92,25 +90,19 @@ module.exports = function (Member) {
 
     Member.anonymousLogin = function (req, cb) {
 
-        console.log(req.ip);
-
         var rand = Math.floor(Math.random() * 10000).toString();
         var date = new Date(Date.now());
         rand = date.getUTCFullYear().toString() + (date.getUTCMonth() + 1).toString() + date.getUTCDate().toString() + '.' + date.getUTCHours().toString() + date.getUTCMinutes().toString() + date.getUTCSeconds().toString() + '.' + date.getUTCMilliseconds().toString() + '.' + rand;
         rand = rand + '@langua.be';
         Member.create({email: rand, password: rand, emailVerified:true}, function (err, newMember) {
             if (err)
-                console.log(err);
-
-            console.log(newMember);
+                return cb(err, null);
 
             Member.login({email: newMember.email, password: newMember.email}, function (err, accessToken) {
                 if (err)
-                    console.log(err);
+                    return cb(err, null);
 
-                console.log(accessToken);
-
-                cb(null, accessToken)
+                cb(err, accessToken)
             });
         });
         return;
@@ -134,7 +126,7 @@ module.exports = function (Member) {
                     }
                     if (member) {
                         member.createAccessToken(14*24*3600, function(err,token) {
-                            cb(err,token);
+                            cb(err, token);
                         })
                     } else {
                         Member.create({email: fBUser.email, firstname: fBUser.first_name, lastname: fBUser.last_name, username: fBUser.name, password: facebook_access_token.slice(0,72), emailVerified: true}, function(err, member) {
@@ -193,12 +185,10 @@ module.exports = function (Member) {
 
         Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
             if (err) {
-                console.log(err);
-                cb(err, []);
-                return;
+                return cb(err, []);
             }
 
-            cb(null, results);
+            cb(err, results);
         });
 
     };
@@ -218,12 +208,10 @@ module.exports = function (Member) {
 
         Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
             if (err) {
-                console.log(err);
-                cb(err, []);
-                return;
+                return cb(err, []);
             }
 
-            cb(null, results);
+            cb(err, results);
         });
 
     };
@@ -237,8 +225,6 @@ module.exports = function (Member) {
     });
 
     Member.getResults = function(memberId, cb) {
-
-        //Member.app.models.Question.find({where: {memberId: memberId}})
 
         const sql = "SELECT Sum(valid) AS correct, Count(valid) AS total, Test.type FROM Answer JOIN Question ON Answer.questionId=Question.id JOIN Test ON Question.testId=Test.id WHERE Question.memberId=? AND Question.archivedAt IS NULL GROUP BY Question.testId ORDER BY Question.testId DESC;";
         const params = [memberId];

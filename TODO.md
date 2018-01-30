@@ -8,7 +8,7 @@
 * Kader van publiciteit op vertaalpagina even hoog maken als kader waarbinnen testparameters staat. (PB 28/1/2018) 
 * AdSense publiciteit op vervoegpagina (zelfde als op vertaal pagina) (PB 28/01/2018)
 * AdSense publiciteit op resultaten pagina (zelfde als op vertaal- en vervoegpagina) (PB 28/01/2018)
-* Adsense pub invullen op home.component.  (moet op volle breete en dus responsive) (PB 28/01/2018)
+** Adsense pub invullen op home.component.  (moet op volle breete en dus responsive) (PB 28/01/2018)
 ** Op home pagina als men op 'Snel starten' knop klikt, smooth scrollen naar 'Snel starten' sectie (onder publiciteit) 
 * Lengte strings beperken in database ()zelfde lengte oude database) (PB ??/??/2017)
 * Bij start van een test (vertalingen) afkortingen vervangen (of uitbreiden) met volledige verklaring.  (dus 'Werkwoorden' ipv 'ww') (PB. 22/01/2018) 
