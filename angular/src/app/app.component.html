@@ -50,7 +50,7 @@
                                 <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <span>{{currentLanguage}}</span> <span class="caret"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
+                                <ul class="dropdown-menu nav-menu dropdown-menu-right">
                                     <li class="" *ngFor="let language of languages">
                                         <a (click)="onLanguageChange(language.id,language.name)">{{language.name}}</a>
                                     </li>
@@ -60,10 +60,22 @@
                                 <i class="fa fa-unlock-alt bg-color-5" aria-hidden="true"></i>
                                 <a routerLink="/login">Inloggen of registreren</a>
                             </li>
-                            <li *ngIf="memberService.isRegistered() === true">
+                            <li *ngIf="memberService.isRegistered() === true" class="dropdown singleDrop color-4 ">
                                 <i class="fa fa-user bg-color-5" aria-hidden="true"></i>
-                                <a routerLink="/login">{{ memberService.getMemberName() }}</a>
-                                <span class="caret"></span>
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span>{{ memberService.getMemberName() }}</span> <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu nav-menu dropdown-menu-right">
+                                    <li>
+                                        <a>Mijn profiel</a>
+                                    </li>
+                                    <li>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <a>Uitloggen</a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -105,57 +117,15 @@
                             <a routerLink="/test/translations" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-exchange bg-color-3" aria-hidden="true" (click)="testService.resetTest()"></i>
                                 <span>vertalen</span> </a>
-                            <ul class="dropdown-menu dropdown-menu-left">
-                                <li class=" ">
-                                    <a href="about_us.html">About</a>
-                                </li>
-                                <li class="dropdown dropdown-submenu ">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Team
-                                        <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=" ">
-                                            <a href="teachers.html">Teachers</a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="teachers-details.html">Teacher Details</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class=" ">
-                                    <a href="testimonial.html">Testimonial</a>
-                                </li>
+                            <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="dropdown dropdown-submenu">
-                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Events
-                                        <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
-                                    <ul class="dropdown-menu">
-                                        <li class=" ">
-                                            <a href="all-events.html">All Events</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="single-event-left-sidebar.html">Single Event Left Sidebar </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="single-event-right-sidebar.html">Single Event Right Sidebar </a>
-                                        </li>
-                                    </ul>
+                                    <a href="javascript:void(0)">Engelse woordenschat</a>
                                 </li>
                                 <li class="">
-                                    <a href="photo-gallery.html">Photo Gallery</a>
+                                    <a href="single-product.html">Franse woordenschat</a>
                                 </li>
                                 <li class="">
-                                    <a href="pricing-table.html">Pricing Table</a>
-                                </li>
-                                <li class="">
-                                    <a href="services.html">Services</a>
-                                </li>
-                                <li class="">
-                                    <a href="service-details.html">Services Details</a>
-                                </li>
-                                <li class="">
-                                    <a href="contact-us.html">Contact Us</a>
-                                </li>
-                                <li class="">
-                                    <a href="404.html">Error 404</a>
+                                    <a href="cart-page.html">Spaanse woordenschat</a>
                                 </li>
                             </ul>
                         </li>
@@ -171,14 +141,13 @@
                                     <a href="single-product.html">Franse vervoegingen</a>
                                 </li>
                                 <li class="">
-                                    <a href="cart-page.html">Spaans vervoegingen</a>
+                                    <a href="cart-page.html">Spaanse vervoegingen</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="dropdown singleDrop color-4 ">
                             <a routerLink="/dictionary" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-book bg-color-4" aria-hidden="true"></i>
-                                <span>Boeken</span> </a>
+                                <i class="fa fa-book bg-color-4" aria-hidden="true"></i> <span>Boeken</span> </a>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="dropdown dropdown-submenu">
                                     <a href="javascript:void(0)">Nederlands - Engels</a>

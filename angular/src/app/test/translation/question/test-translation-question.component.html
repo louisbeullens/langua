@@ -16,7 +16,7 @@
     <hr>
 
     <ng-container *ngIf="valid === '';else submitted">
-        <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
+        <input class="answerBox" type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
         <br>
         <br>
         <input type="button" *ngFor="let char of specialChars" (click)="insertChar(answerCtrl,char)" attr.value=" {{char}} " />

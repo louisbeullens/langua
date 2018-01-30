@@ -6,55 +6,6 @@
     margin-bottom: 50px;
 }
 
-body.bodyColor.pattern-01 {
-    background-image: url("./img/patterns/001.png"); /* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-02 {
-    background-image: url("./img/patterns/002.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-03 {
-    background-image: url("./img/patterns/003.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-04 {
-    background-image: url("./img/patterns/004.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-06 {
-    background-image: url("./img/patterns/006.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-07 {
-    background-image: url("./img/patterns/007.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-body.bodyColor.pattern-05 {
-    background-image: url("./img/patterns/005.png");/* TODO NOG IN GEBRUIK PB 8/1/2018 */
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
 .pageTitleSection {
     background-image: url("./img/page-title/page-title-bg.jpg"); /* TOD NOG IN GEBRUIK? PB 8/1/2017 */
     width: 100%;
@@ -248,12 +199,21 @@ b.subtitle {
 }
 
 .question {
-    font-size: 24px;
+    font-size: 25px;
 }
 
 .suffix {
     font-size: 13px;
     text-transform: uppercase;
+}
+
+.answerBox {
+    font-size: 16px;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 2px dotted #b5d56a;
+    border-left: 0px;
+    margin: 10px;
 }
 
 .wrong {

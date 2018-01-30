@@ -4,7 +4,7 @@
     <hr>
     <ng-container *ngIf="valid === '';Else submitted">
         {{question.prefix}}
-        <input type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
+        <input class="answerBox" type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
     </ng-container>
     <ng-template #submitted>
         <p>{{valid}}</p>
