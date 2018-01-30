@@ -2496,6 +2496,10 @@ aside {
   border-bottom: 7px solid #f0c24b;
 }
 
+.navbar-nav > li.color-2.dropdown a:after {
+  border-bottom: 7px solid #b5d56a;
+}
+
 .navbar-nav > li.color-2.dropdown.megaDropMenu > a:after {
   border-bottom: 7px solid #b5d56a;
 }
@@ -2533,6 +2537,10 @@ aside {
     left: -11px;
     position: absolute;
   }
+}
+
+.navbar-nav > li.color-2.dropdown.singleDrop .dropdown-menu .dropdown-menu:after {
+  border-right: 7px solid #b5d56a;
 }
 
 .navbar-nav > li.color-3.dropdown.singleDrop .dropdown-menu .dropdown-menu:after {
@@ -3049,6 +3057,35 @@ aside {
   .navbar-nav > li.color-2 > a > span {
     border-right: 2px solid #b5d56a;
   }
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li.color-2.singleDrop > .dropdown-menu {
+    border-top: 4px solid #b5d56a;
+  }
+}
+
+.navbar-nav > li.color-2.singleDrop > .dropdown-menu li a:hover {
+  background-color: #b5d56a;
+  color: #ffffff;
+}
+
+.navbar-nav > li.color-2.singleDrop > .dropdown-menu li.active > a, .navbar-nav > li.color-1.singleDrop > .dropdown-menu li.active li.active a {
+  color: #b5d56a;
+}
+
+.navbar-nav > li.color-2.singleDrop > .dropdown-menu li.active a:hover, .navbar-nav > li.color-1.singleDrop > .dropdown-menu li.active li.active a:hover {
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li.color-2.singleDrop > .dropdown-menu li .dropdown-menu {
+    border-left: 4px solid #b5d56a;
+  }
+}
+
+.navbar-nav > li.color-2.singleDrop.open a > span {
+  color: #b5d56a;
 }
 
 .navbar-nav > li.color-2 > a:hover span {
@@ -6226,6 +6263,39 @@ footer .color-bar {
 
 .navbar-secondary .navbar-nav > li.color-1.singleDrop.open a > span {
   color: #f0c24b !important;
+}
+
+.navbar-secondary .navbar-nav > li.color-1 > a:hover span {
+  color: #f0c24b !important;
+}
+
+@media (min-width: 992px) {
+  .navbar-secondary .navbar-nav > li.color-2.singleDrop > .dropdown-menu {
+    border-top: 4px solid #b5d56a !important;
+  }
+}
+
+.navbar-secondary .navbar-nav > li.color-2.singleDrop > .dropdown-menu li a:hover {
+  background-color: #b5d56a !important;
+  color: #ffffff !important;
+}
+
+.navbar-secondary .navbar-nav > li.color-2.singleDrop > .dropdown-menu li.active > a, .navbar-secondary .navbar-nav > li.color-1.singleDrop > .dropdown-menu li.active li.active a {
+  color: #b5d56a !important;
+}
+
+.navbar-secondary .navbar-nav > li.color-2.singleDrop > .dropdown-menu li.active a:hover, .navbar-secondary .navbar-nav > li.color-1.singleDrop > .dropdown-menu li.active li.active a:hover {
+  color: #ffffff !important;
+}
+
+@media (min-width: 992px) {
+  .navbar-secondary .navbar-nav > li.color-2.singleDrop > .dropdown-menu li .dropdown-menu {
+    border-left: 4px solid #b5d56a !important;
+  }
+}
+
+.navbar-secondary .navbar-nav > li.color-2.singleDrop.open a > span {
+  color: #b5d56a !important;
 }
 
 .navbar-secondary .navbar-nav > li.color-3 > a:hover span {
