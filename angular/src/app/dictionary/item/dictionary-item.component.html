@@ -5,12 +5,12 @@
         <span class="translation">
       <ng-container *ngFor="let translation of item.translations;last as isLast">
         <a (click)="searchService.setSearchValue(translation.singular, 2)">{{translation.singular}}</a> <a routerLink="/verb/{{translation.singular.split(' ').join('_')}}"><i class="fa fa-file-text-o"></i></a><span class="wordtype"> ({{translation.wordType.name}})</span>
-        <ng-container *ngIf="isLast === false"> , </ng-container>
+        <ng-container *ngIf="isLast === false">, </ng-container>
       </ng-container>
     </span>
     </p>
     <p *ngIf="item.wordTypeId !== 19">
-        <ng-container *ngIf="item.singular && item.singular.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;else plural">
+        <ng-container *ngIf="item.singular !== '' && item.singular.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;else plural">
             <b [innerHtml]="item.singular | highlight:searchValue:'b':'text-primary':true"></b> (ev)
             <span class="translation">
           <ng-container *ngFor="let translation of item.translations;last as isLast">
@@ -22,7 +22,7 @@
       </span>
         </ng-container>
         <ng-template #plural>
-            <ng-container *ngIf="item.plural && item.plural.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1">
+            <ng-container *ngIf="item.plural !== '' && item.plural.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1">
                 <b [innerHtml]="item.plural | highlight:searchValue:'b':'text-primary':true"></b> (mv)
                 <span class="translation">
             <ng-container *ngFor="let translation of item.translations;last as isLast">

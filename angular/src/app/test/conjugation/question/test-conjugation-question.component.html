@@ -4,7 +4,7 @@
     <hr>
     <ng-container *ngIf="valid === '';Else submitted">
         {{question.prefix}}
-        <input class="answerBox" type="text" [(ngModel)]="answer" (keydown)="onKeyDown($event)" #answerCtrl>
+        <input class="answerBox" type="text" [(ngModel)]="answer" (keydown)="onKeydown($event)" #answerCtrl>
     </ng-container>
     <ng-template #submitted>
         <p>{{valid}}</p>
@@ -27,7 +27,7 @@
             <div class="col-sm-9">
                 <button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()" [disabled]="answer === ''">Ok
                 </button>
-                <button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
+                <button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()" (window:keydown)="onNextKeydown($event)">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
                 </button>
             </div>
             <div class="col-sm-3" style="height: 100%; position: relative;">

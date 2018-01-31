@@ -6,9 +6,12 @@ import {Subject} from 'rxjs/Subject';
 import {Member, AccessToken, Language} from './interfaces';
 import { HttpClient } from '@angular/common/http';
 
+declare var window;
+
 @Injectable()
 export class MemberService {
     public currentLanguageIdChanged = new Subject<number>();
+    public recaptchaResponseReceived = new Subject<string>();
     private memberId: number = null;
     private memberInfo: any = null;
     private choosenLanguage = 2;
@@ -18,6 +21,25 @@ export class MemberService {
     private registered = false;
 
     constructor(private api: ApiService) {
+        window.grecaptchaResponseReceived = this.recaptchaResponseReceived;
+    }
+
+    getReCaptchaResponse() {
+        return new Promise((resolve, reject) => {
+            if (window.grecaptcha) {
+                const unsubscriber = this.recaptchaResponseReceived.subscribe(response => {
+                    unsubscriber.unsubscribe();
+                    return resolve(response);
+                });
+                window.grecaptcha.execute();
+                setTimeout(_ => {
+                    unsubscriber.unsubscribe();
+                    reject('timeout');
+                }, 60000);
+            } else {
+                return reject('recaptcha not available');
+            }
+        });
     }
 
     requestPasswordReset(email: string) {
@@ -49,6 +71,11 @@ export class MemberService {
                 });
             })
         );
+    }
+
+    logout() {
+        this.api.clearAccessToken();
+        this.registered = false;
     }
 
     register(email: string, firstname: string, lastname: string, password: string) {

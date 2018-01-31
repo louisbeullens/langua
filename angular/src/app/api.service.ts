@@ -56,6 +56,10 @@ export class ApiService {
         this.accessToken = accessToken;
     }
 
+    clearAccessToken() {
+        this.accessToken = null;
+    }
+
     resetAccessToken() {
         this.accessToken = null;
     }

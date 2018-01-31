@@ -37,7 +37,13 @@ export class TestConjugationQuestionComponent implements OnInit, AfterViewChecke
         this.getQuestion();
     }
 
-    onKeyDown(event) {
+    onNextKeydown(event) {
+        if ((event.which === 13 || event.keyCode === 13) && this.answer !== '') {
+            this.onNext();
+        }
+    }
+
+    onKeydown(event) {
         if ((event.which === 13 || event.keyCode === 13) && this.answer !== '') {
             this.onSubmit();
         }

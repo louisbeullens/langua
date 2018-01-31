@@ -13,13 +13,16 @@ import { VerbDetailContainerComponent } from './verb-detail/container/verb-detai
 import { LandingComponent } from './landing/landing.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
     {path: '', component: LandingComponent},
     {path: 'home', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'dictionary', component: DictionaryComponent},
+    {path: 'dictionary/:locale', component: DictionaryComponent},
     {path: 'faq', component: FaqComponent},
+    {path: 'member/profile', component: ProfileComponent},
     {path: 'password/reset', component: PasswordResetComponent},
     {path: 'register', component: LoginComponent, data: {mode: 1}},
     {path: 'test', children: [

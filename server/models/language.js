@@ -94,7 +94,7 @@ module.exports = function (Language) {
 
         function getMemberCount(cb) {
             Language.app.models.Member.count({
-                email: { nlike: 'langua.be' }
+                firstname: { neq: null }
             }, cb);
         }
 

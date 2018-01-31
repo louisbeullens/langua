@@ -29,20 +29,25 @@
     "api_key": "",
     "from": "noreply@langua.be"
   },
-  "FreeGeoIp": {
-    "name": "FreeGeoIp",
+  "ReCaptcha": {
+    "name": "ReCaptcha",
     "baseURL": "",
     "crud": false,
     "connector": "rest",
     "operations": [
       {
         "template": {
-          "method": "GET",
-          "url": "http://freegeoip.net/json/{ip}"
+          "method": "POST",
+          "url": "https://www.google.com/recaptcha/api/siteverify",
+          "headers": {
+            "accepts": "application/json",
+            "content-type": "application/x-www-form-urlencoded"
+          },
+          "body": "secret=6Lc9mUMUAAAAAHhdiRSC9nE09UWC-dccf2-moyYu&response={response:string}"
         },
         "functions": {
           "findById": [
-            "ip"
+            "response"
           ]
         }
       }
@@ -62,6 +67,25 @@
         "functions": {
           "userData": [
             "access_token"
+          ]
+        }
+      }
+    ]
+  },
+  "FreeGeoIp": {
+    "name": "FreeGeoIp",
+    "baseURL": "",
+    "crud": false,
+    "connector": "rest",
+    "operations": [
+      {
+        "template": {
+          "method": "GET",
+          "url": "http://freegeoip.net/json/{token}"
+        },
+        "functions": {
+          "findById": [
+            "token"
           ]
         }
       }

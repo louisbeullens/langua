@@ -40,6 +40,7 @@ import { DoughnutComponent } from './doughnut/doughnut.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { QuickStartComponent } from './quick-start/quick-start.component';
 import { AdSenseComponent } from './ad-sense/ad-sense.component';
+import { ProfileComponent } from './profile/profile.component';
 
 registerLocaleData(localeNl, 'nl');
 
@@ -72,7 +73,8 @@ registerLocaleData(localeNl, 'nl');
     DoughnutComponent,
     PasswordResetComponent,
     QuickStartComponent,
-    AdSenseComponent
+    AdSenseComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

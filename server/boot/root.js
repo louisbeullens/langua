@@ -14,36 +14,50 @@ module.exports = function (server) {
 
   router.post('/faq/askQuestion', function (req, res) {
     if (req.body.email !== '' && req.body.firstname !== '' && req.body.message !== '') {
-      const template = loopback.template(path.resolve(path.join(__dirname, '..', 'templates', 'ask-question.ejs')));
-      const html = template({
-        firstname: req.body.name
-      });
-      server.models.Email.send({
-        to: req.body.email,
-        from: 'noreply@Langua.be',
-        subject: 'gestelde vraag',
-        html: html
-      }, function (err, result) {
-        if (err) {
-          return res.send(JSON.stringify({ status: 'error' }));
-        }
 
-        server.models.Email.send({
-          to: ['Peter@Langua.be','Louis@Langua.be'],
-          from: req.body.email,
-          subject: 'vraagje',
-          html: '<body><pre>' + req.body.message + '</pre></body>'
-        }, function (err, result) {
-          if (err) {
-            res.send(JSON.stringify({ status: 'error' }));
-            console.log(err);
-          } else {
-            res.send(JSON.stringify({ status: 'ok' }));
-          }
-        });
+      console.log(req.body);
+
+      server.datasources.ReCaptcha.findById(req.body.grecaptchaResponse, function (err, result) {
+        if (result.success) {
+
+          const template = loopback.template(path.resolve(path.join(__dirname, '..', 'templates', 'ask-question.ejs')));
+          const html = template({
+            name: req.body.name
+          });
+          server.models.Email.send({
+            to: req.body.email,
+            from: 'noreply@Langua.be',
+            subject: 'gestelde vraag op Langua.be',
+            html: html
+          }, function (err, result) {
+            if (err) {
+              return res.send(JSON.stringify({ status: 'error' }));
+            }
+
+            var subject = 'vraagje';
+
+            if (req.body.location === 'landing') {
+              subject = 'Vraag van ' + req.body.name + ' via Langua landingpage'
+            }
+
+            server.models.Email.send({
+              to: ['Peter@Langua.be', 'Louis@Langua.be'],
+              from: req.body.email,
+              subject: subject,
+              html: '<body><pre>' + req.body.message + '</pre></body>'
+            }, function (err, result) {
+              if (err) {
+                res.send(JSON.stringify({ status: 'error' }));
+                console.log(err);
+              } else {
+                res.send(JSON.stringify({ status: 'ok' }));
+              }
+            });
+          });
+        } else {
+          res.send(JSON.stringify({ status: 'error' }));
+        }
       });
-    } else {
-      res.send(JSON.stringify({ status: 'error' }));
     }
   });
 

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { MemberService } from '../member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from "rxjs/Subject";
@@ -10,7 +10,7 @@ declare var window;
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, AfterViewChecked {
+export class LoginComponent implements OnInit {
     readonly PRELOGIN = 0;
     readonly REGISTER = 1;
     readonly LOGIN = 2;
@@ -49,26 +49,6 @@ export class LoginComponent implements OnInit, AfterViewChecked {
         }
     }
 
-    renderReCaptcha() {
-        if (window.grecaptcha) {
-            this.grecaptchaId = window.grecaptcha.render('g-recaptcha', {
-                sitekey: '6LcWl0EUAAAAADyqoxuwJxJNrefNLtO5BE3g_OFl',
-                callback: (response => this.grecaptchaCallback(response)),
-                'expired-callback': (response => this.grecaptchaExpiredCallback()),
-                'error-callback': (_ => this.grecaptchaErrorCallback())
-            });
-        } else {
-            setTimeout(_ => { this.renderReCaptcha() }, 100);
-        }
-    }
-
-    ngAfterViewChecked() {
-        if (this.mode === this.REGISTER && this.grecaptchaId === null) {
-            this.grecaptchaId = 'pending';
-            this.renderReCaptcha();
-        }
-    }
-
     requestPasswordReset() {
         if (this.email !== '') {
             this.memberService.requestPasswordReset(this.email).subscribe(response => {
@@ -94,11 +74,11 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                 });
                 break;
             case this.REGISTER:
-                if (this.grecaptchaResponse !== '') {
+                this.memberService.getReCaptchaResponse().then(response => {
                     this.memberService.register(form.controls.email.value, form.value.firstname, form.value.lastname, form.value.password).subscribe(member => {
                         this.router.navigateByUrl('/home')
                     });
-                }
+                });
                 break;
         }
     }
@@ -123,17 +103,5 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                 this.zone.run(_ => this.router.navigateByUrl('/home'));
             }, err => console.log(err));
         }
-    }
-
-    grecaptchaCallback(response) {
-        this.grecaptchaResponse = response;
-    }
-
-    grecaptchaExpiredCallback() {
-        this.grecaptchaResponse = '';
-    }
-
-    grecaptchaErrorCallback() {
-        this.grecaptchaResponse = 'none';
     }
 }

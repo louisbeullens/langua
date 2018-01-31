@@ -29,6 +29,13 @@
       "permission": "DENY"
     },
     {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",

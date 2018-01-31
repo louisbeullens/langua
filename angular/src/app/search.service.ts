@@ -38,10 +38,10 @@ export class SearchService {
         return this.searchValue;
     }
 
-    async getResults(searchValue: string): Promise<any> {
+    async getResults(searchValue: string, languageId: number): Promise<any> {
         const nativeScope = {
             include: 'wordType',
-            where: { languageId: this.memberService.getCurrentLanguageId() }
+            where: { languageId: languageId }
         };
         const nativeFilter = {
             include: [
@@ -82,7 +82,7 @@ export class SearchService {
                             { plural: { like: '%' + searchValue + '%' } }
                         ]
                     },
-                    { languageId: this.memberService.getCurrentLanguageId() }
+                    { languageId: languageId }
                 ]
             }
         };
