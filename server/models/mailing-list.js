@@ -24,19 +24,20 @@ module.exports = function (MailingList) {
   }
 
   MailingList.beforeRemote('create', function (ctx, unused, next) {
+    console.log('mailinglist before create');
     if (ctx.req.body.grecaptchaResponse) {
       MailingList.app.datasources.ReCaptcha.findById(ctx.req.body.grecaptchaResponse, function (err, result) {
-        setTimeout(_ => {
-          console.log('result.success' , result["success"]);
-          console.log('result' ,result);
-          if (result["success"]) {
+          if (err) {
+            console.log(err);
+            next(err);
+          }
+          if (result.success === true) {
             next();
           } else {
             console.log('result in fail', result);
             next(new Error('recaptcha response unsuccessfull'));
           }
-        })
-      }, 100);
+      });
     } else {
       next(new Error('recaptcha response cannot be empty'));
     }
@@ -54,5 +55,4 @@ module.exports = function (MailingList) {
       });
     }
   });
-
 };

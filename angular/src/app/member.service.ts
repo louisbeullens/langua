@@ -29,6 +29,7 @@ export class MemberService {
             if (window.grecaptcha) {
                 const unsubscriber = this.recaptchaResponseReceived.subscribe(response => {
                     unsubscriber.unsubscribe();
+                    window.grecaptcha.reset();
                     return resolve(response);
                 });
                 window.grecaptcha.execute();

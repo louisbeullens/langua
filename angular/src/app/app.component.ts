@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     onSubmit() {
         this.memberService.getReCaptchaResponse().then(response => {
+            console.log(response);
             this.api.post<any>('/MailingList', {
                 email: this.email,
                 grecaptchaResponse: response
@@ -94,6 +95,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 badge: 'bottomleft',
                 size: 'invisible',
                 callback: (response => this.grecaptchaCallback(response)),
+
             });
         } else {
             setTimeout(_ => { this.renderReCaptcha() }, 100);
