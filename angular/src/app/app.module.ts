@@ -41,6 +41,8 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { QuickStartComponent } from './quick-start/quick-start.component';
 import { AdSenseComponent } from './ad-sense/ad-sense.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CommingSoonComponent } from './comming-soon/comming-soon.component';
+import { BlogComponent } from './blog/blog.component';
 
 registerLocaleData(localeNl, 'nl');
 
@@ -74,7 +76,9 @@ registerLocaleData(localeNl, 'nl');
     PasswordResetComponent,
     QuickStartComponent,
     AdSenseComponent,
-    ProfileComponent
+    ProfileComponent,
+    CommingSoonComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,

@@ -14,13 +14,15 @@ import { LandingComponent } from './landing/landing.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { ProfileComponent } from './profile/profile.component';
+import { BlogComponent } from './blog/blog.component';
 
 const routes: Routes = [
     {path: '', component: LandingComponent},
-    {path: 'home', component: HomeComponent},
-    {path: 'login', component: LoginComponent},
+    {path: 'blog', component: BlogComponent},
     {path: 'dictionary', component: DictionaryComponent},
     {path: 'dictionary/:locale', component: DictionaryComponent},
+    {path: 'home', component: HomeComponent},
+    {path: 'login', component: LoginComponent},
     {path: 'faq', component: FaqComponent},
     {path: 'member/profile', component: ProfileComponent},
     {path: 'password/reset', component: PasswordResetComponent},

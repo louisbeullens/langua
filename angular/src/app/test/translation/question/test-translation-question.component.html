@@ -42,7 +42,7 @@
             <div class="col-sm-9">
                 <button *ngIf="valid === ''" class="btn btn-primary" (click)="onSubmit()" [disabled]="answer === ''">Ok
                 </button>
-                <button *ngIf="valid === 'fout'" class="btn btn-primary" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
+                <button *ngIf="valid === 'fout'" class="btn btn-primary" (window:keydown)="onNextKeydown($event)" (click)="onNext()">{{(testService.test.lastQuestion === testService.test.numQuestions) ? 'Toon resultaten' : 'Volgende vraag'}}
                 </button>
             </div>
             <div class="col-sm-3" style="height: 100%; position: relative;">

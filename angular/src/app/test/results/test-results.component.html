@@ -26,6 +26,7 @@
                         </li>
                     </ul>
                     <div class="tab-content">
+
                         <div id="leftHome" class="tab-pane fade in active">
                             <div class="media">
                                 <div class="media-body">
@@ -37,8 +38,10 @@
                                                         Laatste test
                                                     </div>
                                                     <div class="row">
-                                                        <span class="score">{{ (results.lastTest[0] / (results.lastTest[0] + results.lastTest[1])) | percent }}</span>
-                                                        <canvas baseChart [options]="options" [data]="results.lastTest" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]" [chartType]="'doughnut'"></canvas>
+                                                        <span class="score">{{ (results.lastTest[0] / (results.lastTest[0] + results.lastTest[1]))
+                                                            | percent }}</span>
+                                                        <canvas baseChart [options]="options" [data]="results.lastTest" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]"
+                                                            [chartType]="'doughnut'"></canvas>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -46,8 +49,10 @@
                                                         Alle testen
                                                     </div>
                                                     <div class="row">
-                                                            <span class="score">{{ (results.allTests[0] / (results.allTests[0] + results.allTests[1])) | percent }}</span>
-                                                        <canvas baseChart [options]="options" [data]="results.allTests" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]" [chartType]="'doughnut'"></canvas>
+                                                        <span class="score">{{ (results.allTests[0] / (results.allTests[0] + results.allTests[1]))
+                                                            | percent }}</span>
+                                                        <canvas baseChart [options]="options" [data]="results.allTests" [labels]="['juist', 'fout']" [colors]="[{backgroundColor:['#b5d56a', '#ea7066']}]"
+                                                            [chartType]="'doughnut'"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -65,6 +70,10 @@
                                     </ng-template>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row" style="margin: 15px;">
+                            <app-ad-sense></app-ad-sense>
                         </div>
                     </div>
                 </div>

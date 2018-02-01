@@ -71,6 +71,7 @@ export class DictionaryComponent implements OnInit {
   onKeyup(searchValue: string) {
     this.searchService.setSearchValue(searchValue, 1);
     if (searchValue.length > 1) {
+      console.log('searchValue', searchValue);
       this.searchService.getResults(searchValue, this.languageId).then(results => this.results = results);
     } else {
       this.results = { native: [], current: [] };
@@ -81,7 +82,6 @@ export class DictionaryComponent implements OnInit {
     if (this.searchValue !== '') {
       this.searchService.getResults(this.searchValue, this.languageId).then(results => {
         this.results = results;
-        console.log(results);
       });
     }
   }

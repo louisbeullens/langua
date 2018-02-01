@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (window.grecaptcha) {
             this.grecaptchaId = window.grecaptcha.render('g-recaptcha', {
                 sitekey: '6Lc9mUMUAAAAAGvR9gPNHmOaVeEqVWcssKV4RjNO',
-                badge: 'bottomleft',
+                badge: 'inline',
                 size: 'invisible',
                 callback: (response => this.grecaptchaCallback(response)),
 

@@ -10,7 +10,7 @@
     </span>
     </p>
     <p *ngIf="item.wordTypeId !== 19">
-        <ng-container *ngIf="item.singular !== '' && item.singular.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;else plural">
+        <ng-container *ngIf="item.singular !== '';else plural">
             <b [innerHtml]="item.singular | highlight:searchValue:'b':'text-primary':true"></b> (ev)
             <span class="translation">
           <ng-container *ngFor="let translation of item.translations;last as isLast">
@@ -22,7 +22,7 @@
       </span>
         </ng-container>
         <ng-template #plural>
-            <ng-container *ngIf="item.plural !== '' && item.plural.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1">
+            <ng-container *ngIf="item.plural !== ''">
                 <b [innerHtml]="item.plural | highlight:searchValue:'b':'text-primary':true"></b> (mv)
                 <span class="translation">
             <ng-container *ngFor="let translation of item.translations;last as isLast">

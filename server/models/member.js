@@ -35,7 +35,7 @@ module.exports = function (Member) {
         memberInstance.verify(verifyOptions);
         Member.app.models.Email.send({
             to: ['Peter@Langua.be','Louis@Langua.be'],
-            from: 'registratie@Langua.be',
+            from: 'noreply@langua.be',
             subject: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname,
             text: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname
           }, function (err, result) {

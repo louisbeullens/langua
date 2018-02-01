@@ -78,6 +78,12 @@ export class TestTranslationQuestionComponent implements OnInit, AfterViewChecke
         this.getQuestion();
     }
 
+    onNextKeydown(event) {
+        if ((event.which === 13 || event.keyCode === 13) && this.answer !== '') {
+            this.onNext();
+        }
+    }
+
     submitAnswer() {
         if (this.answer !== '') {
             this.testService.postAnswer(this.question.id, this.answer).subscribe(answer => {

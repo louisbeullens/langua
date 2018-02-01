@@ -76,6 +76,9 @@ export class MemberService {
 
     logout() {
         this.api.clearAccessToken();
+        this.memberId = null;
+        this.memberInfo = null;
+        this.roles = null;
         this.registered = false;
     }
 
