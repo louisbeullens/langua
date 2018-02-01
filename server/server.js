@@ -2,12 +2,14 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var Raven = require('raven');
 
 var app = module.exports = loopback();
 
 app.start = function() {
   // start the web server
   return app.listen(function() {
+    Raven.config('https://66bff354602649099aacf516e03836b4:b43e1dc613544009a1c1b6ebff4254cb@sentry.io/281436').install();
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
