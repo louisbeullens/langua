@@ -1,6 +1,8 @@
+import Raven = require('raven-js');
+
 import { BrowserModule } from '@angular/platform-browser';
 import {ChartsModule} from "ng2-charts";
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
@@ -46,6 +48,16 @@ import { BlogComponent } from './blog/blog.component';
 
 registerLocaleData(localeNl, 'nl');
 
+Raven
+  .config('https://44d49ea13d954fea94d0e4539bac745c@sentry.io/281363')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    Raven.captureException(err.originalError || err);
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,7 +99,7 @@ registerLocaleData(localeNl, 'nl');
     FormsModule,
     AppRoutingModule
   ],
-  providers: [ { provide: LOCALE_ID, useValue: 'nl' }, MemberService, SearchService, ApiService, TestService],
+  providers: [ { provide: ErrorHandler, useClass: RavenErrorHandler }, { provide: LOCALE_ID, useValue: 'nl' }, MemberService, SearchService, ApiService, TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
