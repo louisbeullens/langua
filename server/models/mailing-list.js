@@ -31,10 +31,10 @@ module.exports = function (MailingList) {
             console.log(err);
             next(err);
           }
-          if (result.success === true) {
+          result = JSON.parse(result);
+          if (result.success) {
             next();
           } else {
-            console.log('result in fail', result);
             next(new Error('recaptcha response unsuccessfull'));
           }
       });

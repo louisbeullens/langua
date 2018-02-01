@@ -18,9 +18,7 @@ module.exports = function (server) {
       console.log(req.body);
 
       server.datasources.ReCaptcha.findById(req.body.grecaptchaResponse, function (err, result) {
-        console.log('success', result.success);
-        console.log('result', result);
-        console.log('success', result.success);
+        result = JSON.parse(result);
         if (result.success) {
 
           const template = loopback.template(path.resolve(path.join(__dirname, '..', 'templates', 'ask-question.ejs')));
