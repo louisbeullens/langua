@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backend: 'langua.eu-gb.mybluemix.net',
-  apiUrl: 'langua.eu-gb.mybluemix.net/api'
+  backend: 'development.langua.be',
+  apiUrl: 'development.langua.be/api'
 };

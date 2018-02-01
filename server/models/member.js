@@ -48,7 +48,7 @@ module.exports = function (Member) {
 
     function logIpAddress(ctx, accessToken, next) {
 
-        Member.app.datasources.FreeGeoIp.findById('84.196.187.163', function(err, freeGeoIp) {
+        Member.app.datasources.FreeGeoIp.findById(req.ip, function(err, freeGeoIp) {
             if (err) {
                 return next(err);
             }
