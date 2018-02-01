@@ -3,7 +3,7 @@ import {MemberService} from "../../../member.service";
 import {Observable} from "rxjs/Observable";
 import {ApiService} from "../../../api.service";
 import {TestService} from "../../../test.service";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-test-translations-create',

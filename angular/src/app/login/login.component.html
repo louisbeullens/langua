@@ -16,8 +16,7 @@
                             </div>
                             <div class="form-group formField">
                                 <button type="button" class="btn btn-block btn-facebook-filled btn-rounded" (click)="FBLogin()">
-                                    <i class="fa fa-facebook"></i>
-                                    <span>Aanmelden met Facebook</span>
+                                    <i class="fa fa-facebook"></i> <span>Aanmelden met Facebook</span>
                                 </button>
                             </div>
                         </form>
@@ -33,7 +32,6 @@
                         <form role="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
                             <div class="form-group formField">
                                 <input type="text" name="email" class="form-control" placeholder="E-mail" [ngModel]="email" disabled>
-                                <!-- TODO: oogje-->
                             </div>
                             <div class="homeContactContent">
                                 <div class="form-group formField">
@@ -48,7 +46,7 @@
                                 <input type="button" (click)="mode=PRELOGIN" class="btn btn-primary btn-block bg-color-3 border-color-3" value="Vorige">
                             </div>
                             <div class="text-right" style="display: block;">
-                                    <a style="cursor: pointer;" (click)="requestPasswordReset()">Wachtwoord vergeten?</a>
+                                <a style="cursor: pointer;" (click)="requestPasswordReset()">Wachtwoord vergeten?</a>
                             </div>
                         </form>
                     </div>
@@ -90,7 +88,7 @@
                             </div>
                             <div class="text-right" style="display: block;">
                                 <a style="cursor: pointer;" href="mailto:info@langua.be?subject=probleem">Problemen met registreren?</a>
-                        </div>
+                            </div>
                         </form>
                     </div>
                 </div>
