@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from "../../api.service";
-import {forEach} from '@angular/router/src/utils/collection'; //TODO Nog in gebruik?
-import { MemberService } from '../../member.service';
+import {MemberService} from '../../member.service';
 
 @Component({
     selector: 'app-verb-detail-container',
@@ -20,12 +19,12 @@ export class VerbDetailContainerComponent implements OnInit {
 
     ngOnInit() {
         const scope = {
-            where: { languageId: this.memberService.getNativeLanguageId() }
+            where: {languageId: this.memberService.getNativeLanguageId()}
         }
         const verbFilter = {
             include: [
-                { relation: 'translations1', scope: scope },
-                { relation: 'translations2', scope: scope },
+                {relation: 'translations1', scope: scope},
+                {relation: 'translations2', scope: scope},
             ],
             where: {
                 singular: this.route.snapshot.paramMap.get('name').split('_').join(' ')

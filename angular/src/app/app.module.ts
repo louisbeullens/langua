@@ -8,6 +8,9 @@ import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 
 import { AppComponent } from './app.component';
+import { AdSenseComponent } from './ad-sense/ad-sense.component';
+import { BlogComponent } from './blog/blog.component';
+import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { MemberService } from './member.service';
@@ -41,10 +44,8 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
 import { DoughnutComponent } from './doughnut/doughnut.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { QuickStartComponent } from './quick-start/quick-start.component';
-import { AdSenseComponent } from './ad-sense/ad-sense.component';
 import { ProfileComponent } from './profile/profile.component';
-import { CommingSoonComponent } from './comming-soon/comming-soon.component';
-import { BlogComponent } from './blog/blog.component';
+
 
 registerLocaleData(localeNl, 'nl');
 
@@ -89,7 +90,7 @@ export class RavenErrorHandler implements ErrorHandler {
     QuickStartComponent,
     AdSenseComponent,
     ProfileComponent,
-    CommingSoonComponent,
+    ComingSoonComponent,
     BlogComponent
   ],
   imports: [

@@ -23,7 +23,7 @@
 }
 
 .servicesSection {
-    background-image: url("./img/home/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
+    background-image: url("assets/img/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
     width: 100%;
     background-repeat: repeat;
     height: auto;
@@ -31,14 +31,14 @@
 }
 
 .teamSection {
-    background-image: url("./img/home/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
+    background-image: url("assets/img/pattern-light.png");  /* TODO NOG IN GEBRUIK ? PB 8/1/2018 */
     width: 100%;
     background-repeat: repeat;
     height: auto;
 }
 
 .commentSection {
-    background-image: url("./img/home/pattern-light.png");  /* TODO NOG NI GEBRUIK? PB 8/1/2018 */
+    background-image: url("assets/img/pattern-light.png");  /* TODO NOG NI GEBRUIK? PB 8/1/2018 */
     width: 100%;
     background-repeat: repeat;
     height: auto;

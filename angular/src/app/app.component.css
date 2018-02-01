@@ -33,9 +33,18 @@
 }
 
 .footerInfoArea {
-    height: 330px;
+    padding-top: 40px;
+    height: 300px;
 }
 
 .footerInfo > p {
     margin: 8px 0px;
+}
+
+.copyRightText {
+    padding-top: 10px;
+}
+
+.media-heading > a {
+    line-height: 1.3em;
 }

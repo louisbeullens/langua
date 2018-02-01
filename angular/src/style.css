@@ -4312,7 +4312,7 @@ footer .color-bar {
 
 /*=== 5.5 SERVICES SECTION ===*/
 .servicesSection {
-    background-image: url("./img/home/pattern-light.png");
+    background-image: url("assets/img/pattern-light.png");
     width: 100%;
     background-repeat: repeat;
     height: auto;
@@ -4664,7 +4664,7 @@ footer .color-bar {
 }
 
 .teamSection {
-    background-image: url("./img/home/pattern-light.png");
+    background-image: url("assets/img/pattern-light.png");
     width: 100%;
     background-repeat: repeat;
     height: auto;
@@ -5357,7 +5357,7 @@ footer .color-bar {
 
 /*=== 5.11 COMMENT SECTION ===*/
 .commentSection {
-    background-image: url("./img/home/pattern-light.png");
+    background-image: url("assets/img/pattern-light.png");
     width: 100%;
     background-repeat: repeat;
     height: auto;
