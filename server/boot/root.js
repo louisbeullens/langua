@@ -32,6 +32,7 @@ module.exports = function (server) {
             html: html
           }, function (err, result) {
             if (err) {
+              console.log(err);
               return res.send(JSON.stringify({ status: 'error' }));
             }
 
