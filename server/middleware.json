@@ -44,7 +44,8 @@
   },
   "files": {},
   "final": {
-    "loopback#urlNotFound": {}
+    "loopback#urlNotFound": {},
+    "./middleware/sentry.js": {}
   },
   "final:after": {
     "strong-error-handler": {}
