@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {tap} from 'rxjs/operators';
+import {tap, map} from 'rxjs/operators';
 import {ApiService} from './api.service';
 import {Subject} from 'rxjs/Subject';
 import {Member, AccessToken, Language} from './interfaces';
@@ -159,7 +159,11 @@ export class MemberService {
     }
 
     getTrainingLanguages(): Observable<Language[]> {
-        return this.api.get<Language[]>('/Languages');
+        return this.api.get<Language[]>('/Languages').pipe(map(languages => {
+            return languages.filter(value => {
+                return (value.id !== 3);
+            });
+        }));
     }
 
     setCurrentLanguageId(languageId): void {

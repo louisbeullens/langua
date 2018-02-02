@@ -48,27 +48,32 @@ module.exports = function (Member) {
 
     function logIpAddress(ctx, accessToken, next) {
 
-        Member.app.datasources.FreeGeoIp.findById(req.ip, function(err, freeGeoIp) {
+        Member.app.datasources.FreeGeoIp.findById(ctx.req.ip, function(err, freeGeoIp) {
             if (err) {
-                return next(err);
+                return console.log(err);
             }
 
             freeGeoIp.memberId = accessToken.userId;
 
             Member.app.models.IpLocation.findOne({where: freeGeoIp}, function(err, result) {
                 if (err) {
-                    return next(err);
+                    return console.log(err);
                 }
 
                 if (!result) {
                     Member.app.models.IpLocation.create(freeGeoIp, function(err) {
-                        return next(err);
+                        if (err) {
+                            return console.log(err);
+                        }
                     });
                 } else {
-                    return next(err);
+                    if (err) {
+                        return console.log(err);
+                    }
                 }
             });
         });
+        next();
     }
 
     Member.afterRemote('login', logIpAddress);

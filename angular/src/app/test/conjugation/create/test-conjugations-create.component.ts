@@ -4,6 +4,7 @@ import {ApiService} from "../../../api.service";
 import {MemberService} from "../../../member.service";
 import {TestService} from "../../../test.service";
 import { ActivatedRoute } from '@angular/router';
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'app-test-conjugations-create',
@@ -26,7 +27,11 @@ export class TestConjugationsCreateComponent implements OnInit {
 
     async ngOnInit() {
         this.languageId = this.memberService.getTrainingLanguageId();
-        this.languages = this.memberService.getTrainingLanguages();
+        this.languages = this.memberService.getTrainingLanguages().pipe(map(languages => {
+            return languages.filter(value => {
+                return (value.id !== 4);
+            });
+        }));
 
         if (await this.memberService.getMemberId(false)) {
             this.testService.getUnfinishedConjugationTests().subscribe(tests => {

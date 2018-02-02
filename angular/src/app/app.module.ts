@@ -20,7 +20,6 @@ import { DictionaryComponent } from './dictionary/dictionary.component';
 import { SearchService } from './search.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DictionaryItemComponent } from './dictionary/item/dictionary-item.component';
-import { SelectLanguageComponent } from './select-language/select-language.component';
 import { ApiService } from './api.service';
 import { TestTranslationsCreateComponent } from './test/translation/create/test-translations-create.component';
 import { TestService } from './test.service';
@@ -66,7 +65,6 @@ export class RavenErrorHandler implements ErrorHandler {
     SearchComponent,
     DictionaryComponent,
     DictionaryItemComponent,
-    SelectLanguageComponent,
     TestTranslationsCreateComponent,
     TestTranslationQuestionComponent,
     TestTranslationsComponent,

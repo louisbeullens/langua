@@ -979,48 +979,6 @@ aside {
     font-size: 15px;
 }
 
-.pageTitleSection {
-    background-image: url("./img/page-title/page-title-bg.jpg");
-    width: 100%;
-    background-size: cover;
-    background-position: center center;
-    color: #ffffff;
-    padding: 75px 0;
-}
-
-.pageTitleSection .pageTitleInfo {
-    text-align: center;
-}
-
-.pageTitleSection .pageTitleInfo h2 {
-    font-size: 40px;
-    line-height: 33px;
-    color: #ffffff;
-    margin-bottom: 40px;
-    margin: 0 0 8px 0;
-    font-family: 'Dosis', sans-serif;
-    text-transform: capitalize;
-    font-weight: 600;
-}
-
-.pageTitleSection .pageTitleInfo .breadcrumb {
-    background-color: transparent;
-}
-
-.pageTitleSection .pageTitleInfo .breadcrumb li {
-    color: #ffffff;
-    font-size: 15px;
-}
-
-.pageTitleSection .pageTitleInfo .breadcrumb li a {
-    color: #ffffff;
-    font-size: 15px;
-}
-
-.pageTitleSection .pageTitleInfo .breadcrumb > li + li::before {
-    content: " \276F\00a0 ";
-}
-
 /*=== 2.3 FORM ===*/
 .homeContactContent form .btn {
     float: right;

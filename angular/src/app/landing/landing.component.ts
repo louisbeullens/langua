@@ -53,15 +53,16 @@ ngAfterViewChecked() {
 
 onSubmit(form) {
   this.memberService.getReCaptchaResponse().then(response => {
-    console.log(response);
     form.value.grecaptchaResponse = response;
     form.value.location = 'landing';
     this.http.post<any>(location.protocol + '//' + environment.backend + '/faq/askQuestion', form.value).subscribe(response => {
-      this.questionSend = true;
-      form.value.grecaptchaResponse = undefined;
-      form.value.name = '';
-      form.value.email = '';
-      form.value.message = '';
+        if (response.status === 'ok') {
+            this.questionSend = true;
+            form.value.grecaptchaResponse = undefined;
+            form.value.name = '';
+            form.value.email = '';
+            form.value.message = '';
+        }
     });
   });
   }

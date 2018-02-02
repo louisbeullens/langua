@@ -1,0 +1,99 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "langua",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "langua",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "langua",
+    "public": false
+  },
+  "Member": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "sendgrid",
+    "public": true
+  },
+  "Language": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Word": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "WordType": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Tense": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Conjugation": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Translation": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "IpLocation": {
+    "dataSource": "langua",
+    "public": false
+  },
+  "Question": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Test": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Answer": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "ConjugationForm": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "Book": {
+    "dataSource": "langua",
+    "public": true
+  },
+  "MailingList": {
+    "dataSource": "langua",
+    "public": true
+  }
+}
