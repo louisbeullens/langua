@@ -7535,42 +7535,6 @@ footer .color-bar {
 }
 
 /*=== 6.4 COURSE COUNTER ===*/
-.coursesCounter {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 330px;
-    overflow: hidden;
-    background: url("./img/course-single/course-count.jpg") no-repeat center top;
-    background-size: cover;
-    border-radius: 7px;
-    padding: 10px;
-}
-
-.coursesCounter .counterInner {
-    width: 100%;
-    height: 100%;
-    display: block;
-    border: 1px solid #ffffff;
-    border-radius: 7px;
-    text-align: center;
-}
-
-.coursesCounter .counterInner h3 {
-    font-family: 'Dosis', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: #ffffff;
-    text-transform: capitalize;
-    text-align: center;
-    margin: 40px 0;
-}
-
-.coursesCounter .counterInner > .btn-primary {
-    background-color: #ffffff !important;
-    border: none !important;
-    color: #84bed6 !important;
-}
 
 .coursesCountStart {
     padding: 0 0 35px 0;

@@ -44,6 +44,9 @@ import { DoughnutComponent } from './doughnut/doughnut.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { QuickStartComponent } from './quick-start/quick-start.component';
 import { ProfileComponent } from './profile/profile.component';
+import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
+import { InviteTeacherComponent } from './invite-teacher/invite-teacher.component';
+import { PricingComponent } from './pricing/pricing.component';
 
 
 registerLocaleData(localeNl, 'nl');
@@ -89,7 +92,10 @@ export class RavenErrorHandler implements ErrorHandler {
     AdSenseComponent,
     ProfileComponent,
     ComingSoonComponent,
-    BlogComponent
+    BlogComponent,
+    InviteFriendsComponent,
+    InviteTeacherComponent,
+    PricingComponent
   ],
   imports: [
     BrowserModule,
