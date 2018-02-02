@@ -49,7 +49,7 @@ import { ProfileComponent } from './profile/profile.component';
 registerLocaleData(localeNl, 'nl');
 
 Raven
-  .config('https://44d49ea13d954fea94d0e4539bac745c@sentry.io/281363')
+  .config('https://44d49ea13d954fea94d0e4539bac745c:f0cb2e34937d4392a2d008beea57788b@sentry.io/281363')
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
