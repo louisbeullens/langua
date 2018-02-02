@@ -1,4 +1,4 @@
-import Raven = require('raven-js');
+import * as Raven from 'raven-js';
 
 import { BrowserModule } from '@angular/platform-browser';
 import {ChartsModule} from "ng2-charts";
@@ -49,7 +49,7 @@ import { ProfileComponent } from './profile/profile.component';
 registerLocaleData(localeNl, 'nl');
 
 Raven
-  .config('https://44d49ea13d954fea94d0e4539bac745c:f0cb2e34937d4392a2d008beea57788b@sentry.io/281363')
+  .config('https://66bff354602649099aacf516e03836b4@sentry.io/281436')
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
