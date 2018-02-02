@@ -1,4 +1,4 @@
-import Raven = require('raven-js');
+import * as Raven from 'raven-js';
 
 import { BrowserModule } from '@angular/platform-browser';
 import {ChartsModule} from "ng2-charts";
