@@ -36,7 +36,6 @@ module.exports = function (app, next) {
         test: [newModel, 'Test'],
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
-        accesstoken: [newModel, 'AccessToken'],
         member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
         mailinglist: [newModel, 'MailingList'],
         role: [newModel, 'Role', [{name: 'admin'}]],
@@ -51,7 +50,8 @@ module.exports = function (app, next) {
         verbtranslation: [importModel, 'Translation', 'transverbs', {order: 'tvid ASC'}, relatedToWordCreate, verbTranslationMapFn],
         conjugation: [importModel, 'Conjugation', 'conjugations', {order: 'conjid ASC'}, relatedToWordCreate, conjugationMapFn],
         conjugationform: [importModel, 'ConjugationForm', 'pvs', {order: 'pvid ASC'}, bulkCreate, conjugationFormMapFn],
-        book: [importModel, 'Book', 'books', {order: 'bookid ASC'}, bulkCreate, bookMapFn]
+        book: [importModel, 'Book', 'books', {order: 'bookid ASC'}, bulkCreate, bookMapFn],
+        accesstoken: [newModel, 'AccessToken']
     }
 
     var operation = -1;
@@ -80,6 +80,9 @@ module.exports = function (app, next) {
             const method = (resetModels.length > 0) ? langua.automigrate : function(models, callback) { process.nextTick(callback) };
 
             method.call(langua,resetModels, function(err) {
+                if (err) {
+                    console.log(err);
+                }
                 if (resetModels.length === 1) {
                     DEBUG('created table', resetModels[0]);
                 } else if (resetModels.length > 1) {

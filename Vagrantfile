@@ -115,6 +115,7 @@ Vagrant.configure("2") do |config|
 	
 	#begin loopback boilerplate
 	cp -r /vagrant/files/api /home/ubuntu							#loopback boilerplate kopiëren
+	ln -s /vagrant/files/api/package.json /home/ubuntu/api/package.json
 	cd /home/ubuntu/api
 	npm install														#ontbrekende node_modules installeren
 	cd /home/ubuntu
