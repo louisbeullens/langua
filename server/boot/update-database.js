@@ -36,7 +36,7 @@ module.exports = function (app, next) {
         test: [newModel, 'Test'],
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
-        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
+        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC'}, syncCreate, memberMapFn],
         mailinglist: [newModel, 'MailingList'],
         role: [newModel, 'Role', [{name: 'admin'}]],
         rolemapping: [newModel, 'RoleMapping', roleMappingCreate],
