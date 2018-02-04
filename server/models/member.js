@@ -46,7 +46,7 @@ module.exports = function (Member) {
         next();
     });
 
-    function logIpAddress(ctx, accessToken, next) {
+    function logIpAddress(ctx, accessToken) {
 
         Member.app.datasources.FreeGeoIp.findById(ctx.req.ip, function(err, freeGeoIp) {
             if (err) {
@@ -73,26 +73,35 @@ module.exports = function (Member) {
                 }
             });
         });
-        next();
     }
 
-    function logLastLogin(ctx, accessToken, next) {
+    function logLastLogin(ctx, accessToken) {
         Member.findById(accessToken.userId, function(err, member) {
             if (err) {
                 console.log(err);
-                return next();
+                return;
             }
             member.lastLogin = Date.now();
             member.save(function(err) {
-                next();
+                console.log(err);
             });
         });
     }
 
-    Member.afterRemote('login', logIpAddress);
-    Member.afterRemote('login', logLastLogin);
-    Member.afterRemote('facebookLogin', logLastLogin);
-    Member.afterRemote('anonymousLogin', logIpAddress);
+    Member.afterRemote('login', function(ctx, accessToken, next) {
+        logIpAddress(ctx, accessToken);
+        logLastLogin(ctx, accessToken);
+        next();
+    });
+    Member.afterRemote('facebookLogin', function(ctx, accessToken, next) {
+        logIpAddress(ctx, accessToken);
+        logLastLogin(ctx, accessToken);
+        next();
+    }); 
+    Member.afterRemote('anonymousLogin', function() {
+        logIpAddress();
+        next();
+    });
 
     Member.emailExists = function (email, cb) {
         Member.findOne({where: {email: email}}, function (err, result) {

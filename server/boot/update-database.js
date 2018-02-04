@@ -17,7 +17,11 @@ module.exports = function (app, next) {
     const langua = app.datasources.langua;
     const langua_be = app.datasources.langua_be;
 
-    const VERBOSE = false;
+    var VERBOSE = false;
+
+    if (!process.env.NODE_ENV) {
+        VERBOSE = true;
+    }
 
     function DEBUG() {
         if (VERBOSE) {
@@ -286,7 +290,7 @@ module.exports = function (app, next) {
             _old_id: a.userid,
             emailVerified: true
         };
-        app.models.MailingList.create({email: member.email});
+        app.models.MailingList.create({email: member.email, subscribed: null});
         return member;
     }
 
