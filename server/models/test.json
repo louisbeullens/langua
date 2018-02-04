@@ -23,6 +23,10 @@
     },
     "validAnswers": {
       "type": "number"
+    },
+    "createdAt": {
+      "type": "date",
+      "defaultFn": "now"
     }
   },
   "validations": [],

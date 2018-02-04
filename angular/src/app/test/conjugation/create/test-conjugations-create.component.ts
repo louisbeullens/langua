@@ -46,8 +46,7 @@ export class TestConjugationsCreateComponent implements OnInit {
     onSubmit(form) {
         this.testService.createTestConjugations(this.languageId, this.tenseIds, this.regularity, this.selection).then(
             response => response.subscribe(
-                test => console.log('success', test),
-                err => console.log('error', err)));
+                test => {}));
     }
 
     onLanguageIdChanged() {
@@ -56,7 +55,6 @@ export class TestConjugationsCreateComponent implements OnInit {
     }
 
     onTenseChanged(id, checked) {
-        console.log(id, checked);
 
         const index = this.tenseIds.indexOf(id);
 
@@ -69,8 +67,6 @@ export class TestConjugationsCreateComponent implements OnInit {
                 this.tenseIds.splice(index, 1);
             }
         }
-
-        console.log(this.tenseIds);
     }
 
     getTenses(): Observable<any> {

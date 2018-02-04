@@ -97,11 +97,10 @@ export class LoginComponent implements OnInit {
     }
 
     FBLoginCallback(response) {
-        console.log(response);
         if (response.status === 'connected') {
             this.memberService.facebookLogin(response.authResponse.accessToken).subscribe(tokenObj => {
                 this.zone.run(_ => this.router.navigateByUrl('/home'));
-            }, err => console.log(err));
+            });
         }
     }
 }

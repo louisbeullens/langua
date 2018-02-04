@@ -15,8 +15,6 @@ module.exports = function (server) {
   router.post('/faq/askQuestion', function (req, res) {
     if (req.body.email !== '' && req.body.firstname !== '' && req.body.message !== '') {
 
-      console.log(req.body);
-
       server.datasources.ReCaptcha.findById(req.body.grecaptchaResponse, function (err, result) {
         result = JSON.parse(result);
         if (result.success) {

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MemberService} from '../../member.service';
 import {Observable} from "rxjs/Observable";
+import { TestService } from '../../test.service';
 
 @Component({
     selector: 'app-test-results',
@@ -17,7 +18,7 @@ export class TestResultsComponent implements OnInit {
         }
       };
 
-    constructor(private memberService: MemberService) {
+    constructor(private memberService: MemberService, public testService: TestService) {
     }
 
     ngOnInit() {

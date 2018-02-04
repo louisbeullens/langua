@@ -24,7 +24,6 @@ module.exports = function (MailingList) {
   }
 
   MailingList.beforeRemote('create', function (ctx, unused, next) {
-    console.log('mailinglist before create');
     if (ctx.req.body.grecaptchaResponse) {
       MailingList.app.datasources.ReCaptcha.findById(ctx.req.body.grecaptchaResponse, function (err, result) {
           if (err) {

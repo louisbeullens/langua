@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router'; //TODO Nog in gebruik?
-import {ApiService} from "../../api.service";   //TODO Nog in gebruik?
 import { Input } from '@angular/core';
 
 @Component({

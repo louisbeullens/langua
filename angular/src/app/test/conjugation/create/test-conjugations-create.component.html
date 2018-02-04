@@ -1,67 +1,79 @@
-<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <form (ngSubmit)="onSubmit(form)" #form="ngForm">
 
-    <b class="subtitle">Taal</b>
-    <div>
-        <select name="languageId" [(ngModel)]="languageId" (change)="onLanguageIdChanged()">
-            <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-        </select>
-    </div>
-    <br>
+                <b class="subtitle">Taal</b>
+                <div>
+                    <select name="languageId" [(ngModel)]="languageId" (change)="onLanguageIdChanged()">
+                        <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
+                    </select>
+                </div>
+                <br>
 
-    <b class="subtitle">Tijden</b>
-    <ng-container *ngFor="let tense of tenses | async">
-        <label class="languaCheckbox">{{ tense.name }}
-            <input type="checkbox" name="wordType" (change)="onTenseChanged(tense.id, $event.target.checked)">
-            <span class="checkmark"></span>
-        </label>
-    </ng-container>
-    <br>
+                <b class="subtitle">Tijden</b>
+                <ng-container *ngFor="let tense of tenses | async">
+                    <label class="languaCheckbox">{{ tense.name }}
+                        <input type="checkbox" name="wordType" (change)="onTenseChanged(tense.id, $event.target.checked)">
+                        <span class="checkmark"></span>
+                    </label>
+                </ng-container>
+                <br>
 
-    <b class="subtitle">Soort werkwoorden</b>
+                <b class="subtitle">Soort werkwoorden</b>
 
-    <label class="languaRadio">Alle werkwoorden
-        <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="0">
-        <span class="checkdot"></span>
-    </label>
-    <label class="languaRadio">Enkel regelmatige werkwoorden
-        <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="1">
-        <span class="checkdot"></span>
-    </label>
-    <label class="languaRadio">Enkel onregelmatige werkwoorden
-        <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="2">
-        <span class="checkdot"></span>
-    </label>
-    <br>
+                <label class="languaRadio">Alle werkwoorden
+                    <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="0">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Enkel regelmatige werkwoorden
+                    <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="1">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Enkel onregelmatige werkwoorden
+                    <input type="radio" name="regularity" [(ngModel)]="regularity" [value]="2">
+                    <span class="checkdot"></span>
+                </label>
+                <br>
 
-    <b class="subtitle">Soort vragen</b>
+                <b class="subtitle">Soort vragen</b>
 
-    <label class="languaRadio">Alle vragen
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="0">
-        <span class="checkdot"></span>
-    </label>
-    <label class="languaRadio">Nooit eerder gemaakte vragen
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="1">
-        <span class="checkdot"></span>
-    </label>
-    <label class="languaRadio">Ooit eerder gemaakte fouten
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="2">
-        <span class="checkdot"></span>
-    </label>
-    <label class="languaRadio">Nooit goed beantwoorde vragen
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="3">
-        <span class="checkdot"></span>
-    </label>
-    <br>
+                <label class="languaRadio">Alle vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="0">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Nooit eerder gemaakte vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="1">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Ooit eerder gemaakte fouten
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="2">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Nooit goed beantwoorde vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="3">
+                    <span class="checkdot"></span>
+                </label>
+                <br>
 
-    <ng-container *ngIf="tests && tests.length > 0">
-        <b>Test hervatten</b>
-        <div *ngFor="let test of tests">
-            <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
-            <button class="btn btn-primary" (click)="testService.setCurrentTest(test)">Hervatten</button>
-            <hr>
+                <button class="btn btn-primary" [disabled]="tenseIds.length === 0">Starten</button>
+            </form>
         </div>
-        <br>
-    </ng-container>
-
-    <button class="btn btn-primary" [disabled]="tenseIds.length === 0">Starten</button>
-</form>
+        <div class="col-sm-6">
+            <ng-container *ngIf="tests && tests.length > 0">
+                <b>Test hervatten</b><br><br>
+                <div *ngFor="let test of tests">
+                    <table>
+                        <tr>
+                            <td>{{ test.createdAt | date:'d MMM y (H:MM)' }} <br>Reeds voltooid {{test.lastQuestion}} / {{test.numQuestions}}</td>
+                            <td style="padding-left: 20px;"><button class="btn btn-primary" (click)="testService.setCurrentTest(test)">Hervatten</button></td>
+                        </tr>
+                    </table>
+                    
+                    <hr>
+                </div>
+                <br>
+            </ng-container>
+        </div>
+    </div>
+</div>

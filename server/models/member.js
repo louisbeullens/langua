@@ -200,7 +200,7 @@ module.exports = function (Member) {
 
     Member.unfinishedTranslationTests = function (id, cb) {
 
-        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
+        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId, Test.createdAt FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
         const params = [id, 'T'];
 
         Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
@@ -223,7 +223,7 @@ module.exports = function (Member) {
 
     Member.unfinishedConjugationTests = function (id, cb) {
 
-        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
+        const sql = 'SELECT DISTINCT Test.id, Test.type, Test.lastQuestion, Test.numQuestions, Test.validAnswers, Test.languageAnswerId, Test.languageQuestionId, Test.createdAt FROM Test JOIN Question ON Question.testId=Test.id WHERE Test.memberId=? AND Test.type=? AND Test.lastQuestion!=Test.numQuestions AND Question.archivedAt IS NULL;';
         const params = [id, 'C'];
 
         Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {

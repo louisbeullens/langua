@@ -16,10 +16,10 @@
                 <div class="tabCommon tabLeft">
                     <ul class="nav nav-tabs">
                         <li>
-                            <a data-toggle="tab" routerLink="/test/translations">&nbsp;&nbsp;Vertalen&nbsp;&nbsp;</a>
+                            <a data-toggle="tab" routerLink="/test/translations" (click)="testService.resetTest()">&nbsp;&nbsp;Vertalen&nbsp;&nbsp;</a>
                         </li>
                         <li>
-                            <a data-toggle="tab" routerLink="/test/conjugations">Vervoegen</a>
+                            <a data-toggle="tab" routerLink="/test/conjugations" (click)="testService.resetTest()">Vervoegen</a>
                         </li>
                         <li class="active">
                             <a data-toggle="tab" routerLink="/test/results">Resultaten</a>
@@ -35,7 +35,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="row text-center">
-                                                        Laatste test
+                                                        <b>Laatste test</b>
                                                     </div>
                                                     <div class="row">
                                                         <span class="score">{{ (results.lastTest[0] / (results.lastTest[0] + results.lastTest[1]))
@@ -46,7 +46,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row text-center">
-                                                        Alle testen
+                                                        <b>Alle testen</b>
                                                     </div>
                                                     <div class="row">
                                                         <span class="score">{{ (results.allTests[0] / (results.allTests[0] + results.allTests[1]))

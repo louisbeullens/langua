@@ -1,53 +1,75 @@
-<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <form (ngSubmit)="onSubmit(form)" #form="ngForm">
 
-    <b class="subtitle">Taal</b>
-    <div>
-        <select name="fromLanguageId" [(ngModel)]="fromLanguageId" #fromLanguageIdSelect>
-            <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-        </select>
+                <b class="subtitle">Taal</b>
+                <div>
+                    <select name="fromLanguageId" [(ngModel)]="fromLanguageId" #fromLanguageIdSelect>
+                        <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
+                    </select>
 
-        <span> --> </span>
+                    <span> --> </span>
 
-        <select name="toLanguageId" [(ngModel)]="toLanguageId" #toLanguageIdSelect (change)="onToLanguageChanged()">
-            <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
-        </select>
-    </div>
-    <br>
+                    <select name="toLanguageId" [(ngModel)]="toLanguageId" #toLanguageIdSelect (change)="onToLanguageChanged()">
+                        <option *ngFor="let language of languages | async" [ngValue]="language.id">{{language.name}}</option>
+                    </select>
+                </div>
+                <br>
 
-    <b class="subtitle">Woordtype</b>
-    <div *ngFor="let wordType of wordTypes | async">
-        <!-- <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)"/><span>{{ wordType.name }}</span><br>  -->
-        <label class="languaCheckbox">{{ wordType.name }}
-            <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)">
-            <span class="checkmark"></span> </label>
-    </div>
-    <br>
+                <b class="subtitle">Woordtype</b>
+                <div *ngFor="let wordType of wordTypes | async">
+                    <!-- <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)"/><span>{{ wordType.name }}</span><br>  -->
+                    <label class="languaCheckbox">{{ wordType.name }}
+                        <input type="checkbox" name="wordType" (change)="onWordTypeChanged(wordType.id, $event.target.checked)">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <br>
 
-    <b class="subtitle">Soort vragen</b>
-    <label class="languaRadio">Alle vragen <input type="radio" name="selection" [(ngModel)]="selection" [value]="0"> <span class="checkdot"></span> </label>
-    <label class="languaRadio">Nooit eerder gemaakte vragen <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> <span class="checkdot"></span> </label>
-    <label class="languaRadio">Ooit eerder gemaakte fouten <input type="radio" name="selection" [(ngModel)]="selection" [value]="2"> <span class="checkdot"></span> </label>
-    <label class="languaRadio">Nooit goed beantwoorde vragen <input type="radio" name="selection" [(ngModel)]="selection" [value]="3"> <span class="checkdot"></span> </label>
-    <!--
-    <div>
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="0"> alle vragen
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="1"> nooit eerder gemaakte vragen
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="2"> ooit eerder gemaakte fouten
-        <input type="radio" name="selection" [(ngModel)]="selection" [value]="3"> nooit goed beantwoorde vragen
-    </div>
-    -->
-    <br>
+                <b class="subtitle">Soort vragen</b>
+                <label class="languaRadio">Alle vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="0">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Nooit eerder gemaakte vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="1">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Ooit eerder gemaakte fouten
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="2">
+                    <span class="checkdot"></span>
+                </label>
+                <label class="languaRadio">Nooit goed beantwoorde vragen
+                    <input type="radio" name="selection" [(ngModel)]="selection" [value]="3">
+                    <span class="checkdot"></span>
+                </label>
+                <br>
 
-    <ng-container *ngIf="tests && tests.length">
-        <b>Test hervatten</b>
-        <div *ngFor="let test of tests">
-            <span>Progress {{test.lastQuestion}} / {{test.numQuestions}} </span>
-            <button class="btn btn-primary" (click)="testService.setCurrentTest(test)">Hervatten</button>
-            <hr>
+                <button class="btn btn-primary" [disabled]="fromLanguageIdSelect.value === toLanguageIdSelect.value || wordTypeIds.length === 0">Starten
+                </button>
+            </form>
         </div>
-        <br>
-    </ng-container>
+        <div class="col-sm-6">
+            <ng-container *ngIf="tests && tests.length > 0">
+                <b>Test hervatten</b>
+                <br>
+                <br>
+                <div *ngFor="let test of tests">
+                    <table>
+                        <tr>
+                            <td>{{ test.createdAt | date:'d MMM y (H:MM)' }}
+                                <br>Reeds voltooid {{test.lastQuestion}} / {{test.numQuestions}}</td>
+                            <td style="padding-left: 20px;">
+                                <button class="btn btn-primary" (click)="testService.setCurrentTest(test)">Hervatten</button>
+                            </td>
+                        </tr>
+                    </table>
 
-    <button class="btn btn-primary" [disabled]="fromLanguageIdSelect.value === toLanguageIdSelect.value || wordTypeIds.length === 0">Starten
-    </button>
-</form>
+                    <hr>
+                </div>
+                <br>
+            </ng-container>
+        </div>
+    </div>
+</div>

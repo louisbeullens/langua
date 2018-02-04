@@ -133,7 +133,6 @@ export class MemberService {
                 this.api.get('/Members/' + memberId.toString() + '/results').subscribe(results => {
                     resolve(results);
                 }, err => {
-                    console.log('getResults error',err);
                     reject(err);
                 });
             });

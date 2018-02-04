@@ -48,7 +48,6 @@ export class TestTranslationsCreateComponent implements OnInit {
     }
 
     onWordTypeChanged(id, checked): void {
-        console.log(id, checked);
 
         const index = this.wordTypeIds.indexOf(id);
 
@@ -61,16 +60,11 @@ export class TestTranslationsCreateComponent implements OnInit {
                 this.wordTypeIds.splice(index, 1);
             }
         }
-
-        console.log(this.wordTypeIds);
     }
 
     onSubmit(form) {
-        console.log(this.selection);
-        console.log(form.value);
         this.testService.createTestTranslations(this.fromLanguageId, this.toLanguageId, this.wordTypeIds, this.selection).then(
             response => response.subscribe(
-                test => console.log('success', test),
-                err => console.log('error', err)));
+                test => {}));
     }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from "../api.service";
 import { ActivatedRoute } from "@angular/router";
 import { MemberService } from '../member.service';
@@ -12,7 +12,7 @@ declare var document;
     templateUrl: './verb-list.component.html',
     styleUrls: ['./verb-list.component.css']
 })
-export class VerbListComponent implements OnInit {
+export class VerbListComponent implements OnInit, OnDestroy {
 
     public fragments: string[] = null;
     public indexedVerbs: any = null;
@@ -23,11 +23,14 @@ export class VerbListComponent implements OnInit {
     public verbTypeOptionNames = ['Alle werkwoorden', 'Regelmatige werkwoorden', 'Uitzonderingen']
     public verbType = 0;
 
+    private routeFragmentSubscription: any = null;
+    private routeParamsSubscription: any = null;
+
     constructor(private api: ApiService, public memberService: MemberService, private route: ActivatedRoute, private locationService: Location) {
     }
 
     ngOnInit() {
-        this.route.fragment.subscribe(fragment => {
+        this.routeFragmentSubscription =  this.route.fragment.subscribe(fragment => {
             if (fragment && fragment.length === 1 && fragment >= 'A' && fragment <= 'Z') {
                 const element = document.querySelector('#' + fragment);
                 if (element) {
@@ -37,7 +40,7 @@ export class VerbListComponent implements OnInit {
         });
         const languageIds = { es: 1, en: 2, nl: 4, fr: 5 };
         const locales = { 1: 'es', 2: 'en', 4: 'nl', 5: 'fr' };
-        this.route.params.subscribe(params => {
+        this.routeParamsSubscription = this.route.params.subscribe(params => {
             if (this.route.snapshot.paramMap.has('locale')) {
                 this.languageId = languageIds[this.route.snapshot.params['locale']] || this.languageId;
                 this.locale = this.route.snapshot.params['locale'];
@@ -100,5 +103,15 @@ export class VerbListComponent implements OnInit {
                 this.indexedVerbs[this.indexedVerbs.length - 1].verbs.push(verbs[i]);
             }
         });
+    }
+
+    ngOnDestroy() {
+        if (this.routeFragmentSubscription) {
+            this.routeFragmentSubscription.unsubscribe();
+        }
+
+        if (this.routeParamsSubscription) {
+            this.routeParamsSubscription.unsubscribe();
+        }
     }
 }

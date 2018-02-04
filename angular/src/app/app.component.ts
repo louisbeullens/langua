@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TestService } from "./test.service";
 import { MemberService } from "./member.service";
 import { SearchService } from './search.service';
@@ -14,7 +14,7 @@ declare var FB: any;
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     title = 'Langua';
 
     public languages = null;
@@ -22,13 +22,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     public searchValue = '';
     public email;
 
+    private searchValueChangedSubscription: any = null;
+
     private grecaptchaId: any = null;
 
     constructor(public api: ApiService, public searchService: SearchService, private router: Router, public memberService: MemberService, public testService: TestService) {
     }
 
     ngOnInit() {
-        this.searchService.searchValueChanged.subscribe(event => {
+        this.searchValueChangedSubscription = this.searchService.searchValueChanged.subscribe(event => {
             if (event.id !== 0) {
                 this.searchValue = event.value;
             }
@@ -48,7 +50,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     onSubmit() {
         this.memberService.getReCaptchaResponse().then(response => {
-            console.log(response);
             this.api.post<any>('/MailingList', {
                 email: this.email,
                 grecaptchaResponse: response
@@ -106,6 +107,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (this.grecaptchaId === null) {
             this.grecaptchaId = 'pending';
             this.renderReCaptcha();
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.searchValueChangedSubscription) {
+            this.searchValueChangedSubscription.unsubscribe();
         }
     }
 }

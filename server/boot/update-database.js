@@ -17,7 +17,7 @@ module.exports = function (app, next) {
     const langua = app.datasources.langua;
     const langua_be = app.datasources.langua_be;
 
-    const VERBOSE = true;
+    const VERBOSE = false;
 
     function DEBUG() {
         if (VERBOSE) {

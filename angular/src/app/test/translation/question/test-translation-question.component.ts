@@ -51,9 +51,6 @@ export class TestTranslationQuestionComponent implements OnInit, AfterViewChecke
                     }
                 }
                 this.question = question;
-                console.log('question', question);
-            }, err => {
-                console.log(err);
             });
         } else {
             this.router.navigateByUrl('/test/results');
