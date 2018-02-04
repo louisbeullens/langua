@@ -27,41 +27,41 @@ module.exports = function (Member) {
         return Object.assign({}, this.settings.verifyOptions || defaultOptions);
     };
 
-    Member.afterRemote('create', function(ctx, memberInstance, next) {
-        Member.app.models.MailingList.create({email: memberInstance.email});
+    Member.afterRemote('create', function (ctx, memberInstance, next) {
+        Member.app.models.MailingList.create({ email: memberInstance.email });
         const verifyOptions = Object.assign({}, Member.getVerifyOptions());
         verifyOptions.firstname = memberInstance.firstname;
         verifyOptions.lastname = memberInstance.lastname;
         memberInstance.verify(verifyOptions);
         Member.app.models.Email.send({
-            to: ['Peter@Langua.be','Louis@Langua.be'],
+            to: ['Peter@Langua.be', 'Louis@Langua.be'],
             from: 'noreply@langua.be',
             subject: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname,
             text: 'Registratie: ' + memberInstance.firstname + ' ' + memberInstance.lastname
-          }, function (err, result) {
+        }, function (err, result) {
             if (err) {
                 console.log(err);
             }
-          });
+        });
         next();
     });
 
     function logIpAddress(ctx, accessToken) {
 
-        Member.app.datasources.FreeGeoIp.findById(ctx.req.ip, function(err, freeGeoIp) {
+        Member.app.datasources.FreeGeoIp.findById(ctx.req.ip, function (err, freeGeoIp) {
             if (err) {
                 return console.log(err);
             }
 
             freeGeoIp.memberId = accessToken.userId;
 
-            Member.app.models.IpLocation.findOne({where: freeGeoIp}, function(err, result) {
+            Member.app.models.IpLocation.findOne({ where: freeGeoIp }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
 
                 if (!result) {
-                    Member.app.models.IpLocation.create(freeGeoIp, function(err) {
+                    Member.app.models.IpLocation.create(freeGeoIp, function (err) {
                         if (err) {
                             return console.log(err);
                         }
@@ -76,45 +76,47 @@ module.exports = function (Member) {
     }
 
     function logLastLogin(ctx, accessToken) {
-        Member.findById(accessToken.userId, function(err, member) {
+        Member.findById(accessToken.userId, function (err, member) {
             if (err) {
                 console.log(err);
                 return;
             }
             member.lastLogin = Date.now();
-            member.save(function(err) {
-                console.log(err);
+            member.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
             });
         });
     }
 
-    Member.afterRemote('login', function(ctx, accessToken, next) {
+    Member.afterRemote('login', function (ctx, accessToken, next) {
         logIpAddress(ctx, accessToken);
         logLastLogin(ctx, accessToken);
         next();
     });
-    Member.afterRemote('facebookLogin', function(ctx, accessToken, next) {
+    Member.afterRemote('facebookLogin', function (ctx, accessToken, next) {
         logIpAddress(ctx, accessToken);
         logLastLogin(ctx, accessToken);
         next();
-    }); 
-    Member.afterRemote('anonymousLogin', function() {
+    });
+    Member.afterRemote('anonymousLogin', function () {
         logIpAddress();
         next();
     });
 
     Member.emailExists = function (email, cb) {
-        Member.findOne({where: {email: email}}, function (err, result) {
+        Member.findOne({ where: { email: email } }, function (err, result) {
             return cb(err, (result) ? true : false);
         });
     };
 
     Member.remoteMethod('emailExists', {
         accepts: [
-            {arg: 'email', type: 'string', required: true}
+            { arg: 'email', type: 'string', required: true }
         ],
-        http: {path: '/:email/exists', verb: 'get'},
-        returns: {type: 'boolean', root: true}
+        http: { path: '/:email/exists', verb: 'get' },
+        returns: { type: 'boolean', root: true }
     });
 
     Member.anonymousLogin = function (req, cb) {
@@ -123,11 +125,11 @@ module.exports = function (Member) {
         var date = new Date(Date.now());
         rand = date.getUTCFullYear().toString() + (date.getUTCMonth() + 1).toString() + date.getUTCDate().toString() + '.' + date.getUTCHours().toString() + date.getUTCMinutes().toString() + date.getUTCSeconds().toString() + '.' + date.getUTCMilliseconds().toString() + '.' + rand;
         rand = rand + '@langua.be';
-        Member.create({email: rand, password: rand, emailVerified:true}, function (err, newMember) {
+        Member.create({ email: rand, password: rand, emailVerified: true }, function (err, newMember) {
             if (err)
                 return cb(err, null);
 
-            Member.login({email: newMember.email, password: newMember.email}, function (err, accessToken) {
+            Member.login({ email: newMember.email, password: newMember.email }, function (err, accessToken) {
                 if (err)
                     return cb(err, null);
 
@@ -138,33 +140,33 @@ module.exports = function (Member) {
     };
 
     Member.remoteMethod('anonymousLogin', {
-        accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}}],
-        http: {path: '/anonymousLogin', verb: 'get'},
-        returns: {type: 'AccessToken', root: true}
+        accepts: [{ arg: 'req', type: 'object', 'http': { source: 'req' } }],
+        http: { path: '/anonymousLogin', verb: 'get' },
+        returns: { type: 'AccessToken', root: true }
     });
 
-    Member.facebookLogin = function(fb_access_token, cb) {
-        Member.app.datasources.Facebook.userData(fb_access_token, function(err, fBUser) {
+    Member.facebookLogin = function (fb_access_token, cb) {
+        Member.app.datasources.Facebook.userData(fb_access_token, function (err, fBUser) {
             if (err) {
                 return cb(err, null);
             }
             if (fBUser.email) {
-                Member.findOne({where: {email: fBUser.email}}, function(err, member) {
+                Member.findOne({ where: { email: fBUser.email } }, function (err, member) {
                     if (err) {
                         return cb(err, null);
                     }
                     if (member) {
-                        member.createAccessToken(14*24*3600, function(err,token) {
+                        member.createAccessToken(14 * 24 * 3600, function (err, token) {
                             cb(err, token);
                         })
                     } else {
-                        Member.create({email: fBUser.email, firstname: fBUser.first_name, lastname: fBUser.last_name, username: fBUser.name, password: facebook_access_token.slice(0,72), emailVerified: true}, function(err, member) {
+                        Member.create({ email: fBUser.email, firstname: fBUser.first_name, lastname: fBUser.last_name, username: fBUser.name, password: facebook_access_token.slice(0, 72), emailVerified: true }, function (err, member) {
                             if (err) {
                                 return cb(err, null);
                             }
                             if (member) {
-                                member.createAccessToken(14*24*3600, function(err,token) {
-                                    cb(err,token);
+                                member.createAccessToken(14 * 24 * 3600, function (err, token) {
+                                    cb(err, token);
                                 })
                             } else {
                                 cb(new Error("Something went wrong."), null);
@@ -179,21 +181,21 @@ module.exports = function (Member) {
     };
 
     Member.remoteMethod('facebookLogin', {
-        accepts: [{arg: 'fb_access_token', type: 'string'}],
-        http: {path: '/facebookLogin', verb: 'post'},
-        returns: {type: 'AccessToken', root: true}
+        accepts: [{ arg: 'fb_access_token', type: 'string' }],
+        http: { path: '/facebookLogin', verb: 'post' },
+        returns: { type: 'AccessToken', root: true }
     });
 
-    Member.getRoles = function(memberId, cb) {
+    Member.getRoles = function (memberId, cb) {
         const sql = "SELECT DISTINCT Role.name FROM RoleMapping JOIN Role on RoleMapping.roleId=Role.id WHERE RoleMapping.principalType=? AND RoleMapping.principalId=?;";
-        Member.app.datasources.langua.connector.execute(sql,[Member.app.models.RoleMapping.USER, memberId], function(err, results) {
+        Member.app.datasources.langua.connector.execute(sql, [Member.app.models.RoleMapping.USER, memberId], function (err, results) {
             if (err) {
                 return cb(err, null);
             }
 
             const roles = [];
 
-            for (var i=0; i<results.length; i++) {
+            for (var i = 0; i < results.length; i++) {
                 roles.push(results[i].name);
             }
 
@@ -202,9 +204,9 @@ module.exports = function (Member) {
     }
 
     Member.remoteMethod('getRoles', {
-        accepts: [{arg: 'id', type: 'string'}],
-        http: {path: '/:id/roles', verb: 'get'},
-        returns: {type: '[string]', root: true}
+        accepts: [{ arg: 'id', type: 'string' }],
+        http: { path: '/:id/roles', verb: 'get' },
+        returns: { type: '[string]', root: true }
     });
 
     Member.unfinishedTranslationTests = function (id, cb) {
@@ -224,10 +226,10 @@ module.exports = function (Member) {
 
     Member.remoteMethod('unfinishedTranslationTests', {
         accepts: [
-            {arg: 'id', type: 'number', required: true}
+            { arg: 'id', type: 'number', required: true }
         ],
-        http: {path: '/:id/unfinishedTranslationTests', verb: 'get'},
-        returns: {type: '[Test]', root: true}
+        http: { path: '/:id/unfinishedTranslationTests', verb: 'get' },
+        returns: { type: '[Test]', root: true }
     });
 
     Member.unfinishedConjugationTests = function (id, cb) {
@@ -247,25 +249,25 @@ module.exports = function (Member) {
 
     Member.remoteMethod('unfinishedConjugationTests', {
         accepts: [
-            {arg: 'id', type: 'number', required: true}
+            { arg: 'id', type: 'number', required: true }
         ],
-        http: {path: '/:id/unfinishedConjugationTests', verb: 'get'},
-        returns: {type: '[Test]', root: true}
+        http: { path: '/:id/unfinishedConjugationTests', verb: 'get' },
+        returns: { type: '[Test]', root: true }
     });
 
-    Member.getResults = function(memberId, cb) {
+    Member.getResults = function (memberId, cb) {
 
         const sql = "SELECT Sum(valid) AS correct, Count(valid) AS total, Test.type FROM Answer JOIN Question ON Answer.questionId=Question.id JOIN Test ON Question.testId=Test.id WHERE Question.memberId=? AND Question.archivedAt IS NULL GROUP BY Question.testId ORDER BY Question.testId DESC;";
         const params = [memberId];
-        Member.app.datasources.langua.connector.execute(sql, params, function(err, results) {
+        Member.app.datasources.langua.connector.execute(sql, params, function (err, results) {
             if (err) {
                 return cb(err);
             }
 
-            const lastTest = {correct:0, incorrect:0, total:0, numTests: 0};
-            const conjugationTests = {correct:0, incorrect:0, total:0, numTests: 0};
-            const translationTests = {correct:0, incorrect:0, total:0, numTests: 0};
-            const allTests = {correct:0, incorrect:0, total:0, numTests:0};
+            const lastTest = { correct: 0, incorrect: 0, total: 0, numTests: 0 };
+            const conjugationTests = { correct: 0, incorrect: 0, total: 0, numTests: 0 };
+            const translationTests = { correct: 0, incorrect: 0, total: 0, numTests: 0 };
+            const allTests = { correct: 0, incorrect: 0, total: 0, numTests: 0 };
 
             if (results.length > 0) {
                 lastTest.correct = results[0].correct;
@@ -274,7 +276,7 @@ module.exports = function (Member) {
                 lastTest.numTests = 1;
             }
 
-            for (var i=0;i<results.length; i++) {
+            for (var i = 0; i < results.length; i++) {
 
                 if (results[i].type === 'C') {
                     conjugationTests.correct += results[i].correct;
@@ -294,7 +296,7 @@ module.exports = function (Member) {
                 allTests.numTests++;
             }
 
-            const result = {lastTest: lastTest, conjugationTests: conjugationTests, translationTests: translationTests, allTests: allTests};
+            const result = { lastTest: lastTest, conjugationTests: conjugationTests, translationTests: translationTests, allTests: allTests };
 
             cb(null, result);
         });
@@ -302,32 +304,32 @@ module.exports = function (Member) {
 
     Member.remoteMethod('getResults', {
         accepts: [
-            {arg: 'id', type: 'number', required: true}
+            { arg: 'id', type: 'number', required: true }
         ],
-        http: {path: '/:id/results', verb: 'get'},
-        returns: {type: {lastTest: 'Object'}, root: true}
+        http: { path: '/:id/results', verb: 'get' },
+        returns: { type: { lastTest: 'Object' }, root: true }
     });
 
-    Member.resetResults = function(memberId, type, cb) {
-        Member.app.models.Question.updateAll({and: [{memberId: memberId}, {archivedAt: null}]}, {archivedAt: Date.now()}, function(err) {
-           cb(null,true);
+    Member.resetResults = function (memberId, type, cb) {
+        Member.app.models.Question.updateAll({ and: [{ memberId: memberId }, { archivedAt: null }] }, { archivedAt: Date.now() }, function (err) {
+            cb(null, true);
         });
     };
 
     Member.remoteMethod('resetResults', {
         accepts: [
-            {arg: 'id', type: 'number', required: true},
-            {arg: 'type', type: 'string'}
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'type', type: 'string' }
         ],
-        http: {path: '/:id/resetResults', verb: 'get'},
-        returns: {type: 'boolean', root: true}
+        http: { path: '/:id/resetResults', verb: 'get' },
+        returns: { type: 'boolean', root: true }
     });
 
-    Member.on('resetPasswordRequest', function(info) {
-        const template = loopback.template(path.resolve(path.join(__dirname,'..','templates','password-reset.ejs')));
+    Member.on('resetPasswordRequest', function (info) {
+        const template = loopback.template(path.resolve(path.join(__dirname, '..', 'templates', 'password-reset.ejs')));
         const html = template({
             token: info.accessToken.id,
-            verifyHref: privateSettings.protocol + '://' + privateSettings.frontend + '/password/reset?token='+info.accessToken.id,
+            verifyHref: privateSettings.protocol + '://' + privateSettings.frontend + '/password/reset?token=' + info.accessToken.id,
             firstname: info.user.firstname,
             lastname: info.user.lastname
         });
@@ -336,7 +338,7 @@ module.exports = function (Member) {
             from: 'noreply@langua.be',
             subject: 'Wachtwoord vergeten',
             html: html
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 console.log(err);
             }
