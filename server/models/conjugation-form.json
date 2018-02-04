@@ -13,6 +13,9 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "_old_id": {
+      "type": "number"
     }
   },
   "validations": [],

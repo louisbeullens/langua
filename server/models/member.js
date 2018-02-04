@@ -76,7 +76,22 @@ module.exports = function (Member) {
         next();
     }
 
+    function logLastLogin(ctx, accessToken, next) {
+        Member.findById(accessToken.userId, function(err, member) {
+            if (err) {
+                console.log(err);
+                return next();
+            }
+            member.lastLogin = Date.now();
+            member.save(function(err) {
+                next();
+            });
+        });
+    }
+
     Member.afterRemote('login', logIpAddress);
+    Member.afterRemote('login', logLastLogin);
+    Member.afterRemote('facebookLogin', logLastLogin);
     Member.afterRemote('anonymousLogin', logIpAddress);
 
     Member.emailExists = function (email, cb) {

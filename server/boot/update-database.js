@@ -49,7 +49,7 @@ module.exports = function (app, next) {
         wordtranslation: [importModel, 'Translation', 'transwords', {order: 'twid ASC'}, relatedToWordCreate, wordTranslationMapFn],
         verbtranslation: [importModel, 'Translation', 'transverbs', {order: 'tvid ASC'}, relatedToWordCreate, verbTranslationMapFn],
         conjugation: [importModel, 'Conjugation', 'conjugations', {order: 'conjid ASC'}, relatedToWordCreate, conjugationMapFn],
-        conjugationform: [importModel, 'ConjugationForm', 'pvs', {order: 'pvid ASC'}, bulkCreate, conjugationFormMapFn],
+        conjugationform: [importModel, 'ConjugationForm', 'pvs', {order: 'pvid ASC'}, syncCreate, conjugationFormMapFn],
         book: [importModel, 'Book', 'books', {order: 'bookid ASC'}, bulkCreate, bookMapFn],
         accesstoken: [newModel, 'AccessToken']
     }
@@ -324,6 +324,7 @@ module.exports = function (app, next) {
             _old_id: a.verbid,
             languageId: a.verblangid,
             index: a.verbindex,
+            reference: a.verbref,
             wordTypeId: 19
         };
     }
@@ -348,7 +349,8 @@ module.exports = function (app, next) {
         return {
             form: a.pvpersid,
             name: a.pvname,
-            languageId: a.pvlangid
+            languageId: a.pvlangid,
+            _old_id: a.pvid
         };
     }
 

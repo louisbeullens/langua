@@ -23,6 +23,13 @@
     },
     "_old_id": {
       "type": "number"
+    },
+    "createdAt": {
+      "type": "date",
+      "defaultFn": "now"
+    },
+    "lastLogin": {
+      "type": "date"
     }
   },
   "validations": [],

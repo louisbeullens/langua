@@ -46,6 +46,9 @@
     "index": {
       "type": "string",
       "default": ""
+    },
+    "reference": {
+      "type": "number"
     }
   },
   "validations": [],

@@ -17,6 +17,10 @@
     "unsubscribeToken": {
       "type": "string",
       "required": true
+    },
+    "subscribed": {
+      "type": "date",
+      "defaultFn": "now"
     }
   },
   "validations": [],
