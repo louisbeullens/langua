@@ -45,6 +45,7 @@ server {
 	}
 
 	location ~ (/explorer)|(/api)|(/faq) {
+		proxy_set_header X-Real-Ip $remote_addr;
 		proxy_pass http://localhost:3000;
 	}
 }

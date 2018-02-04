@@ -48,7 +48,7 @@ module.exports = function (Member) {
 
     function logIpAddress(ctx, accessToken) {
 
-        Member.app.datasources.FreeGeoIp.findById(ctx.req.ip, function (err, freeGeoIp) {
+        Member.app.datasources.FreeGeoIp.findById(ctx.req.headers['X-Real-IP'], function (err, freeGeoIp) {
             if (err) {
                 return console.log(err);
             }
