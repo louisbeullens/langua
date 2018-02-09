@@ -101,7 +101,7 @@ module.exports = function (Member) {
         next();
     });
     Member.afterRemote('anonymousLogin', function () {
-        logIpAddress();
+        logIpAddress(ctx, accessToken);
         next();
     });
 
