@@ -6,6 +6,8 @@ const DataSource = require('loopback-datasource-juggler').DataSource;
 
 module.exports = function (app, next) {
 
+    app.datasources.langua.setMaxListeners(20);    //  Om warning 'Possible EventEmitter memory leak detected' te vermijden...
+
     app.datasources.sendgrid = new DataSource({
         connector: require("loopback-sendgrid-connector"),
         api_key: privateSettings.sendgridApiKey,
