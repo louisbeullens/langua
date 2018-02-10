@@ -100,7 +100,7 @@ module.exports = function (Member) {
         logLastLogin(ctx, accessToken);
         next();
     });
-    Member.afterRemote('anonymousLogin', function () {
+    Member.afterRemote('anonymousLogin', function (ctx, accessToken, next) {
         logIpAddress(ctx, accessToken);
         next();
     });
