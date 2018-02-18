@@ -49,7 +49,8 @@ const routes: Routes = [
     {path: 'testimonial', component: TestimonialComponent},
     {path: 'verb/:name', component: VerbDetailContainerComponent},
     {path: 'verblist', component: VerbListComponent},
-    {path: 'verblist/:locale', component: VerbListComponent}
+    {path: 'verblist/:locale', component: VerbListComponent},
+    { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -17,7 +17,8 @@ module.exports = function (app, next) {
     const langua = app.datasources.langua;
     const langua_be = app.datasources.langua_be;
 
-    const VERBOSE = false;
+    var VERBOSE = true;
+    var memberLimit = null;
 
     function DEBUG() {
         if (VERBOSE) {
@@ -25,18 +26,22 @@ module.exports = function (app, next) {
         }
     }
 
-    const operations = {
-        '--empty': 0,
-        '--reset': 1,
-        '--update': 2,
-        '--populate': 3
+    var operations = {
+       '--update': 2
+    }
+
+    if (!process.env.NODE_ENV) {
+        memberLimit = 10;
+        operations['--empty'] = 0;
+        operations['--reset'] = 1;
+        operations['--populate'] = 3;
     }
 
     const models = {
         test: [newModel, 'Test'],
         question: [newModel, 'Question'],
         answer: [newModel, 'Answer'],
-        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: 10}, syncCreate, memberMapFn],
+        member: [importModel, 'Member', 'users', {where: {userfirstname: {neq: '?'}}, order: 'userid ASC', limit: memberLimit}, syncCreate, memberMapFn],
         mailinglist: [newModel, 'MailingList'],
         role: [newModel, 'Role', [{name: 'admin'}]],
         rolemapping: [newModel, 'RoleMapping', roleMappingCreate],
@@ -286,7 +291,7 @@ module.exports = function (app, next) {
             _old_id: a.userid,
             emailVerified: true
         };
-        app.models.MailingList.create({email: member.email});
+        app.models.MailingList.create({email: member.email, subscribed: null});
         return member;
     }
 

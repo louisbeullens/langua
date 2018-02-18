@@ -52,7 +52,7 @@ import { PricingComponent } from './pricing/pricing.component';
 registerLocaleData(localeNl, 'nl');
 
 Raven
-  .config('https://44d49ea13d954fea94d0e4539bac745c@sentry.io/281363')
+  .config('http://b12ff8df84dd4b498efe41ee5a930ca4@sentry.rentio.be/2')
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
