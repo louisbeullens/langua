@@ -20,7 +20,7 @@ export class TestTranslationQuestionComponent implements OnInit, AfterViewChecke
     @ViewChild('answerCtrl') answerEl:ElementRef;
 
     constructor(public testService: TestService, private router: Router) {
-        this.specialChars = ['é','§','è','ç','à'];
+        this.specialChars = ['à', 'â', 'ç', 'é', 'ê', 'è', 'î', 'ô', 'œ', 'ù'];
     }
 
     ngOnInit() {

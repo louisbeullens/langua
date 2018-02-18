@@ -3,7 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {ApiService} from "../../../api.service";
 import {MemberService} from "../../../member.service";
 import {TestService} from "../../../test.service";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {map} from "rxjs/operators";
 
 @Component({
@@ -46,7 +46,8 @@ export class TestConjugationsCreateComponent implements OnInit {
     onSubmit(form) {
         this.testService.createTestConjugations(this.languageId, this.tenseIds, this.regularity, this.selection).then(
             response => response.subscribe(
-                test => {}));
+                test => {
+                }));
     }
 
     onLanguageIdChanged() {
